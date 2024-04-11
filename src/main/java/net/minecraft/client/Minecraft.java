@@ -720,8 +720,9 @@ public class Minecraft implements IThreadListener {
 	 * Checks for an OpenGL error. If there is one, prints the error
 	 * ID and error string.
 	 */
+	boolean shutTheFuckUp = true;
 	public void checkGLError(String message) {
-		if (this.enableGLErrorChecking) {
+		if (this.enableGLErrorChecking && !shutTheFuckUp) {
 			int i = EaglercraftGPU.glGetError();
 			if (i != 0) {
 				String s = EaglercraftGPU.gluErrorString(i);

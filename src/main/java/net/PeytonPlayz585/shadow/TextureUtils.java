@@ -105,15 +105,13 @@ public class TextureUtils {
     
     public static void applyAnisotropicLevel() {
     	float f1 = (float)Config.getAnisotropicFilterLevel();
-    	//if(PlatformRuntime.getPlatformOS() == EnumPlatformOS.WINDOWS && PlatformRuntime.isDebugRuntime()) {
-    		//f1 = Math.min(f1, 1.0f);
-    	//} else {
+    	if(PlatformRuntime.isDebugRuntime()) {
+    		f1 = Math.min(f1, 1.0f);
+    	} else {
     		f1 = Math.min(f1, 16.0f);
-    	//}
-    	EaglercraftGPU.glTexParameteri(RealOpenGLEnums.GL_TEXTURE_2D, '\u813d', (int) f1);
-		EaglercraftGPU.glTexParameterf(RealOpenGLEnums.GL_TEXTURE_2D, '\u813a', 0.0F);
-		EaglercraftGPU.glTexParameterf(RealOpenGLEnums.GL_TEXTURE_2D, '\u813b', f1);
-    	//EaglercraftGPU.glTexParameterf(RealOpenGLEnums.GL_TEXTURE_2D, '\u813d', f1);
+    	}
+    	EaglercraftGPU.glTexParameterf(RealOpenGLEnums.GL_TEXTURE_2D, RealOpenGLEnums.GL_TEXTURE_MAX_ANISOTROPY, f1);
+    	EaglercraftGPU.glTexParameteri(RealOpenGLEnums.GL_TEXTURE_2D, RealOpenGLEnums.GL_TEXTURE_MIN_FILTER, RealOpenGLEnums.GL_NEAREST);
     }
     
     public static void bindTexture(int p_bindTexture_0_) {
