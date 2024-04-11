@@ -1,0 +1,43 @@
+ §bExperimental §bWorldRenderer §bBuffer §bUpload §bQueue
+ §b~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ §bChanges:
+  
+  §b- §bSets §bposition §band §blimit §bof §bthe §bIntBuffer §bbefore §bcalling 
+      §bbuffer.get()
+
+  §b- §bReplace §bdivision §bwith §bBitSet §boperations §b(shifting)
+
+  §b- §bDirectly §bcalculates §bthe §bsize §bof §bthe §bIntBuffer, 
+      §bsignificantly §breducing §boverhead
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

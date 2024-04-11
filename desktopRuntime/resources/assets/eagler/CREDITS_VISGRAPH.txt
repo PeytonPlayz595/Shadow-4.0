@@ -1,0 +1,33 @@
+ §bExperimental §bVisGraph
+ §b~~~~~~~~~~~~~~~~~~~~~~~~
+
+ §bChanges:
+  
+  §b- §bUses §bdifferent §bBitSet §boperations §bfor §bboth §bopaque §band 
+      §bvisible §bblocks
+
+  §b- §bUses §bIntStack §binstead §bof §bLinkedList, §bincreases 
+      §bperformance §bon §blarger §brender §bdistances
+
+  §b- §bKeeps §btrack §bof §btotal §bnumber §bof §btransparent §bblocks
+
+  §b- §bStores §bprecomputed §bvisibility §bdata §band §bvisibility §bstate
+
+  §b- §bChecks §bif §bvisibility §bupdate §bis §bactually §bneeded
+
+  §b- §bSeperate §bfunctions §bfor §bgetting §bvisible §bfaces §bfrom §ba 
+      §bblock §bposition
+
+
+
+
+
+
+
+
+
+
+
+
+
+
