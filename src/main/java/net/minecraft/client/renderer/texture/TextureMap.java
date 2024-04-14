@@ -335,25 +335,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 			}
 
 			try {
-				boolean isFuckedUp = false;
-				ResourceLocation shit = null;
-				if(resourcelocation1.toString().contains("mcpatcher") || resourcelocation1.toString().contains("optifine")) {
-					if(resourcelocation1.toString().contains("textures/")) {
-						String s = resourcelocation1.toString().replace("textures/", "");
-						shit = new ResourceLocation(s);
-						isFuckedUp = true;
-					}
-				}
-				IResource iresource;
-				if(isFuckedUp) {
-					if(shit != null) { //Just in case
-						iresource = resourceManager.getResource(shit);
-					} else {
-						iresource = resourceManager.getResource(resourcelocation1);
-					}
-				} else {
-					iresource = resourceManager.getResource(resourcelocation1);
-				}
+				IResource iresource = resourceManager.getResource(resourcelocation1);
 				ImageData[] abufferedimage = new ImageData[1 + this.mipmapLevels];
 				abufferedimage[0] = TextureUtil.readBufferedImage(iresource.getInputStream());
 				TextureMetadataSection texturemetadatasection = (TextureMetadataSection) iresource
@@ -556,14 +538,20 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
 		_wglBindFramebuffer(_GL_FRAMEBUFFER, null);
 	}
-
-	private ResourceLocation completeResourceLocation(ResourceLocation location, int parInt1) {
-		return parInt1 == 0
-				? new ResourceLocation(location.getResourceDomain(),
-						HString.format("%s/%s%s", new Object[] { this.basePath, location.getResourcePath(), ".png" }))
-				: new ResourceLocation(location.getResourceDomain(), HString.format("%s/mipmaps/%s.%d%s",
-						new Object[] { this.basePath, location.getResourcePath(), Integer.valueOf(parInt1), ".png" }));
-	}
+	
+    public ResourceLocation completeResourceLocation(ResourceLocation location, int p_147634_2_) {
+        return this.isAbsoluteLocation(location) ? new ResourceLocation(location.getResourceDomain(), location.getResourcePath() + ".png") : (p_147634_2_ == 0 ? new ResourceLocation(location.getResourceDomain(), String.format("%s/%s%s", new Object[] {this.basePath, location.getResourcePath(), ".png"})): new ResourceLocation(location.getResourceDomain(), String.format("%s/mipmaps/%s.%d%s", new Object[] {this.basePath, location.getResourcePath(), Integer.valueOf(p_147634_2_), ".png"})));
+    }
+    
+    private boolean isAbsoluteLocation(ResourceLocation p_isAbsoluteLocation_1_) {
+        String s = p_isAbsoluteLocation_1_.getResourcePath();
+        return this.isAbsoluteLocationPath(s);
+    }
+    
+    private boolean isAbsoluteLocationPath(String p_isAbsoluteLocationPath_1_) {
+        String s = p_isAbsoluteLocationPath_1_.toLowerCase();
+        return s.startsWith("mcpatcher/") || s.startsWith("optifine/");
+    }
 
 	public EaglerTextureAtlasSprite getAtlasSprite(String iconName) {
 		EaglerTextureAtlasSprite textureatlassprite = (EaglerTextureAtlasSprite) this.mapUploadedSprites.get(iconName);
