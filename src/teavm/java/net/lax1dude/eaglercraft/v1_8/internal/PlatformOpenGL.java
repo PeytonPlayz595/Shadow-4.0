@@ -1,6 +1,8 @@
 package net.lax1dude.eaglercraft.v1_8.internal;
 
 import org.teavm.jso.JSBody;
+import org.teavm.jso.JSObject;
+import org.teavm.jso.core.JSNumber;
 import org.teavm.jso.webgl.WebGLUniformLocation;
 
 import net.lax1dude.eaglercraft.v1_8.internal.buffer.ByteBuffer;
@@ -591,5 +593,11 @@ public class PlatformOpenGL {
 			}
 			logger.error("##############################");
 		}
+	}
+
+	public static int _wglGetTexLevelParameteri(int glTexture2d, int i, int glTextureWidth) {
+		JSObject object = ctx.getTexParameter(glTexture2d, glTextureWidth);
+		int parameterValue = ((JSNumber) object).intValue();
+		return parameterValue;
 	}
 }

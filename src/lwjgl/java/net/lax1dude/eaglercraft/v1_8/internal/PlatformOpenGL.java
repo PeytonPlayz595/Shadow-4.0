@@ -7,6 +7,8 @@ import net.lax1dude.eaglercraft.v1_8.internal.buffer.IntBuffer;
 
 import static org.lwjgl.opengles.GLES30.*;
 
+import org.lwjgl.opengles.GLES31;
+
 /**
  * Copyright (c) 2022-2023 lax1dude, ayunami2000. All Rights Reserved.
  * 
@@ -525,6 +527,10 @@ public class PlatformOpenGL {
 
 	public static final boolean checkHDRFramebufferSupport(int bits) {
 		return true;
+	}
+
+	public static int _wglGetTexLevelParameteri(int glTexture2d, int i, int glTextureWidth) {
+		return GLES31.glGetTexLevelParameteri(glTexture2d, i, glTextureWidth);
 	}
 
 }

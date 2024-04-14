@@ -38,9 +38,7 @@ import net.lax1dude.eaglercraft.v1_8.log4j.Logger;
 import net.lax1dude.eaglercraft.v1_8.opengl.ext.deferred.EaglerDeferredConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundCategory;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiNewChat;
-import net.minecraft.client.gui.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
@@ -254,6 +252,7 @@ public class GameSettings {
     public boolean ofBetterSnow = false;
     public boolean ofCustomFonts = true;
     public boolean ofCustomSky = true;
+    public boolean ofCustomItems = true;
     public int ofDynamicLights = 3;
     public boolean toggleSprint = false;
 	public boolean toggleSprintEnabled = false;
@@ -865,6 +864,11 @@ public class GameSettings {
         		this.mc.renderGlobal.loadRenderers();
         	}
         }
+        
+        if (parOptions == GameSettings.Options.CUSTOM_ITEMS) {
+            this.ofCustomItems = !this.ofCustomItems;
+            this.mc.refreshResources();
+        }
 
 		this.saveOptions();
 	}
@@ -978,6 +982,8 @@ public class GameSettings {
 			return this.experimentalVisGraph;
 		case BUFFER_QUEUE:
 			return this.experimentalBufferQueue;
+		case CUSTOM_ITEMS:
+			return this.ofCustomItems;
 		default:
 			return false;
 		}
@@ -1246,7 +1252,9 @@ public class GameSettings {
 			return this.experimentalVisGraph ? s + Lang.getOn() : s + Lang.getOff();
 		} else if(parOptions == GameSettings.Options.BUFFER_QUEUE) {
 			return this.experimentalBufferQueue ? s + Lang.getOn() : s + Lang.getOff();
-		} else {
+		} else if (parOptions == GameSettings.Options.CUSTOM_ITEMS) {
+            return this.ofCustomItems ? s + Lang.getOn() : s + Lang.getOff();
+        } else {
 			return s;
 		}
 	}
@@ -1796,6 +1804,10 @@ public class GameSettings {
                     if(astring[0].equals("bufferQueue") && astring.length >= 2) {
                     	this.experimentalBufferQueue = Boolean.valueOf(astring[1]).booleanValue();
                     }
+                    
+                    if (astring[0].equals("ofCustomItems") && astring.length >= 2) {
+                        this.ofCustomItems = Boolean.valueOf(astring[1]).booleanValue();
+                    }
 
 					Keyboard.setFunctionKeyModifier(keyBindFunction.getKeyCode());
 
@@ -1970,6 +1982,7 @@ public class GameSettings {
             printwriter.println("chunkBorders:" + this.chunkBorders);
             printwriter.println("visGraph:" + this.experimentalVisGraph);
             printwriter.println("bufferQueue:" + this.experimentalBufferQueue);
+            printwriter.println("ofCustomItems:" + this.ofCustomItems);
 
 			for (KeyBinding keybinding : this.keyBindings) {
 				printwriter.println("key_" + keybinding.getKeyDescription() + ":" + keybinding.getKeyCode());
@@ -2173,7 +2186,8 @@ public class GameSettings {
         TOGGLE_SPRINT("Sprint", false, false),
         CHUNK_BORDERS("Chunk Borders", false, false),
         VIS_GRAPH("Experimental VisGraph", false, false),
-        BUFFER_QUEUE("Experimental Queuing", false, false);
+        BUFFER_QUEUE("Experimental Queuing", false, false),
+        CUSTOM_ITEMS("Custom Items", false, false);
 
 		private final boolean enumFloat;
 		private final boolean enumBoolean;

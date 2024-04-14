@@ -15,6 +15,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.PeytonPlayz585.shadow.Config;
+import net.PeytonPlayz585.shadow.CustomItems;
 import net.PeytonPlayz585.shadow.TextureUtils;
 import net.lax1dude.eaglercraft.v1_8.HString;
 import net.lax1dude.eaglercraft.v1_8.internal.IFramebufferGL;
@@ -180,6 +181,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
             }
         }
 		
+        CustomItems.updateIcons(this);
 		int i = Minecraft.getGLMaximumTextureSize();
 		Stitcher stitcher = new Stitcher(i, i, true, 0, this.mipmapLevels);
 		this.mapUploadedSprites.clear();
@@ -333,7 +335,25 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 			}
 
 			try {
-				IResource iresource = resourceManager.getResource(resourcelocation1);
+				boolean isFuckedUp = false;
+				ResourceLocation shit = null;
+				if(resourcelocation1.toString().contains("mcpatcher") || resourcelocation1.toString().contains("optifine")) {
+					if(resourcelocation1.toString().contains("textures/")) {
+						String s = resourcelocation1.toString().replace("textures/", "");
+						shit = new ResourceLocation(s);
+						isFuckedUp = true;
+					}
+				}
+				IResource iresource;
+				if(isFuckedUp) {
+					if(shit != null) { //Just in case
+						iresource = resourceManager.getResource(shit);
+					} else {
+						iresource = resourceManager.getResource(resourcelocation1);
+					}
+				} else {
+					iresource = resourceManager.getResource(resourcelocation1);
+				}
 				ImageData[] abufferedimage = new ImageData[1 + this.mipmapLevels];
 				abufferedimage[0] = TextureUtil.readBufferedImage(iresource.getInputStream());
 				TextureMetadataSection texturemetadatasection = (TextureMetadataSection) iresource

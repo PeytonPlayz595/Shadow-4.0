@@ -21,6 +21,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import net.PeytonPlayz585.shadow.CustomItems;
 import net.lax1dude.eaglercraft.v1_8.IOUtils;
 import net.lax1dude.eaglercraft.v1_8.log4j.LogManager;
 import net.lax1dude.eaglercraft.v1_8.log4j.Logger;
@@ -390,6 +391,9 @@ public class ModelBakery {
 		this.variantNames.put(Item.getItemFromBlock(Blocks.oak_fence),
 				Lists.newArrayList(new String[] { "oak_fence" }));
 		this.variantNames.put(Items.oak_door, Lists.newArrayList(new String[] { "oak_door" }));
+		
+		 CustomItems.update();
+	     CustomItems.loadModels(this);
 	}
 
 	private List<String> getVariantNames(Item parItem) {
@@ -479,6 +483,20 @@ public class ModelBakery {
 		}
 
 	}
+	
+	public void loadItemModel(String p_loadItemModel_1_, ResourceLocation p_loadItemModel_2_, ResourceLocation p_loadItemModel_3_) {
+        this.itemLocations.put(p_loadItemModel_1_, p_loadItemModel_2_);
+
+        if (this.models.get(p_loadItemModel_2_) == null) {
+            try {
+                ModelBlock modelblock = this.loadModel(p_loadItemModel_2_);
+                this.models.put(p_loadItemModel_2_, modelblock);
+            } catch (Exception exception) {
+                LOGGER.warn("Unable to load item model: \'{}\' for item: \'{}\'", new Object[] {p_loadItemModel_2_, p_loadItemModel_3_});
+                LOGGER.warn(exception.getClass().getName() + ": " + exception.getMessage());
+            }
+        }
+    }
 
 	private Set<ResourceLocation> getVariantsTextureLocations() {
 		HashSet hashset = Sets.newHashSet();

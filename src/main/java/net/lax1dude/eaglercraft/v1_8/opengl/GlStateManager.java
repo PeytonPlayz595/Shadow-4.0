@@ -1198,4 +1198,8 @@ public class GlStateManager {
 	public static boolean isFogEnabled() {
 		return stateFog;
 	}
+	
+	public static int getBoundTexture() {
+        return boundTexture[activeTexture];
+    }
 }

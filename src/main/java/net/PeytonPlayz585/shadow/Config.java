@@ -3,12 +3,14 @@ package net.PeytonPlayz585.shadow;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import net.PeytonPlayz585.shadow.reflect.Reflector;
 import net.lax1dude.eaglercraft.v1_8.internal.PlatformRuntime;
 import net.lax1dude.eaglercraft.v1_8.log4j.LogManager;
 import net.lax1dude.eaglercraft.v1_8.log4j.Logger;
@@ -298,6 +300,10 @@ public class Config {
     	}
         return !isDynamicLights() ? false : true;
     }
+    
+    public static boolean isCustomItems() {
+        return gameSettings.ofCustomItems;
+    }
 	
 	public static int limit(int p_limit_0_, int p_limit_1_, int p_limit_2_) {
         return p_limit_0_ < p_limit_1_ ? p_limit_1_ : (p_limit_0_ > p_limit_2_ ? p_limit_2_ : p_limit_0_);
@@ -410,7 +416,7 @@ public class Config {
     public static DefaultResourcePack getDefaultResourcePack() {
         if (defaultResourcePackLazy == null) {
             Minecraft minecraft = Minecraft.getMinecraft();
-            defaultResourcePackLazy = (DefaultResourcePack)Minecraft.getMinecraft().mcDefaultResourcePack;
+            defaultResourcePackLazy = (DefaultResourcePack)Reflector.getFieldValue(minecraft, Reflector.Minecraft_defaultResourcePack);
 
             if (defaultResourcePackLazy == null) {
                 ResourcePackRepository resourcepackrepository = minecraft.getResourcePackRepository();
@@ -452,8 +458,9 @@ public class Config {
         List list = resourcepackrepository.getRepositoryEntries();
         List list1 = new ArrayList();
 
-        for (Object resourcepackrepository$entry : list) {
-            list1.add(((ResourcePackRepository.Entry) resourcepackrepository$entry).getResourcePack());
+        for (Object resourcepackrepository$entry0 : list) {
+            ResourcePackRepository.Entry resourcepackrepository$entry = (ResourcePackRepository.Entry) resourcepackrepository$entry0;
+            list1.add(resourcepackrepository$entry.getResourcePack());
         }
 
         if (resourcepackrepository.getResourcePackInstance() != null) {
@@ -594,5 +601,32 @@ public class Config {
 
             return stringbuffer.toString();
         }
+    }
+
+	public static Object[] addObjectsToArray(Object[] p_addObjectsToArray_0_, Object[] p_addObjectsToArray_1_) {
+        if (p_addObjectsToArray_0_ == null) {
+            throw new NullPointerException("The given array is NULL");
+        } else if (p_addObjectsToArray_1_.length == 0) {
+            return p_addObjectsToArray_0_;
+        } else {
+            int i = p_addObjectsToArray_0_.length;
+            int j = i + p_addObjectsToArray_1_.length;
+            Object[] aobject = (Object[])((Object[])Array.newInstance(p_addObjectsToArray_0_.getClass().getComponentType(), j));
+            System.arraycopy(p_addObjectsToArray_0_, 0, aobject, 0, i);
+            System.arraycopy(p_addObjectsToArray_1_, 0, aobject, i, p_addObjectsToArray_1_.length);
+            return aobject;
+        }
+    }
+
+	public static boolean equals(Object p_equals_0_, Object p_equals_1_) {
+        return p_equals_0_ == p_equals_1_ ? true : (p_equals_0_ == null ? false : p_equals_0_.equals(p_equals_1_));
+    }
+	
+	public static void error(String s, Throwable t) {
+        LOGGER.error("[Shadow Client] " + s, t);
+    }
+	
+	public static void warn(String s, Throwable t) {
+        LOGGER.warn("[Shadow Client] " + s, t);
     }
 }

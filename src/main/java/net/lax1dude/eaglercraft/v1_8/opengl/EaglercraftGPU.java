@@ -616,4 +616,8 @@ public class EaglercraftGPU {
 	public static final boolean checkHasHDRFramebufferSupport() {
 		return hasFramebufferHDR16FSupport || hasFramebufferHDR32FSupport;
 	}
+
+	public static int glGetTexLevelParameteri(int glTexture2d, int i, int glTextureWidth) {
+		return PlatformOpenGL._wglGetTexLevelParameteri(glTexture2d, i, glTextureWidth);
+	}
 }

@@ -27,5 +27,4 @@ public class OpenGlHelper {
 		GlStateManager.setActiveTexture(defaultTexUnit);
 	}
 	
-
 }

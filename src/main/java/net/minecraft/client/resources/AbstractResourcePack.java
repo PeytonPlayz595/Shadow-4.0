@@ -40,7 +40,7 @@ import net.minecraft.util.ResourceLocation;
  */
 public abstract class AbstractResourcePack implements IResourcePack {
 	private static final Logger resourceLog = LogManager.getLogger();
-	protected final String resourcePackFile;
+	public final String resourcePackFile;
 
 	public AbstractResourcePack(String resourcePackFileIn) {
 		this.resourcePackFile = resourcePackFileIn;
