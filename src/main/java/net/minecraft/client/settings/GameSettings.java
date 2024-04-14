@@ -18,6 +18,7 @@ import com.google.common.collect.Sets;
 
 import net.PeytonPlayz585.shadow.ClearWater;
 import net.PeytonPlayz585.shadow.Config;
+import net.PeytonPlayz585.shadow.CustomColors;
 import net.PeytonPlayz585.shadow.CustomSky;
 import net.PeytonPlayz585.shadow.DynamicLights;
 import net.PeytonPlayz585.shadow.GuiYesNo;
@@ -260,6 +261,9 @@ public class GameSettings {
 	public boolean experimentalVisGraph = false;
 	public boolean experimentalBufferQueue = false;
 	public GuiScreen lastGuiScreen;
+	public boolean ofSwampColors = true;
+	public boolean ofSmoothBiomes = true;
+	public boolean ofCustomColors = true;
 
 	public GameSettings(Minecraft mcIn) {
 		this.keyBindings = (KeyBinding[]) ArrayUtils.addAll(new KeyBinding[] { this.keyBindAttack, this.keyBindUseItem,
@@ -869,6 +873,24 @@ public class GameSettings {
             this.ofCustomItems = !this.ofCustomItems;
             this.mc.refreshResources();
         }
+        
+        if (parOptions == GameSettings.Options.SWAMP_COLORS) {
+            this.ofSwampColors = !this.ofSwampColors;
+            CustomColors.updateUseDefaultGrassFoliageColors();
+            this.mc.renderGlobal.loadRenderers();
+        }
+        
+        if (parOptions == GameSettings.Options.SMOOTH_BIOMES) {
+            this.ofSmoothBiomes = !this.ofSmoothBiomes;
+            CustomColors.updateUseDefaultGrassFoliageColors();
+            this.mc.renderGlobal.loadRenderers();
+        }
+        
+        if (parOptions == GameSettings.Options.CUSTOM_COLORS) {
+            this.ofCustomColors = !this.ofCustomColors;
+            CustomColors.update();
+            this.mc.renderGlobal.loadRenderers();
+        }
 
 		this.saveOptions();
 	}
@@ -984,6 +1006,12 @@ public class GameSettings {
 			return this.experimentalBufferQueue;
 		case CUSTOM_ITEMS:
 			return this.ofCustomItems;
+		case SWAMP_COLORS:
+			return this.ofSwampColors;
+		case SMOOTH_BIOMES:
+			return this.ofSmoothBiomes;
+		case CUSTOM_COLORS:
+			return this.ofCustomColors;
 		default:
 			return false;
 		}
@@ -1254,6 +1282,12 @@ public class GameSettings {
 			return this.experimentalBufferQueue ? s + Lang.getOn() : s + Lang.getOff();
 		} else if (parOptions == GameSettings.Options.CUSTOM_ITEMS) {
             return this.ofCustomItems ? s + Lang.getOn() : s + Lang.getOff();
+        } else if (parOptions == GameSettings.Options.SWAMP_COLORS) {
+            return this.ofSwampColors ? s + Lang.getOn() : s + Lang.getOff();
+        } else if (parOptions == GameSettings.Options.SMOOTH_BIOMES) {
+            return this.ofSmoothBiomes ? s + Lang.getOn() : s + Lang.getOff();
+        } else if (parOptions == GameSettings.Options.CUSTOM_COLORS) {
+            return this.ofCustomColors ? s + Lang.getOn() : s + Lang.getOff();
         } else {
 			return s;
 		}
@@ -1808,6 +1842,18 @@ public class GameSettings {
                     if (astring[0].equals("ofCustomItems") && astring.length >= 2) {
                         this.ofCustomItems = Boolean.valueOf(astring[1]).booleanValue();
                     }
+                    
+                    if (astring[0].equals("ofSwampColors") && astring.length >= 2) {
+                        this.ofSwampColors = Boolean.valueOf(astring[1]).booleanValue();
+                    }
+                    
+                    if (astring[0].equals("ofSmoothBiomes") && astring.length >= 2) {
+                        this.ofSmoothBiomes = Boolean.valueOf(astring[1]).booleanValue();
+                    }
+                    
+                    if (astring[0].equals("ofCustomColors") && astring.length >= 2) {
+                        this.ofCustomColors = Boolean.valueOf(astring[1]).booleanValue();
+                    }
 
 					Keyboard.setFunctionKeyModifier(keyBindFunction.getKeyCode());
 
@@ -1983,6 +2029,9 @@ public class GameSettings {
             printwriter.println("visGraph:" + this.experimentalVisGraph);
             printwriter.println("bufferQueue:" + this.experimentalBufferQueue);
             printwriter.println("ofCustomItems:" + this.ofCustomItems);
+            printwriter.println("ofSwampColors:" + this.ofSwampColors);
+            printwriter.println("ofSmoothBiomes:" + this.ofSmoothBiomes);
+            printwriter.println("ofCustomColors:" + this.ofCustomColors);
 
 			for (KeyBinding keybinding : this.keyBindings) {
 				printwriter.println("key_" + keybinding.getKeyDescription() + ":" + keybinding.getKeyCode());
@@ -2187,7 +2236,10 @@ public class GameSettings {
         CHUNK_BORDERS("Chunk Borders", false, false),
         VIS_GRAPH("Experimental VisGraph", false, false),
         BUFFER_QUEUE("Experimental Queuing", false, false),
-        CUSTOM_ITEMS("Custom Items", false, false);
+        CUSTOM_ITEMS("Custom Items", false, false),
+        SWAMP_COLORS("Swamp Colors", false, false),
+        SMOOTH_BIOMES("Smooth Biomes", false, false),
+        CUSTOM_COLORS("Custom Colors", false, false);
 
 		private final boolean enumFloat;
 		private final boolean enumBoolean;

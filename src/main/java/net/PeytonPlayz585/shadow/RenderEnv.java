@@ -14,7 +14,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 
 public class RenderEnv {
-    private IBlockAccess blockAccess;
     private IBlockState blockState;
     private BlockPos blockPos;
     private GameSettings gameSettings;
@@ -29,7 +28,6 @@ public class RenderEnv {
     private static ThreadLocal threadLocalInstance = new ThreadLocal();
 
     private RenderEnv(IBlockAccess p_i94_1_, IBlockState p_i94_2_, BlockPos p_i94_3_) {
-        this.blockAccess = p_i94_1_;
         this.blockState = p_i94_2_;
         this.blockPos = p_i94_3_;
         this.gameSettings = Config.getGameSettings();
@@ -47,9 +45,19 @@ public class RenderEnv {
             return renderenv;
         }
     }
+    
+    public void reset(IBlockState blockStateIn, BlockPos blockPosIn) {
+        if (this.blockState != blockStateIn || this.blockPos != blockPosIn) {
+            this.blockState = blockStateIn;
+            this.blockPos = blockPosIn;
+            this.blockId = -1;
+            this.metadata = -1;
+            this.breakingAnimation = -1;
+            this.boundsFlags.clear();
+        }
+    }
 
     private void reset(IBlockAccess p_reset_1_, IBlockState p_reset_2_, BlockPos p_reset_3_) {
-        this.blockAccess = p_reset_1_;
         this.blockState = p_reset_2_;
         this.blockPos = p_reset_3_;
         this.blockId = -1;

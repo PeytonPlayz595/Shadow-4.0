@@ -86,7 +86,12 @@ public class SimpleResource implements IResource {
 
 			IMetadataSection imetadatasection = (IMetadataSection) this.mapMetadataSections.get(s);
 			if (imetadatasection == null) {
-				imetadatasection = this.srMetadataSerializer.parseMetadataSection(s, this.mcmetaJson);
+				try {
+					imetadatasection = this.srMetadataSerializer.parseMetadataSection(s, this.mcmetaJson);
+				} catch(Exception e) {
+					//Temp fix, no frame time :(
+					imetadatasection = this.srMetadataSerializer.parseMetadataSection(s, new JSONObject("{\"animation\":{}}"));
+				}
 			}
 
 			return (T) imetadatasection;

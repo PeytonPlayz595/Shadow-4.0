@@ -29,10 +29,8 @@ import net.minecraft.util.RegistrySimple;
 public class IMetadataSerializer {
 	private final IRegistry<String, IMetadataSerializer.Registration<? extends IMetadataSection>> metadataSectionSerializerRegistry = new RegistrySimple();
 
-	public <T extends IMetadataSection> void registerMetadataSectionType(
-			IMetadataSectionSerializer<T> parIMetadataSectionSerializer, Class<T> parClass1) {
-		this.metadataSectionSerializerRegistry.putObject(parIMetadataSectionSerializer.getSectionName(),
-				new IMetadataSerializer.Registration(parIMetadataSectionSerializer, parClass1));
+	public <T extends IMetadataSection> void registerMetadataSectionType(IMetadataSectionSerializer<T> parIMetadataSectionSerializer, Class<T> parClass1) {
+		this.metadataSectionSerializerRegistry.putObject(parIMetadataSectionSerializer.getSectionName(), new IMetadataSerializer.Registration(parIMetadataSectionSerializer, parClass1));
 	}
 
 	public <T extends IMetadataSection> T parseMetadataSection(String parString1, JSONObject parJsonObject) {

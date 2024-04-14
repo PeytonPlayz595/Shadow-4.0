@@ -62,7 +62,7 @@ public class MapColor {
 	public static final MapColor emeraldColor = new MapColor(33, '\ud93a');
 	public static final MapColor obsidianColor = new MapColor(34, 8476209);
 	public static final MapColor netherrackColor = new MapColor(35, 7340544);
-	public final int colorValue;
+	public int colorValue;
 	public final int colorIndex;
 
 	private MapColor(int index, int color) {

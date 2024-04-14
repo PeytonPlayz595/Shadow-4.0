@@ -304,6 +304,18 @@ public class Config {
     public static boolean isCustomItems() {
         return gameSettings.ofCustomItems;
     }
+    
+    public static boolean isSwampColors() {
+        return gameSettings.ofSwampColors;
+    }
+    
+    public static boolean isSmoothBiomes() {
+        return gameSettings.ofSmoothBiomes;
+    }
+    
+    public static boolean isCustomColors() {
+        return gameSettings.ofCustomColors;
+    }
 	
 	public static int limit(int p_limit_0_, int p_limit_1_, int p_limit_2_) {
         return p_limit_0_ < p_limit_1_ ? p_limit_1_ : (p_limit_0_ > p_limit_2_ ? p_limit_2_ : p_limit_0_);
@@ -628,5 +640,14 @@ public class Config {
 	
 	public static void warn(String s, Throwable t) {
         LOGGER.warn("[Shadow Client] " + s, t);
+    }
+
+	public static int intHash(int p_intHash_0_) {
+        p_intHash_0_ = p_intHash_0_ ^ 61 ^ p_intHash_0_ >> 16;
+        p_intHash_0_ = p_intHash_0_ + (p_intHash_0_ << 3);
+        p_intHash_0_ = p_intHash_0_ ^ p_intHash_0_ >> 4;
+        p_intHash_0_ = p_intHash_0_ * 668265261;
+        p_intHash_0_ = p_intHash_0_ ^ p_intHash_0_ >> 15;
+        return p_intHash_0_;
     }
 }
