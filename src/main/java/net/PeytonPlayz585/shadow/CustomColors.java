@@ -1,6 +1,5 @@
 package net.PeytonPlayz585.shadow;
 
-import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,10 +11,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
-import javax.imageio.ImageIO;
 
 import net.PeytonPlayz585.shadow.apache.ImmutablePair;
 import net.PeytonPlayz585.shadow.apache.Pair;
+import net.lax1dude.eaglercraft.v1_8.opengl.ImageData;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.BlockStem;
@@ -26,6 +25,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
@@ -360,9 +360,9 @@ public class CustomColors {
             if (inputstream == null) {
                 return defHeight;
             } else {
-                BufferedImage bufferedimage = ImageIO.read(inputstream);
+                ImageData bufferedimage = TextureUtil.readBufferedImage(inputstream);
                 inputstream.close();
-                return bufferedimage == null ? defHeight : bufferedimage.getHeight();
+                return bufferedimage == null ? defHeight : bufferedimage.height;
             }
         } catch (IOException var4) {
             return defHeight;

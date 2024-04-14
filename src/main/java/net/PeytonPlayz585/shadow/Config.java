@@ -3,14 +3,12 @@ package net.PeytonPlayz585.shadow;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import net.PeytonPlayz585.shadow.reflect.Reflector;
 import net.lax1dude.eaglercraft.v1_8.internal.PlatformRuntime;
 import net.lax1dude.eaglercraft.v1_8.log4j.LogManager;
 import net.lax1dude.eaglercraft.v1_8.log4j.Logger;
@@ -428,7 +426,8 @@ public class Config {
     public static DefaultResourcePack getDefaultResourcePack() {
         if (defaultResourcePackLazy == null) {
             Minecraft minecraft = Minecraft.getMinecraft();
-            defaultResourcePackLazy = (DefaultResourcePack)Reflector.getFieldValue(minecraft, Reflector.Minecraft_defaultResourcePack);
+            //defaultResourcePackLazy = (DefaultResourcePack)Reflector.getFieldValue(minecraft, Reflector.Minecraft_defaultResourcePack);
+            defaultResourcePackLazy = Minecraft.getMinecraft().mcDefaultResourcePack;
 
             if (defaultResourcePackLazy == null) {
                 ResourcePackRepository resourcepackrepository = minecraft.getResourcePackRepository();

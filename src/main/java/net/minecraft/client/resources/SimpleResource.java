@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import com.google.common.collect.Maps;
 
+import net.PeytonPlayz585.shadow.json.JSONUtils;
 import net.lax1dude.eaglercraft.v1_8.IOUtils;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
@@ -89,11 +90,20 @@ public class SimpleResource implements IResource {
 				try {
 					imetadatasection = this.srMetadataSerializer.parseMetadataSection(s, this.mcmetaJson);
 				} catch(Exception e) {
-					//Temp fix, no frame time :(
-					imetadatasection = this.srMetadataSerializer.parseMetadataSection(s, new JSONObject("{\"animation\":{}}"));
+					if(this.srResourceLocation.toString().contains("mcpatcher") || this.srResourceLocation.toString().contains("optifine")) {
+						try {
+							imetadatasection = JSONUtils.fixJson(mcmetaJson.toString());
+							mapMetadataSections.put(s, imetadatasection);
+						} catch(Exception e1) {
+							//Return it anyways lol
+							return (T) imetadatasection;
+						}
+					} else {
+						//Return it anyways lol
+						return (T) imetadatasection;
+					}
 				}
 			}
-
 			return (T) imetadatasection;
 		}
 	}
