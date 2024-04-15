@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import net.PeytonPlayz585.shadow.Config;
+import net.PeytonPlayz585.shadow.CustomColors;
 import net.PeytonPlayz585.shadow.CustomSky;
 import net.PeytonPlayz585.shadow.DynamicLights;
 import net.PeytonPlayz585.shadow.Lagometer;
+import net.PeytonPlayz585.shadow.RenderEnv;
 import net.PeytonPlayz585.shadow.experimental.VisGraphExperimental;
 import net.lax1dude.eaglercraft.v1_8.EaglercraftRandom;
 import net.lax1dude.eaglercraft.v1_8.HString;
@@ -187,6 +189,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 	private double prevRenderSortY;
 	private double prevRenderSortZ;
 	boolean displayListEntitiesDirty = true;
+	private RenderEnv renderEnv = new RenderEnv(Blocks.air.getDefaultState(), new BlockPos(0, 0, 0));
 
 	public RenderGlobal(Minecraft mcIn) {
 		this.mc = mcIn;
@@ -376,6 +379,8 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		if (Config.isDynamicLights()) {
             DynamicLights.clear();
         }
+		
+		this.renderEnv.reset((IBlockState)null, (BlockPos)null);
 		
 		if (worldClientIn != null) {
 			worldClientIn.addWorldAccess(this);
@@ -1333,12 +1338,24 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				}
 
 				worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-				worldrenderer.pos(-100.0D, -100.0D, -100.0D).tex(0.0D, 0.0D).color(40, 40, 40, 255).endVertex();
-				worldrenderer.pos(-100.0D, -100.0D, 100.0D).tex(0.0D, 16.0D).color(40, 40, 40, 255).endVertex();
-				worldrenderer.pos(100.0D, -100.0D, 100.0D).tex(16.0D, 16.0D).color(40, 40, 40, 255).endVertex();
-				worldrenderer.pos(100.0D, -100.0D, -100.0D).tex(16.0D, 0.0D).color(40, 40, 40, 255).endVertex();
-				tessellator.draw();
-				GlStateManager.popMatrix();
+                int j = 40;
+                int k = 40;
+                int l = 40;
+
+                if (Config.isCustomColors()) {
+                    Vec3 vec3 = new Vec3((double)j / 255.0D, (double)k / 255.0D, (double)l / 255.0D);
+                    vec3 = CustomColors.getWorldSkyColor(vec3, this.theWorld, this.mc.getRenderViewEntity(), 0.0F);
+                    j = (int)(vec3.xCoord * 255.0D);
+                    k = (int)(vec3.yCoord * 255.0D);
+                    l = (int)(vec3.zCoord * 255.0D);
+                }
+
+                worldrenderer.pos(-100.0D, -100.0D, -100.0D).tex(0.0D, 0.0D).color(j, k, l, 255).endVertex();
+                worldrenderer.pos(-100.0D, -100.0D, 100.0D).tex(0.0D, 16.0D).color(j, k, l, 255).endVertex();
+                worldrenderer.pos(100.0D, -100.0D, 100.0D).tex(16.0D, 16.0D).color(j, k, l, 255).endVertex();
+                worldrenderer.pos(100.0D, -100.0D, -100.0D).tex(16.0D, 0.0D).color(j, k, l, 255).endVertex();
+                tessellator.draw();
+                GlStateManager.popMatrix();
 			}
 
 			GlStateManager.depthMask(true);
@@ -1353,6 +1370,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		} else if (this.mc.theWorld.provider.isSurfaceWorld()) {
 			GlStateManager.disableTexture2D();
 			Vec3 vec3 = this.theWorld.getSkyColor(this.mc.getRenderViewEntity(), partialTicks);
+			vec3 = CustomColors.getSkyColor(vec3, this.mc.theWorld, this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().posY + 1.0D, this.mc.getRenderViewEntity().posZ);
 			float f = (float) vec3.xCoord;
 			float f1 = (float) vec3.yCoord;
 			float f2 = (float) vec3.zCoord;
@@ -2337,6 +2355,31 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                     return null;
                 } else {
                     EntityFX entityfx = this.mc.effectRenderer.spawnEffectParticle(p_174974_1_, p_174974_3_, p_174974_5_, p_174974_7_, p_174974_9_, p_174974_11_, p_174974_13_, p_174974_15_);
+                    
+                    if (p_174974_1_ == EnumParticleTypes.WATER_BUBBLE.getParticleID()) {
+                        CustomColors.updateWaterFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_, this.renderEnv);
+                    }
+
+                    if (p_174974_1_ == EnumParticleTypes.WATER_SPLASH.getParticleID()) {
+                        CustomColors.updateWaterFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_, this.renderEnv);
+                    }
+
+                    if (p_174974_1_ == EnumParticleTypes.WATER_DROP.getParticleID()) {
+                        CustomColors.updateWaterFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_, this.renderEnv);
+                    }
+
+                    if (p_174974_1_ == EnumParticleTypes.TOWN_AURA.getParticleID()) {
+                        CustomColors.updateMyceliumFX(entityfx);
+                    }
+
+                    if (p_174974_1_ == EnumParticleTypes.PORTAL.getParticleID()) {
+                        CustomColors.updatePortalFX(entityfx);
+                    }
+
+                    if (p_174974_1_ == EnumParticleTypes.REDSTONE.getParticleID()) {
+                        CustomColors.updateReddustFX(entityfx, this.theWorld, p_174974_3_, p_174974_5_, p_174974_7_);
+                    }
+                    
                     return entityfx;
                 }
             }

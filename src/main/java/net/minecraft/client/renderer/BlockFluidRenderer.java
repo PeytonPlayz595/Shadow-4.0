@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer;
 
+import net.PeytonPlayz585.shadow.CustomColors;
+import net.PeytonPlayz585.shadow.RenderEnv;
 import net.lax1dude.eaglercraft.v1_8.minecraft.EaglerTextureAtlasSprite;
 import net.lax1dude.eaglercraft.v1_8.opengl.WorldRenderer;
 import net.lax1dude.eaglercraft.v1_8.opengl.ext.deferred.BlockVertexIDs;
@@ -60,7 +62,8 @@ public class BlockFluidRenderer {
 		boolean realistic = !lava && DeferredStateManager.isRenderingRealisticWater();
 		blockliquid.setBlockBoundsBasedOnState(blockAccess, blockPosIn);
 		EaglerTextureAtlasSprite[] atextureatlassprite = lava ? this.atlasSpritesLava : this.atlasSpritesWater;
-		int i = blockliquid.colorMultiplier(blockAccess, blockPosIn);
+		RenderEnv renderenv = worldRendererIn.getRenderEnv(blockStateIn, blockPosIn);
+		int i = CustomColors.getFluidColor(blockAccess, blockStateIn, blockPosIn, renderenv);
 		float f = (float) (i >> 16 & 255) / 255.0F;
 		float f1 = (float) (i >> 8 & 255) / 255.0F;
 		float f2 = (float) (i & 255) / 255.0F;

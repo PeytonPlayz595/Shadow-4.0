@@ -1458,4 +1458,90 @@ public class CustomColors {
 
         boolean isColorConstant();
     }
+
+    public static int getColorMultiplier(BakedQuad p_getColorMultiplier_0_, Block p_getColorMultiplier_1_, IBlockAccess p_getColorMultiplier_2_, BlockPos p_getColorMultiplier_3_, RenderEnv p_getColorMultiplier_4_) {
+        if (blockColormaps != null) {
+            IBlockState iblockstate = p_getColorMultiplier_4_.getBlockState();
+
+            if (!p_getColorMultiplier_0_.hasTintIndex()) {
+                if (p_getColorMultiplier_1_ == Blocks.grass) {
+                    iblockstate = BLOCK_STATE_DIRT;
+                }
+
+                if (p_getColorMultiplier_1_ == Blocks.redstone_wire) {
+                    return -1;
+                }
+            }
+
+            if (p_getColorMultiplier_1_ == Blocks.double_plant && p_getColorMultiplier_4_.getMetadata() >= 8) {
+                p_getColorMultiplier_3_ = p_getColorMultiplier_3_.down();
+                iblockstate = p_getColorMultiplier_2_.getBlockState(p_getColorMultiplier_3_);
+            }
+
+            CustomColormap customcolormap = getBlockColormap(iblockstate);
+
+            if (customcolormap != null) {
+                if (Config.isSmoothBiomes() && !customcolormap.isColorConstant()) {
+                    return getSmoothColorMultiplier(iblockstate, p_getColorMultiplier_2_, p_getColorMultiplier_3_, customcolormap, p_getColorMultiplier_4_.getColorizerBlockPosM());
+                }
+
+                return customcolormap.getColor(p_getColorMultiplier_2_, p_getColorMultiplier_3_);
+            }
+        }
+
+        if (!p_getColorMultiplier_0_.hasTintIndex()) {
+            return -1;
+        } else if (p_getColorMultiplier_1_ == Blocks.waterlily) {
+            return getLilypadColorMultiplier(p_getColorMultiplier_2_, p_getColorMultiplier_3_);
+        } else if (p_getColorMultiplier_1_ == Blocks.redstone_wire) {
+            return getRedstoneColor(p_getColorMultiplier_4_.getBlockState());
+        } else if (p_getColorMultiplier_1_ instanceof BlockStem) {
+            return getStemColorMultiplier(p_getColorMultiplier_1_, p_getColorMultiplier_2_, p_getColorMultiplier_3_, p_getColorMultiplier_4_);
+        } else if (useDefaultGrassFoliageColors) {
+            return -1;
+        } else {
+            int i = p_getColorMultiplier_4_.getMetadata();
+            CustomColors.IColorizer customcolors$icolorizer;
+            IBlockState iblockstate = p_getColorMultiplier_4_.getBlockState();
+
+            if (p_getColorMultiplier_1_ != Blocks.grass && p_getColorMultiplier_1_ != Blocks.tallgrass && p_getColorMultiplier_1_ != Blocks.double_plant) {
+                if (p_getColorMultiplier_1_ == Blocks.double_plant) {
+                    customcolors$icolorizer = COLORIZER_GRASS;
+
+                    if (i >= 8) {
+                        p_getColorMultiplier_3_ = p_getColorMultiplier_3_.down();
+                    }
+                } else if (p_getColorMultiplier_1_ == Blocks.leaves) {
+                    switch (i & 3) {
+                    case 0:
+                        customcolors$icolorizer = COLORIZER_FOLIAGE;
+                        break;
+
+                    case 1:
+                        customcolors$icolorizer = COLORIZER_FOLIAGE_PINE;
+                        break;
+
+                    case 2:
+                        customcolors$icolorizer = COLORIZER_FOLIAGE_BIRCH;
+                        break;
+
+                    default:
+                        customcolors$icolorizer = COLORIZER_FOLIAGE;
+                    }
+                } else if (p_getColorMultiplier_1_ == Blocks.leaves2) {
+                    customcolors$icolorizer = COLORIZER_FOLIAGE;
+                } else {
+                    if (p_getColorMultiplier_1_ != Blocks.vine) {
+                        return -1;
+                    }
+
+                    customcolors$icolorizer = COLORIZER_FOLIAGE;
+                }
+            } else {
+                customcolors$icolorizer = COLORIZER_GRASS;
+            }
+
+            return Config.isSmoothBiomes() && !customcolors$icolorizer.isColorConstant() ? getSmoothColorMultiplier(iblockstate, p_getColorMultiplier_2_, p_getColorMultiplier_3_, customcolors$icolorizer, p_getColorMultiplier_4_.getColorizerBlockPosM()) : customcolors$icolorizer.getColor(iblockstate, p_getColorMultiplier_2_, p_getColorMultiplier_3_);
+        }
+    }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import net.PeytonPlayz585.shadow.BetterGrass;
 import net.PeytonPlayz585.shadow.BetterSnow;
 import net.PeytonPlayz585.shadow.Config;
+import net.PeytonPlayz585.shadow.CustomColors;
 import net.PeytonPlayz585.shadow.RenderEnv;
 import net.lax1dude.eaglercraft.v1_8.opengl.GlStateManager;
 import net.lax1dude.eaglercraft.v1_8.opengl.WorldRenderer;
@@ -105,7 +106,7 @@ public class BlockModelRenderer {
                         list = BetterGrass.getFaceQuads(blockAccessIn, blockIn, blockPosIn, enumfacing, list);
                     }
 					
-					this.renderModelAmbientOcclusionQuads(blockAccessIn, blockIn, blockPosIn, worldRendererIn, list, afloat, bitset, blockmodelrenderer$ambientocclusionface);
+					this.renderModelAmbientOcclusionQuads(blockAccessIn, blockIn, blockPosIn, worldRendererIn, list, afloat, bitset, blockmodelrenderer$ambientocclusionface, RenderEnv.getInstance(blockAccessIn, blockAccessIn.getBlockState(blockPosIn), blockPosIn));
 					flag = true;
 				}
 			}
@@ -114,7 +115,7 @@ public class BlockModelRenderer {
 		List list1 = modelIn.getGeneralQuads();
 		if (list1.size() > 0) {
 			this.renderModelAmbientOcclusionQuads(blockAccessIn, blockIn, blockPosIn, worldRendererIn, list1, afloat,
-					bitset, blockmodelrenderer$ambientocclusionface);
+					bitset, blockmodelrenderer$ambientocclusionface, RenderEnv.getInstance(blockAccessIn, blockAccessIn.getBlockState(blockPosIn), blockPosIn));
 			flag = true;
 		}
 		
@@ -176,7 +177,7 @@ public class BlockModelRenderer {
 
 	private void renderModelAmbientOcclusionQuads(IBlockAccess blockAccessIn, Block blockIn, BlockPos blockPosIn,
 			WorldRenderer worldRendererIn, List<BakedQuad> listQuadsIn, float[] quadBounds, BitSet boundsFlags,
-			BlockModelRenderer.AmbientOcclusionFace aoFaceIn) {
+			BlockModelRenderer.AmbientOcclusionFace aoFaceIn, RenderEnv renderenv) {
 		boolean isDeferred = DeferredStateManager.isDeferredRenderer();
 		double d0 = (double) blockPosIn.getX();
 		double d1 = (double) blockPosIn.getY();
@@ -191,42 +192,41 @@ public class BlockModelRenderer {
 			}
 		}
 
-		for (int i = 0, l = listQuadsIn.size(); i < l; ++i) {
-			BakedQuad bakedquad = listQuadsIn.get(i);
+		for (BakedQuad bakedquad : listQuadsIn) {
 			int[] vertData = isDeferred ? bakedquad.getVertexDataWithNormals() : bakedquad.getVertexData();
 			this.fillQuadBounds(blockIn, vertData, bakedquad.getFace(), quadBounds, boundsFlags, isDeferred ? 8 : 7);
 			aoFaceIn.updateVertexBrightness(blockAccessIn, blockIn, blockPosIn, bakedquad.getFace(), quadBounds,
 					boundsFlags);
 			worldRendererIn.addVertexData(vertData);
-			worldRendererIn.putBrightness4(aoFaceIn.vertexBrightness[0], aoFaceIn.vertexBrightness[1],
-					aoFaceIn.vertexBrightness[2], aoFaceIn.vertexBrightness[3]);
-			if (bakedquad.hasTintIndex()) {
-				int j = blockIn.colorMultiplier(blockAccessIn, blockPosIn, bakedquad.getTintIndex());
-				if (EntityRenderer.anaglyphEnable) {
-					j = TextureUtil.anaglyphColor(j);
-				}
+			worldRendererIn.putBrightness4(aoFaceIn.vertexBrightness[0], aoFaceIn.vertexBrightness[1], aoFaceIn.vertexBrightness[2], aoFaceIn.vertexBrightness[3]);
+			int k = CustomColors.getColorMultiplier(bakedquad, blockIn, blockAccessIn, blockPosIn, renderenv);
+			
+			if (!bakedquad.hasTintIndex() && k == -1) {
+				worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[0], aoFaceIn.vertexColorMultiplier[0], aoFaceIn.vertexColorMultiplier[0], 4);
+				worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[1], aoFaceIn.vertexColorMultiplier[1], aoFaceIn.vertexColorMultiplier[1], 3);
+				worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[2], aoFaceIn.vertexColorMultiplier[2], aoFaceIn.vertexColorMultiplier[2], 2);
+				worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[3], aoFaceIn.vertexColorMultiplier[3], aoFaceIn.vertexColorMultiplier[3], 1);
+            } else {
+                int j;
 
-				float f = (float) (j >> 16 & 255) / 255.0F;
-				float f1 = (float) (j >> 8 & 255) / 255.0F;
-				float f2 = (float) (j & 255) / 255.0F;
-				worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[0] * f,
-						aoFaceIn.vertexColorMultiplier[0] * f1, aoFaceIn.vertexColorMultiplier[0] * f2, 4);
-				worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[1] * f,
-						aoFaceIn.vertexColorMultiplier[1] * f1, aoFaceIn.vertexColorMultiplier[1] * f2, 3);
-				worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[2] * f,
-						aoFaceIn.vertexColorMultiplier[2] * f1, aoFaceIn.vertexColorMultiplier[2] * f2, 2);
-				worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[3] * f,
-						aoFaceIn.vertexColorMultiplier[3] * f1, aoFaceIn.vertexColorMultiplier[3] * f2, 1);
-			} else {
-				worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[0], aoFaceIn.vertexColorMultiplier[0],
-						aoFaceIn.vertexColorMultiplier[0], 4);
-				worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[1], aoFaceIn.vertexColorMultiplier[1],
-						aoFaceIn.vertexColorMultiplier[1], 3);
-				worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[2], aoFaceIn.vertexColorMultiplier[2],
-						aoFaceIn.vertexColorMultiplier[2], 2);
-				worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[3], aoFaceIn.vertexColorMultiplier[3],
-						aoFaceIn.vertexColorMultiplier[3], 1);
-			}
+                if (k != -1) {
+                    j = k;
+                } else {
+                    j = blockIn.colorMultiplier(blockAccessIn, blockPosIn, bakedquad.getTintIndex());
+                }
+
+                if (EntityRenderer.anaglyphEnable) {
+                    j = TextureUtil.anaglyphColor(j);
+                }
+
+                float f = (float)(j >> 16 & 255) / 255.0F;
+                float f1 = (float)(j >> 8 & 255) / 255.0F;
+                float f2 = (float)(j & 255) / 255.0F;
+                worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[0] * f, aoFaceIn.vertexColorMultiplier[0] * f1, aoFaceIn.vertexColorMultiplier[0] * f2, 4);
+                worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[1] * f, aoFaceIn.vertexColorMultiplier[1] * f1, aoFaceIn.vertexColorMultiplier[1] * f2, 3);
+                worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[2] * f, aoFaceIn.vertexColorMultiplier[2] * f1, aoFaceIn.vertexColorMultiplier[2] * f2, 2);
+                worldRendererIn.putColorMultiplier(aoFaceIn.vertexColorMultiplier[3] * f, aoFaceIn.vertexColorMultiplier[3] * f1, aoFaceIn.vertexColorMultiplier[3] * f2, 1);
+            }
 
 			worldRendererIn.putPosition(d0, d1, d2);
 		}

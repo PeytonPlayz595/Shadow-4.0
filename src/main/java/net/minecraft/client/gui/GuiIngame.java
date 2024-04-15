@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import net.PeytonPlayz585.shadow.Config;
+import net.PeytonPlayz585.shadow.CustomColors;
 import net.lax1dude.eaglercraft.v1_8.EaglercraftRandom;
 import net.lax1dude.eaglercraft.v1_8.minecraft.EaglerTextureAtlasSprite;
 
@@ -386,6 +387,11 @@ public class GuiIngame extends Gui {
 		if (this.mc.thePlayer.experienceLevel > 0) {
 			this.mc.mcProfiler.startSection("expLevel");
 			int i1 = 8453920;
+			
+			if (Config.isCustomColors()) {
+				i1 = CustomColors.getExpBarTextColor(i1);
+            }
+			
 			String s = "" + this.mc.thePlayer.experienceLevel;
 			int j1 = (parScaledResolution.getScaledWidth() - this.getFontRenderer().getStringWidth(s)) / 2;
 			int l = parScaledResolution.getScaledHeight() - 31 - 4;

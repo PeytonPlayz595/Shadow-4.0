@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Properties;
 
 import net.PeytonPlayz585.shadow.Config;
+import net.PeytonPlayz585.shadow.CustomColors;
 import net.PeytonPlayz585.shadow.FontUtils;
 import net.lax1dude.eaglercraft.v1_8.EaglercraftRandom;
 
@@ -395,6 +396,11 @@ public class FontRenderer implements IResourceManagerReloadListener {
 					}
 
 					int j1 = this.colorCode[i1];
+					
+					if (Config.isCustomColors()) {
+						j1 = CustomColors.getTextColor(i1, j1);
+                    }
+					
 					this.textColor = j1;
 					GlStateManager.color((float) (j1 >> 16) / 255.0F, (float) (j1 >> 8 & 255) / 255.0F,
 							(float) (j1 & 255) / 255.0F, this.alpha);
@@ -882,6 +888,18 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	}
 
 	public int getColorCode(char character) {
-		return this.colorCode["0123456789abcdef".indexOf(character)];
-	}
+        int i = "0123456789abcdef".indexOf(character);
+
+        if (i >= 0 && i < this.colorCode.length) {
+            int j = this.colorCode[i];
+
+            if (Config.isCustomColors()) {
+                j = CustomColors.getTextColor(i, j);
+            }
+
+            return j;
+        } else {
+            return 16777215;
+        }
+    }
 }

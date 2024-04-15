@@ -14,6 +14,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 import net.PeytonPlayz585.shadow.Config;
+import net.PeytonPlayz585.shadow.CustomColors;
 import net.PeytonPlayz585.shadow.DebugChunkRenderer;
 import net.PeytonPlayz585.shadow.Lagometer;
 import net.PeytonPlayz585.shadow.TextureUtils;
@@ -788,6 +789,14 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			this.mc.mcProfiler.startSection("lightTex");
 			WorldClient worldclient = this.mc.theWorld;
 			if (worldclient != null) {
+				
+				if (Config.isCustomColors() && CustomColors.updateLightmap(worldclient, this.torchFlickerX, this.lightmapColors, this.mc.thePlayer.isPotionActive(Potion.nightVision), partialTicks)) {
+                    this.lightmapTexture.updateDynamicTexture();
+                    this.lightmapUpdateNeeded = false;
+                    this.mc.mcProfiler.endSection();
+                    return;
+                }
+				
 				float f = worldclient.getSunBrightness(1.0F);
 				float f1 = f * 0.95F + 0.05F;
 
@@ -1671,10 +1680,12 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		float f = 0.25F + 0.75F * (float) this.mc.gameSettings.renderDistanceChunks / 32.0F;
 		f = 1.0F - (float) Math.pow((double) f, 0.25D);
 		Vec3 vec3 = worldclient.getSkyColor(this.mc.getRenderViewEntity(), partialTicks);
+		vec3 = CustomColors.getWorldSkyColor(vec3, worldclient, this.mc.getRenderViewEntity(), partialTicks);
 		float f1 = (float) vec3.xCoord;
 		float f2 = (float) vec3.yCoord;
 		float f3 = (float) vec3.zCoord;
 		Vec3 vec31 = worldclient.getFogColor(partialTicks);
+		vec31 = CustomColors.getWorldFogColor(vec31, worldclient, this.mc.getRenderViewEntity(), partialTicks);
 		this.fogColorRed = (float) vec31.xCoord;
 		this.fogColorGreen = (float) vec31.yCoord;
 		this.fogColorBlue = (float) vec31.zCoord;
@@ -1736,10 +1747,24 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			this.fogColorRed = 0.02F + f12;
 			this.fogColorGreen = 0.02F + f12;
 			this.fogColorBlue = 0.2F + f12;
+			Vec3 vec35 = CustomColors.getUnderwaterColor(this.mc.theWorld, this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().posY + 1.0D, this.mc.getRenderViewEntity().posZ);
+
+            if (vec35 != null) {
+                this.fogColorRed = (float)vec35.xCoord;
+                this.fogColorGreen = (float)vec35.yCoord;
+                this.fogColorBlue = (float)vec35.zCoord;
+            }
 		} else if (block.getMaterial() == Material.lava) {
 			this.fogColorRed = 0.6F;
 			this.fogColorGreen = 0.1F;
 			this.fogColorBlue = 0.0F;
+            Vec3 vec34 = CustomColors.getUnderlavaColor(this.mc.theWorld, this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().posY + 1.0D, this.mc.getRenderViewEntity().posZ);
+
+            if (vec34 != null) {
+                this.fogColorRed = (float)vec34.xCoord;
+                this.fogColorGreen = (float)vec34.yCoord;
+                this.fogColorBlue = (float)vec34.zCoord;
+            }
 		}
 
 		float f13 = this.fogColor2 + (this.fogColor1 - this.fogColor2) * partialTicks;

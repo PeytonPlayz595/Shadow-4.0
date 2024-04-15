@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import net.PeytonPlayz585.shadow.Config;
+import net.PeytonPlayz585.shadow.CustomColors;
 import net.PeytonPlayz585.shadow.CustomItems;
 import net.lax1dude.eaglercraft.v1_8.opengl.GlStateManager;
 import net.lax1dude.eaglercraft.v1_8.opengl.WorldRenderer;
@@ -309,6 +310,11 @@ public class RenderItem implements IResourceManagerReloadListener {
 			int k = color;
 			if (flag && bakedquad.hasTintIndex()) {
 				k = stack.getItem().getColorFromItemStack(stack, bakedquad.getTintIndex());
+				
+				if (Config.isCustomColors()) {
+                    k = CustomColors.getColorFromItemStack(stack, bakedquad.getTintIndex(), k);
+                }
+				
 				if (EntityRenderer.anaglyphEnable) {
 					k = TextureUtil.anaglyphColor(k);
 				}
@@ -512,10 +518,8 @@ public class RenderItem implements IResourceManagerReloadListener {
 			}
 
 			if (stack.isItemDamaged()) {
-				int j = (int) Math
-						.round(13.0D - (double) stack.getItemDamage() * 13.0D / (double) stack.getMaxDamage());
-				int i = (int) Math
-						.round(255.0D - (double) stack.getItemDamage() * 255.0D / (double) stack.getMaxDamage());
+				int j1 = (int)Math.round(13.0D - (double)stack.getItemDamage() * 13.0D / (double)stack.getMaxDamage());
+                int i = (int)Math.round(255.0D - (double)stack.getItemDamage() * 255.0D / (double)stack.getMaxDamage());
 				GlStateManager.disableLighting();
 				GlStateManager.disableDepth();
 				GlStateManager.disableTexture2D();
@@ -525,7 +529,20 @@ public class RenderItem implements IResourceManagerReloadListener {
 				WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 				this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, 13, 2, 0, 0, 0, 255);
 				this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, 12, 1, (255 - i) / 4, 64, 0, 255);
-				this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, j, 1, 255 - i, i, 0, 255);
+				int j = 255 - i;
+                int k = i;
+                int l = 0;
+                if (Config.isCustomColors()) {
+                    int i1 = CustomColors.getDurabilityColor(i);
+
+                    if (i1 >= 0) {
+                        j = i1 >> 16 & 255;
+                        k = i1 >> 8 & 255;
+                        l = i1 >> 0 & 255;
+                    }
+                }
+				
+				this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, j1, 1, j, k, l, 255);
 				GlStateManager.enableBlend();
 				GlStateManager.enableAlpha();
 				GlStateManager.enableTexture2D();

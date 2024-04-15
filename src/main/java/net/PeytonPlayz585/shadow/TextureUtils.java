@@ -97,6 +97,7 @@ public class TextureUtils {
             update();
             BetterGrass.update();
             BetterSnow.update();
+            CustomColors.update();
             CustomSky.update();
             CustomItems.updateModels();
             //SmartLeaves.updateLeavesModels();

@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.entity.layers;
 
+import net.PeytonPlayz585.shadow.Config;
+import net.PeytonPlayz585.shadow.CustomColors;
 import net.lax1dude.eaglercraft.v1_8.opengl.GlStateManager;
 import net.minecraft.client.model.ModelSheep1;
 import net.minecraft.client.renderer.entity.RenderSheep;
@@ -49,10 +51,21 @@ public class LayerSheepWool implements LayerRenderer<EntitySheep> {
 				float f7 = ((float) (entitysheep.ticksExisted % 25) + f2) / 25.0F;
 				float[] afloat1 = EntitySheep.func_175513_a(EnumDyeColor.byMetadata(k));
 				float[] afloat2 = EntitySheep.func_175513_a(EnumDyeColor.byMetadata(l));
+				
+				if (Config.isCustomColors()) {
+                    afloat1 = CustomColors.getSheepColors(EnumDyeColor.byMetadata(k), afloat1);
+                    afloat2 = CustomColors.getSheepColors(EnumDyeColor.byMetadata(l), afloat2);
+                }
+				
 				GlStateManager.color(afloat1[0] * (1.0F - f7) + afloat2[0] * f7,
 						afloat1[1] * (1.0F - f7) + afloat2[1] * f7, afloat1[2] * (1.0F - f7) + afloat2[2] * f7);
 			} else {
 				float[] afloat = EntitySheep.func_175513_a(entitysheep.getFleeceColor());
+				
+				if (Config.isCustomColors()) {
+                    afloat = CustomColors.getSheepColors(entitysheep.getFleeceColor(), afloat);
+                }
+				
 				GlStateManager.color(afloat[0], afloat[1], afloat[2]);
 			}
 

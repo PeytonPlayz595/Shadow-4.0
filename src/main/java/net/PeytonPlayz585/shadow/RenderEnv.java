@@ -27,7 +27,7 @@ public class RenderEnv {
     private boolean[] borderFlags = null;
     private static ThreadLocal threadLocalInstance = new ThreadLocal();
 
-    private RenderEnv(IBlockAccess p_i94_1_, IBlockState p_i94_2_, BlockPos p_i94_3_) {
+    public RenderEnv(IBlockState p_i94_2_, BlockPos p_i94_3_) {
         this.blockState = p_i94_2_;
         this.blockPos = p_i94_3_;
         this.gameSettings = Config.getGameSettings();
@@ -37,7 +37,7 @@ public class RenderEnv {
         RenderEnv renderenv = (RenderEnv)threadLocalInstance.get();
 
         if (renderenv == null) {
-            renderenv = new RenderEnv(p_getInstance_0_, p_getInstance_1_, p_getInstance_2_);
+            renderenv = new RenderEnv(p_getInstance_1_, p_getInstance_2_);
             threadLocalInstance.set(renderenv);
             return renderenv;
         } else {
