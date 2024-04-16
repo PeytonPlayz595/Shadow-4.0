@@ -3,10 +3,6 @@ package net.PeytonPlayz585.shadow;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.teavm.jso.typedarrays.ArrayBuffer;
-import org.teavm.jso.typedarrays.DataView;
-
-import net.lax1dude.eaglercraft.v1_8.internal.EnumPlatformOS;
 import net.lax1dude.eaglercraft.v1_8.internal.PlatformRuntime;
 import net.lax1dude.eaglercraft.v1_8.minecraft.EaglerTextureAtlasSprite;
 import net.lax1dude.eaglercraft.v1_8.opengl.EaglercraftGPU;
