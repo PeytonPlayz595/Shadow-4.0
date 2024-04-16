@@ -11,6 +11,12 @@ sourceSets {
             srcDir 'src/teavm/java'
         }
     }
+    eagler {
+        java {
+            srcDir 'src/main/java'
+            srcDir 'src/lwjgl/java'
+        }
+    }
 }
 
 repositories {
@@ -20,6 +26,7 @@ repositories {
 dependencies {
     teavm(teavm.libs.jso)
     teavm(teavm.libs.jsoApis)
+    eaglerImplementation fileTree(dir: './desktopRuntime/eclipseProject/deps_fix/', include: '*.jar')
 }
 
 teavm.js {
@@ -36,4 +43,17 @@ teavm.js {
     properties = null
     sourceMap = true
     debugInformation = false
+}
+
+tasks.register('runclient', JavaExec) {
+    classpath = sourceSets.eagler.compileClasspath
+    group = "ShadowClient"
+    description = "Runs the client"
+    classpath sourceSets.eagler.runtimeClasspath
+    if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+        jvmArgs '-XstartOnFirstThread'
+    }
+
+    workingDir "./desktopRuntime"
+    main 'net.lax1dude.eaglercraft.v1_8.internal.lwjgl.MainClass'
 }
