@@ -585,12 +585,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	public void startServerThread() {
 		this.serverThread = new Thread(this, "Server thread");
 		this.serverThread.start();
-		
-		//Lmao ¯\_(ツ)_/¯
-		Thread.currentThread().setPriority(10); 
-		
-		//Possible TPS fix!?!?
-		this.serverThread.setPriority(10);
 	}
 
 	/**+

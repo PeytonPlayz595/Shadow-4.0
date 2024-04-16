@@ -73,7 +73,7 @@ public class RenderChunk {
 	public ShadowFrustumState shadowLOD0InFrustum = ShadowFrustumState.OUTSIDE;
 	public ShadowFrustumState shadowLOD1InFrustum = ShadowFrustumState.OUTSIDE;
 	public ShadowFrustumState shadowLOD2InFrustum = ShadowFrustumState.OUTSIDE;
-	private EnumMap<EnumFacing, BlockPos> field_181702_p = Maps.newEnumMap(EnumFacing.class);
+	private BlockPos[] positionOffsets16 = new BlockPos[EnumFacing.VALUES.length];
 
 	public RenderChunk(World worldIn, RenderGlobal renderGlobalIn, BlockPos blockPosIn, int indexIn) {
 		this.world = worldIn;
@@ -98,13 +98,11 @@ public class RenderChunk {
 		this.stopCompileTask();
 		this.position = pos;
 		this.boundingBox = new AxisAlignedBB(pos, pos.add(16, 16, 16));
-
-		EnumFacing[] facings = EnumFacing._VALUES;
-		for (int i = 0; i < facings.length; ++i) {
-			this.field_181702_p.put(facings[i], pos.offset(facings[i], 16));
-		}
-
 		this.initModelviewMatrix();
+		
+		for (int i = 0; i < this.positionOffsets16.length; ++i) {
+            this.positionOffsets16[i] = null;
+        }
 	}
 
 	public void resortTransparency(float x, float y, float z, ChunkCompileTaskGenerator generator) {
@@ -321,7 +319,15 @@ public class RenderChunk {
 		return this.needsUpdate;
 	}
 
-	public BlockPos func_181701_a(EnumFacing parEnumFacing) {
-		return (BlockPos) this.field_181702_p.get(parEnumFacing);
-	}
+	public BlockPos getPositionOffset16(EnumFacing p_getPositionOffset16_1_) {
+        int i = p_getPositionOffset16_1_.getIndex();
+        BlockPos blockpos = this.positionOffsets16[i];
+
+        if (blockpos == null) {
+            blockpos = this.getPosition().offset(p_getPositionOffset16_1_, 16);
+            this.positionOffsets16[i] = blockpos;
+        }
+
+        return blockpos;
+    }
 }
