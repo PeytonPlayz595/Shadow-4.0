@@ -1,14 +1,13 @@
 # Shadow-4.0
 
+# Running the Desktop Runtime
 
-# Compiling desktop runtime
-1. download the zip of this repo or make a github codespace (extract the zip to a folder if you downloaded a zip)
-2. rename build.gradle to build-teavm.gradle or anything else
-3. rename build-desktopruntime.gradle to build.gradle
-4. open a terminal or cmd in the folder with the repo and type `./gradlew jar`
+Note: Requires a physical display to run, will NOT run on codespaces, ANY online terminal without a graphical display, or ANY ssh without X11 forwarding (Pretty much self explanitory but for the people who didn't know)
 
-# Running desktop runtime without compiling to jar
-note: this dosnt work on github codespaces
-1. follow step 1 through 3 of "Compiling desktop runtime"
-2. open a terminal or cmd in the folder with the repo and type `./gradlew runclient`
-3. wait for it to compile the classes
+^^^
+If you STILL don't understand, it basically means you have to run it on YOUR personal computer
+You most likely will not be able to use it in a browser VM without a graphical interface or over SSH
+
+1. Clone this GitHub repo (Either using git or manual download)
+2. cd into the directory of this repo
+3. Run `gradlew runclient` and wait for it to finish compiling
