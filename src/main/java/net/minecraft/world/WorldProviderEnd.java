@@ -1,5 +1,6 @@
 package net.minecraft.world;
 
+import net.PeytonPlayz585.shadow.Config;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -35,6 +36,7 @@ public class WorldProviderEnd extends WorldProvider {
 	public void registerWorldChunkManager() {
 		this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.sky, 0.0F);
 		this.dimensionId = 1;
+		Config.chunkFixEnd = true;
 		this.hasNoSky = true;
 	}
 

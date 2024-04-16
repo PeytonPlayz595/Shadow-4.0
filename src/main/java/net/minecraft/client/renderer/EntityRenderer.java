@@ -651,7 +651,11 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		}
 
 		float farPlane = this.farPlaneDistance * 2.0f * MathHelper.SQRT_2;
-		GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance);
+		if(this.mc.gameSettings.renderDistanceChunks >= 2) {
+			GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance);
+		} else {
+			GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, farPlane);
+		}
 		DeferredStateManager.setGBufferNearFarPlanes(0.05f, farPlane);
 		GlStateManager.matrixMode(GL_MODELVIEW);
 		GlStateManager.loadIdentity();
@@ -1216,17 +1220,25 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) partialTicks;
 		double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) partialTicks;
 		frustum.setPosition(d0, d1, d2);
-		if ((Config.isSkyEnabled() || Config.isSunMoonEnabled() || Config.isStarsEnabled())){
+		if ((Config.isSkyEnabled() || Config.isSunMoonEnabled() || Config.isStarsEnabled()) && this.mc.gameSettings.renderDistanceChunks >= 2){
 			this.setupFog(-1, partialTicks);
 			this.mc.mcProfiler.endStartSection("sky");
 			GlStateManager.matrixMode(GL_PROJECTION);
 			GlStateManager.loadIdentity();
-			GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance);
+			if(this.mc.gameSettings.renderDistanceChunks >= 2) {
+				GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance);
+			} else {
+				GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.farPlaneDistance * 4.0F);
+			}
 			GlStateManager.matrixMode(GL_MODELVIEW);
 			renderglobal.renderSky(partialTicks, pass);
 			GlStateManager.matrixMode(GL_PROJECTION);
 			GlStateManager.loadIdentity();
-			GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance);
+			if(this.mc.gameSettings.renderDistanceChunks >= 2) {
+				GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance);
+			} else {
+				GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.farPlaneDistance * MathHelper.SQRT_2);
+			}
 			GlStateManager.matrixMode(GL_MODELVIEW);
 		} else {
 			GlStateManager.enableBlend();
@@ -1373,7 +1385,13 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			this.mc.mcProfiler.endStartSection("clouds");
 			GlStateManager.matrixMode(GL_PROJECTION);
 			GlStateManager.loadIdentity();
-			GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance * 4.0F);
+			if(this.mc.gameSettings.renderDistanceChunks >= 2) {
+				GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance * 4.0F);
+			} else {
+				//Clouds not rendered at 1 chunk render distance
+				//But still, just to be safe...
+				GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.farPlaneDistance * 4.0F);
+			}
 			GlStateManager.matrixMode(GL_MODELVIEW);
 			GlStateManager.pushMatrix();
 			this.setupFog(0, partialTicks);
@@ -1382,7 +1400,13 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			GlStateManager.popMatrix();
 			GlStateManager.matrixMode(GL_PROJECTION);
 			GlStateManager.loadIdentity();
-			GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance);
+			if(this.mc.gameSettings.renderDistanceChunks >= 2) {
+				GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance);
+			} else {
+				//Clouds not rendered at 1 chunk render distance
+				//But still, just to be safe...
+				GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.farPlaneDistance * MathHelper.SQRT_2);
+			}
 			GlStateManager.matrixMode(GL_MODELVIEW);
 		}
 

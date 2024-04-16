@@ -12,7 +12,7 @@ import net.minecraft.client.resources.data.IMetadataSection;
 
 public class JSONUtils {
 
-	public static <T extends IMetadataSection> T fixJson(String string) {
+	public static <T extends IMetadataSection> T parseCustomItemAnimation(String string) {
 		JSONObject jsonObject = new JSONObject(string);
 		JSONObject animationObject = jsonObject.getJSONObject("animation");
 		int frametime = animationObject.getInt("frametime");

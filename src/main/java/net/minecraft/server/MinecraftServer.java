@@ -403,21 +403,13 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 						this.tick();
 						i = 0L;
 					} else {
-						boolean mustYield = false;
-						while (i >= 50L) {
-							if(mustYield) {
-								//try {
-									//Thread.sleep(1l); // allow some async
-								//}catch(InterruptedException e) {
-									//System.err.println("you eagler");
-								//}
-							}
+						while (i > 50L) {
 							i -= 50L;
 							this.tick();
-							mustYield = true;
 						}
 					}
 
+					Thread.sleep(Math.max(1L, 50L - i));
 					this.serverIsRunning = true;
 				}
 			} else {
@@ -593,6 +585,12 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	public void startServerThread() {
 		this.serverThread = new Thread(this, "Server thread");
 		this.serverThread.start();
+		
+		//Lmao ¯\_(ツ)_/¯
+		Thread.currentThread().setPriority(10); 
+		
+		//Possible TPS fix!?!?
+		this.serverThread.setPriority(10);
 	}
 
 	/**+

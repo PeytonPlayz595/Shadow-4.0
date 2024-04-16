@@ -97,7 +97,7 @@ public class CustomSky {
 
     public static void renderSky(World p_renderSky_0_, TextureManager p_renderSky_1_, float p_renderSky_2_, float p_renderSky_3_) {
         if (worldSkyLayers != null) {
-            //if (Config.getGameSettings().renderDistanceChunks >= 2) {
+            if (Config.getGameSettings().renderDistanceChunks >= 2) {
                 int i = p_renderSky_0_.provider.getDimensionId();
 
                 if (i >= 0 && i < worldSkyLayers.length) {
@@ -118,13 +118,15 @@ public class CustomSky {
                         Blender.clearBlend(p_renderSky_3_);
                     }
                 }
-            //}
+            }
         }
     }
 
     public static boolean hasSkyLayers(World p_hasSkyLayers_0_) {
         if (worldSkyLayers == null) {
             return false;
+        } else if(!(Config.getGameSettings().renderDistanceChunks >= 2)) {
+        	return false; //No sky layers at 1 chunk render distance...
         } else {
             int i = p_hasSkyLayers_0_.provider.getDimensionId();
 

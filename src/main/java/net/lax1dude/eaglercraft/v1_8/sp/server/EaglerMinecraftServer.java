@@ -133,18 +133,9 @@ public class EaglerMinecraftServer extends MinecraftServer {
 			this.tick();
 			++counterTicksPerSecond;
 		} else {
-			boolean mustYield = false;
-			if (j >= 50L) {
-				if(mustYield) {
-					try {
-						Thread.sleep(1l); // allow some async
-					}catch(InterruptedException e) {
-						System.err.println("you eagler");
-					}
-				}
+			if (j > 50L) {
 				this.currentTime += 50l;
 				this.tick();
-				mustYield = true;
 				++counterTicksPerSecond;
 			}
 		}

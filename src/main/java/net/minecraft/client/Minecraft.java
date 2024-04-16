@@ -1825,6 +1825,7 @@ public class Minecraft implements IThreadListener {
 		this.theWorld = worldClientIn;
 		if (worldClientIn != null) {
 			if (this.renderGlobal != null) {
+				Config.worldClient = worldClientIn;
 				this.renderGlobal.setWorldAndLoadRenderers(worldClientIn);
 			}
 

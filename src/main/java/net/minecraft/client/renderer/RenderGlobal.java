@@ -1390,7 +1390,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			GlStateManager.enableFog();
 			GlStateManager.color(f, f1, f2);
 			
-			if(Config.isSkyEnabled()) {
+			if(Config.isSkyEnabled() && this.mc.gameSettings.renderDistanceChunks >= 2) {
 				GlStateManager.callList(this.glSkyList);
 			}
 
@@ -1400,7 +1400,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			GlStateManager.tryBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 			RenderHelper.disableStandardItemLighting();
 			float[] afloat = this.theWorld.provider .calcSunriseSunsetColors(this.theWorld.getCelestialAngle(partialTicks), partialTicks);
-			if (afloat != null && Config.isSunMoonEnabled()) {
+			if (afloat != null && Config.isSunMoonEnabled() && this.mc.gameSettings.renderDistanceChunks >= 2) {
 				GlStateManager.disableTexture2D();
 				GlStateManager.shadeModel(GL_SMOOTH);
 				GlStateManager.pushMatrix();
@@ -1446,33 +1446,37 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			GlStateManager.tryBlendFuncSeparate(GL_SRC_ALPHA, 1, 1, 0);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, f16);
 			GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
-			CustomSky.renderSky(this.theWorld, this.renderEngine, this.theWorld.getCelestialAngle(partialTicks), f16);
+			if(this.mc.gameSettings.renderDistanceChunks >= 2) {
+				CustomSky.renderSky(this.theWorld, this.renderEngine, this.theWorld.getCelestialAngle(partialTicks), f16);
+			}
 			GlStateManager.rotate(this.theWorld.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
-			this.renderEngine.bindTexture(locationSunPng);
-			worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-			worldrenderer.pos((double) (-f17), 100.0D, (double) (-f17)).tex(0.0D, 0.0D).endVertex();
-			worldrenderer.pos((double) f17, 100.0D, (double) (-f17)).tex(1.0D, 0.0D).endVertex();
-			worldrenderer.pos((double) f17, 100.0D, (double) f17).tex(1.0D, 1.0D).endVertex();
-			worldrenderer.pos((double) (-f17), 100.0D, (double) f17).tex(0.0D, 1.0D).endVertex();
-			tessellator.draw();
-			f17 = 20.0F;
-			this.renderEngine.bindTexture(locationMoonPhasesPng);
-			int i = this.theWorld.getMoonPhase();
-			int j = i % 4;
-			int l = i / 4 % 2;
-			float f22 = (float) (j + 0) / 4.0F;
-			float f23 = (float) (l + 0) / 2.0F;
-			float f24 = (float) (j + 1) / 4.0F;
-			float f14 = (float) (l + 1) / 2.0F;
-			worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-			worldrenderer.pos((double) (-f17), -100.0D, (double) f17).tex((double) f24, (double) f14).endVertex();
-			worldrenderer.pos((double) f17, -100.0D, (double) f17).tex((double) f22, (double) f14).endVertex();
-			worldrenderer.pos((double) f17, -100.0D, (double) (-f17)).tex((double) f22, (double) f23).endVertex();
-			worldrenderer.pos((double) (-f17), -100.0D, (double) (-f17)).tex((double) f24, (double) f23).endVertex();
-			tessellator.draw();
+			if(Config.isSunMoonEnabled() && this.mc.gameSettings.renderDistanceChunks >= 2) {
+				this.renderEngine.bindTexture(locationSunPng);
+				worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+				worldrenderer.pos((double) (-f17), 100.0D, (double) (-f17)).tex(0.0D, 0.0D).endVertex();
+				worldrenderer.pos((double) f17, 100.0D, (double) (-f17)).tex(1.0D, 0.0D).endVertex();
+				worldrenderer.pos((double) f17, 100.0D, (double) f17).tex(1.0D, 1.0D).endVertex();
+				worldrenderer.pos((double) (-f17), 100.0D, (double) f17).tex(0.0D, 1.0D).endVertex();
+				tessellator.draw();
+				f17 = 20.0F;
+				this.renderEngine.bindTexture(locationMoonPhasesPng);
+				int i = this.theWorld.getMoonPhase();
+				int j = i % 4;
+				int l = i / 4 % 2;
+				float f22 = (float) (j + 0) / 4.0F;
+				float f23 = (float) (l + 0) / 2.0F;
+				float f24 = (float) (j + 1) / 4.0F;
+				float f14 = (float) (l + 1) / 2.0F;
+				worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+				worldrenderer.pos((double) (-f17), -100.0D, (double) f17).tex((double) f24, (double) f14).endVertex();
+				worldrenderer.pos((double) f17, -100.0D, (double) f17).tex((double) f22, (double) f14).endVertex();
+				worldrenderer.pos((double) f17, -100.0D, (double) (-f17)).tex((double) f22, (double) f23).endVertex();
+				worldrenderer.pos((double) (-f17), -100.0D, (double) (-f17)).tex((double) f24, (double) f23).endVertex();
+				tessellator.draw();
+			}
 			GlStateManager.disableTexture2D();
 			float f15 = this.theWorld.getStarBrightness(partialTicks) * f16;
-			if (f15 > 0.0F && Config.isStarsEnabled() && !CustomSky.hasSkyLayers(this.theWorld)) {
+			if (f15 > 0.0F && Config.isStarsEnabled() && !CustomSky.hasSkyLayers(this.theWorld) && this.mc.gameSettings.renderDistanceChunks >= 2) {
 				GlStateManager.color(f15, f15, f15, f15);
 				GlStateManager.callList(this.starGLCallList);
 			}

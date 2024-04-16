@@ -68,6 +68,7 @@ public class SimpleResource implements IResource {
 		return this.mcmetaInputStream != null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T extends IMetadataSection> T getMetadata(String s) {
 		if (!this.hasMetadata()) {
 			return (T) null;
@@ -92,13 +93,27 @@ public class SimpleResource implements IResource {
 				} catch(Exception e) {
 					if(this.srResourceLocation.toString().contains("mcpatcher") || this.srResourceLocation.toString().contains("optifine")) {
 						try {
-							imetadatasection = JSONUtils.fixJson(mcmetaJson.toString());
-							mapMetadataSections.put(s, imetadatasection);
+							if(s.contains("animation")) {
+								imetadatasection = JSONUtils.parseCustomItemAnimation(mcmetaJson.toString());
+								mapMetadataSections.put(s, imetadatasection);
+							} else {
+								/*
+								 * Only made json utils for custom item animations
+								 * So far I have had no issues with any other custom item feature
+								 * If this exception is printed it is most likely a user error...
+								 */
+								e.printStackTrace();
+								
+								//Return it anyways lol
+								return (T) imetadatasection;
+							}
 						} catch(Exception e1) {
+							e1.printStackTrace();
 							//Return it anyways lol
 							return (T) imetadatasection;
 						}
 					} else {
+						e.printStackTrace();
 						//Return it anyways lol
 						return (T) imetadatasection;
 					}

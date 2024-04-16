@@ -1,5 +1,6 @@
 package net.minecraft.world;
 
+import net.PeytonPlayz585.shadow.Config;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.WorldChunkManagerHell;
@@ -36,6 +37,7 @@ public class WorldProviderHell extends WorldProvider {
 		this.isHellWorld = true;
 		this.hasNoSky = true;
 		this.dimensionId = -1;
+		Config.chunkFixNether = true;
 	}
 
 	/**+

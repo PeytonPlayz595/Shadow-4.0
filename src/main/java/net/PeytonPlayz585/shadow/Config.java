@@ -14,6 +14,7 @@ import net.lax1dude.eaglercraft.v1_8.log4j.LogManager;
 import net.lax1dude.eaglercraft.v1_8.log4j.Logger;
 import net.lax1dude.eaglercraft.v1_8.opengl.ext.deferred.EaglerDeferredConfig;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.resources.IResource;
@@ -33,6 +34,14 @@ public class Config {
 	public static boolean zoomMode = false;
 	private static int antialiasingLevel = 0;
 	public static boolean waterOpacityChanged = false;
+	
+	/* Ancient chunk loading fix from Shadow 1.0 I copied and pasted
+	 * That NEEDS to be rewritten but I'm too lazy to do it...
+	 */
+	public static boolean chunkFix = true;
+	public static boolean chunkFixNether = false;
+	public static boolean chunkFixEnd = false;
+	public static WorldClient worldClient = null;
 	
 	public static void initGameSettings(GameSettings p_initGameSettings_0_) {	
 		if (gameSettings == null)	{
@@ -336,15 +345,17 @@ public class Config {
     }
     
     public static void updateThreadPriorities() {
-        if (isSingleProcessor()) {
-            if (isSmoothWorld()) {
-                minecraftThread.setPriority(10);
-            } else {
-                minecraftThread.setPriority(5);
-            }
-        } else {
-            minecraftThread.setPriority(10);
-        }
+    	//womp womp
+    	
+//        if (isSingleProcessor()) {
+//            if (isSmoothWorld()) {
+//                minecraftThread.setPriority(10);
+//            } else {
+//                minecraftThread.setPriority(5);
+//            }
+//        } else {
+//            minecraftThread.setPriority(10);
+//        }
     }
     
     public static boolean isMinecraftThread() {
@@ -649,4 +660,34 @@ public class Config {
         p_intHash_0_ = p_intHash_0_ ^ p_intHash_0_ >> 15;
         return p_intHash_0_;
     }
+	
+	//So gay
+	public static void fixChunkLoading() {
+		if (chunkFix) {
+            if (worldClient != null) {
+                Minecraft.getMinecraft().renderGlobal.loadRenderers();
+                Minecraft.getMinecraft().renderGlobal.setWorldAndLoadRenderers(worldClient);
+                worldClient.updateBlocks();
+                chunkFix = false;
+            }
+        }
+
+        if (chunkFixNether) {
+            if (worldClient != null) {
+                Minecraft.getMinecraft().renderGlobal.loadRenderers();
+                Minecraft.getMinecraft().renderGlobal.setWorldAndLoadRenderers(worldClient);
+                worldClient.updateBlocks();
+                chunkFixNether = false;
+            }
+        }
+
+        if (chunkFixEnd) {
+            if (worldClient != null) {
+                Minecraft.getMinecraft().renderGlobal.loadRenderers();
+                Minecraft.getMinecraft().renderGlobal.setWorldAndLoadRenderers(worldClient);
+                worldClient.updateBlocks();
+                chunkFixEnd = false;
+            }
+        }
+	}
 }
