@@ -702,6 +702,10 @@ public abstract class World implements IBlockAccess {
 		}
 	}
 
+	public Block getBlock(BlockPos pos) {
+		return getBlockState(pos).getBlock();
+	}
+
 	/**+
 	 * Checks whether its daytime by seeing if the light subtracted
 	 * from the skylight is less than 4
@@ -3223,4 +3227,6 @@ public abstract class World implements IBlockAccess {
 		short short1 = 128;
 		return i >= -short1 && i <= short1 && j >= -short1 && j <= short1;
 	}
+
+
 }

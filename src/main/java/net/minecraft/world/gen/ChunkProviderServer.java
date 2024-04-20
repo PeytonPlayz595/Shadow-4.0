@@ -11,7 +11,6 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.lax1dude.eaglercraft.v1_8.sp.server.EaglerMinecraftServer;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.server.management.PlayerManager;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.LongHashMap;
@@ -87,13 +86,14 @@ public class ChunkProviderServer implements IChunkProvider {
 	}
 
 	public void dropChunk(int parInt1, int parInt2) {
-//		if (this.worldObj.provider.canRespawnHere()) {
-//			if (!this.worldObj.isSpawnChunk(parInt1, parInt2)) {
-//				this.droppedChunksSet.add(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(parInt1, parInt2)));
-//			}
-//		} else {
+		if (this.worldObj.provider.canRespawnHere()) {
+			if (!this.worldObj.isSpawnChunk(parInt1, parInt2)) {
+				this.droppedChunksSet.add(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(parInt1, parInt2)));
+			}
+		} else {
 			this.droppedChunksSet.add(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(parInt1, parInt2)));
-//		}
+		}
+
 	}
 
 	/**+
@@ -269,8 +269,6 @@ public class ChunkProviderServer implements IChunkProvider {
 		}
 
 	}
-	
-	private long suckMyFuckingCock = 0l; //What the fuck
 
 	/**+
 	 * Unloads chunks that are marked to be unloaded. This is not
@@ -278,19 +276,6 @@ public class ChunkProviderServer implements IChunkProvider {
 	 */
 	public boolean unloadQueuedChunks() {
 		if (!this.worldObj.disableLevelSaving) {
-			
-			long millis = System.currentTimeMillis();
-			if(millis - suckMyFuckingCock > 10000l) {
-				suckMyFuckingCock = millis;
-				this.id2ChunkMap.iterate((l,o) -> { //Whar????
-					Chunk id = (Chunk) o;
-					PlayerManager.PlayerInstance ii = this.worldObj.getPlayerManager().getPlayerInstance(id.xPosition, id.zPosition, false);
-					if((ii == null || ii.isEmpty()) && !droppedChunksSet.contains(l)) {
-						this.droppedChunksSet.add(l);
-					}
-				});
-			}
-			
 			for (int i = 0; i < 100; ++i) {
 				if (!this.droppedChunksSet.isEmpty()) {
 					Long olong = (Long) this.droppedChunksSet.iterator().next();
@@ -299,7 +284,6 @@ public class ChunkProviderServer implements IChunkProvider {
 						chunk.onChunkUnload();
 						this.saveChunkData(chunk);
 						this.saveChunkExtraData(chunk);
-						this.worldObj.getPlayerManager().freePlayerInstance(olong);
 						this.id2ChunkMap.remove(olong.longValue());
 						this.loadedChunks.remove(chunk);
 					}

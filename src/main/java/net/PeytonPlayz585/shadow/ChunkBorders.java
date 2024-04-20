@@ -99,4 +99,4 @@ public class ChunkBorders {
         GlStateManager.enableBlend();
         GlStateManager.enableTexture2D();
     }
-} 
+}

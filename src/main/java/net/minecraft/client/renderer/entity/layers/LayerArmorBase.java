@@ -86,11 +86,9 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 			modelbase.setLivingAnimations(entitylivingbaseIn, armorSlot, parFloat2, parFloat3);
 			this.func_177179_a((T) modelbase, parInt1);
 			boolean flag = this.isSlotForLeggings(parInt1);
-			
 			if (!Config.isCustomItems() || !CustomItems.bindCustomArmorTexture(itemstack, flag ? 2 : 1, (String)null)) {
 				this.renderer.bindTexture(this.getArmorResource(itemarmor, flag));
             }
-			
 			DeferredStateManager.setDefaultMaterialConstants();
 			switch (itemarmor.getArmorMaterial()) {
 			case CHAIN:
@@ -117,9 +115,9 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 				float f2 = (float) (i & 255) / 255.0F;
 				GlStateManager.color(this.colorR * f, this.colorG * f1, this.colorB * f2, this.alpha);
 				modelbase.render(entitylivingbaseIn, armorSlot, parFloat2, parFloat4, parFloat5, parFloat6, parFloat7);
-				 if (!Config.isCustomItems() || !CustomItems.bindCustomArmorTexture(itemstack, flag ? 2 : 1, "overlay")) {
-                     this.renderer.bindTexture(this.getArmorResource(itemarmor, flag, "overlay"));
-                 }
+				if (!Config.isCustomItems() || !CustomItems.bindCustomArmorTexture(itemstack, flag ? 2 : 1, "overlay")) {
+                    this.renderer.bindTexture(this.getArmorResource(itemarmor, flag, "overlay"));
+                }
 			case CHAIN:
 			case IRON:
 			case GOLD:

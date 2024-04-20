@@ -27,7 +27,7 @@ import net.minecraft.network.play.INetHandlerPlayServer;
  * 
  */
 public class C09PacketHeldItemChange implements Packet<INetHandlerPlayServer> {
-	private int slotId;
+	public int slotId;
 
 	public C09PacketHeldItemChange() {
 	}

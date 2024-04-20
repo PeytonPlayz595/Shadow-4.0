@@ -34,11 +34,10 @@ public class ClientPlatformSingleplayer {
 	}
 
 	public static void sendPacket(IPCPacketData packet) {
-		
 		String s = null;
-		
+		byte[] data = packet.contents;
 		try {
-			s = new String(packet.contents);
+			s = new String(data);
 		} catch(Exception e) {
 			s = null;
 		}

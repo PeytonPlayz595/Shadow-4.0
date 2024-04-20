@@ -101,7 +101,6 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntity
 		GlStateManager.scale(f3, -f3, f3);
 		EaglercraftGPU.glNormal3f(0.0F, 0.0F, -1.0F * f3);
 		GlStateManager.depthMask(false);
-		
 		int i1 = 0;
 		if (Config.isCustomColors()) {
             i1 = CustomColors.getSignTextColor(i);

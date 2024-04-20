@@ -121,14 +121,14 @@ public class ServerPlatformSingleplayer {
 
 	@JSBody(params = { "ch", "dat" }, script = "postMessage({ ch: ch, dat : dat });")
 	public static native void sendPacketTeaVM(String channel, ArrayBuffer arr);
-	
+
 	public static void sendPacket(IPCPacketData packet) {
 		ArrayBuffer arb = ArrayBuffer.create(packet.contents.length);
 		Uint8Array ar = Uint8Array.create(arb);
 		ar.set(packet.contents);
 		sendPacketTeaVM(packet.channel, arb);
 	}
-	
+
 	public static List<IPCPacketData> recieveAllPacket() {
 		synchronized(messageQueue) {
 			if(messageQueue.size() == 0) {

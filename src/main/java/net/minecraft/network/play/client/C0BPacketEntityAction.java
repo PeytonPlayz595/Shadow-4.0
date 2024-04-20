@@ -28,9 +28,9 @@ import net.minecraft.network.play.INetHandlerPlayServer;
  * 
  */
 public class C0BPacketEntityAction implements Packet<INetHandlerPlayServer> {
-	private int entityID;
-	private C0BPacketEntityAction.Action action;
-	private int auxData;
+	public int entityID;
+	public C0BPacketEntityAction.Action action;
+	public int auxData;
 
 	public C0BPacketEntityAction() {
 	}
@@ -44,6 +44,13 @@ public class C0BPacketEntityAction implements Packet<INetHandlerPlayServer> {
 		this.action = action;
 		this.auxData = auxData;
 	}
+
+	public C0BPacketEntityAction(int entityId, C0BPacketEntityAction.Action action, int auxData) {
+		this.entityID = entityId;
+		this.action = action;
+		this.auxData = auxData;
+	}
+
 
 	/**+
 	 * Reads the raw packet data from the data stream.

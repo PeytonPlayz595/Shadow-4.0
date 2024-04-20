@@ -8,7 +8,6 @@ import net.lax1dude.eaglercraft.v1_8.opengl.ext.deferred.gui.GuiShadersNotSuppor
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
 
 public class GuiShaders extends GuiScreen {
 	protected GuiScreen parentScreen;

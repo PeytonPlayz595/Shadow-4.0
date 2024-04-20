@@ -528,7 +528,7 @@ public class PlatformOpenGL {
 	public static final boolean checkHDRFramebufferSupport(int bits) {
 		return true;
 	}
-
+	
 	public static int _wglGetTexLevelParameteri(int glTexture2d, int i, int glTextureWidth) {
 		return GLES31.glGetTexLevelParameteri(glTexture2d, i, glTextureWidth);
 	}

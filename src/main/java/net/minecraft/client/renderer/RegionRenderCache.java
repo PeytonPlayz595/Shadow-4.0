@@ -57,7 +57,7 @@ public class RegionRenderCache extends ChunkCache {
 	public int getCombinedLight(BlockPos pos, int lightValue) {
         int i = this.getPositionIndex(pos);
         int j = this.combinedLights[i];
-
+        
         if (j == -1) {
             j = super.getCombinedLight(pos, lightValue);
 

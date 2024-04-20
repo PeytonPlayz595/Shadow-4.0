@@ -41,8 +41,6 @@ public class GuiVideoSettings extends GuiScreen {
 	/**+
 	 * An array of all of GameSettings.Options's video options.
 	 */
-//	private static final GameSettings.Options[] videoOptions = new GameSettings.Options[] {
-//			GameSettings.Options.FXAA, GameSettings.Options.MIPMAP_LEVELS, };
 	private static final GameSettings.Options[] videoOptions = new GameSettings.Options[] {
 			GameSettings.Options.GRAPHICS, 
 			GameSettings.Options.RENDER_DISTANCE, 
@@ -71,7 +69,6 @@ public class GuiVideoSettings extends GuiScreen {
 	public void initGui() {
 		this.screenTitle = I18n.format("options.videoTitle", new Object[0]);
 		this.buttonList.clear();
-		
 		for (int i = 0; i < videoOptions.length; ++i) {
             GameSettings.Options gamesettings$options = videoOptions[i];
 
@@ -124,7 +121,7 @@ public class GuiVideoSettings extends GuiScreen {
 				this.mc.gameSettings.saveOptions();
 				this.mc.displayGuiScreen(this.parentGuiScreen);
 			}
-			
+
 			if (parGuiButton.id < 200 && parGuiButton instanceof GuiOptionButton) {
 				this.guiGameSettings.setOptionValue(((GuiOptionButton)parGuiButton).returnEnumOptions(), 1);
 				parGuiButton.displayString = this.guiGameSettings.getKeyBinding(GameSettings.Options.getEnumOptions(parGuiButton.id));

@@ -119,6 +119,7 @@ public class SimpleResource implements IResource {
 					}
 				}
 			}
+
 			return (T) imetadatasection;
 		}
 	}

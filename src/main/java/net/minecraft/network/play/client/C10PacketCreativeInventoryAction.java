@@ -28,8 +28,8 @@ import net.minecraft.network.play.INetHandlerPlayServer;
  * 
  */
 public class C10PacketCreativeInventoryAction implements Packet<INetHandlerPlayServer> {
-	private int slotId;
-	private ItemStack stack;
+	public int slotId;
+	public ItemStack stack;
 
 	public C10PacketCreativeInventoryAction() {
 	}

@@ -87,7 +87,8 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	public ResourceLocation locationFontTextureBase;
 	public float offsetBold = 1.0F;
 
-	public FontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn, boolean unicode) {
+	public FontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn,
+			boolean unicode) {
 		this.locationFontTextureBase = location;
 		this.locationFontTexture = location;
 		this.renderEngine = textureManagerIn;
@@ -132,8 +133,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 
 	private void readFontTexture() {
 		ImageData bufferedimage;
-
-        try {
+		try {
         	bufferedimage = TextureUtil.readBufferedImage(Minecraft.getMinecraft().getResourceManager().getResource(this.locationFontTexture).getInputStream());
         } catch (IOException ioexception) {
             throw new RuntimeException(ioexception);
@@ -262,7 +262,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
             unicodePageLocations[p_111271_1_] = new ResourceLocation(String.format("textures/font/unicode_page_%02x.png", new Object[] {Integer.valueOf(p_111271_1_)}));
             unicodePageLocations[p_111271_1_] = FontUtils.getHdFontLocation(unicodePageLocations[p_111271_1_]);
         }
-
+        
         return unicodePageLocations[p_111271_1_];
     }
 
@@ -610,10 +610,10 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	 * Returns the width of this character as rendered.
 	 */
 	public int getCharWidth(char character) {
-        return Math.round(this.getCharWidthFloat(character));
-    }
-
-    private float getCharWidthFloat(char p_getCharWidthFloat_1_) {
+		return Math.round(this.getCharWidthFloat(character));
+	}
+	
+	private float getCharWidthFloat(char p_getCharWidthFloat_1_) {
         if (p_getCharWidthFloat_1_ == 167) {
             return -1.0F;
         } else if (p_getCharWidthFloat_1_ == 32) {
@@ -888,7 +888,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	}
 
 	public int getColorCode(char character) {
-        int i = "0123456789abcdef".indexOf(character);
+		int i = "0123456789abcdef".indexOf(character);
 
         if (i >= 0 && i < this.colorCode.length) {
             int j = this.colorCode[i];

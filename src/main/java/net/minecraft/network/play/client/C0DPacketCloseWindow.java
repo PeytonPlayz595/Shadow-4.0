@@ -27,7 +27,7 @@ import net.minecraft.network.play.INetHandlerPlayServer;
  * 
  */
 public class C0DPacketCloseWindow implements Packet<INetHandlerPlayServer> {
-	private int windowId;
+	public int windowId;
 
 	public C0DPacketCloseWindow() {
 	}

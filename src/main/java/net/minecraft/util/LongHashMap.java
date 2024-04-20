@@ -1,7 +1,5 @@
 package net.minecraft.util;
 
-import java.util.function.BiConsumer;
-
 /**+
  * This portion of EaglercraftX contains deobfuscated Minecraft 1.8 source code.
  * 
@@ -26,7 +24,7 @@ public class LongHashMap<V> {
 	/**+
 	 * the array of all elements in the hash
 	 */
-	private transient LongHashMap.Entry<V>[] hashArray = new LongHashMap.Entry[16];
+	private transient LongHashMap.Entry<V>[] hashArray = new LongHashMap.Entry[4096];
 	private transient int numHashElements;
 	private int mask;
 	/**+
@@ -266,19 +264,6 @@ public class LongHashMap<V> {
 
 		public final String toString() {
 			return this.getKey() + "=" + this.getValue();
-		}
-	}
-	
-	public void iterate(BiConsumer<Long, Object> con) {
-		for(int i = 0; i < this.hashArray.length; ++i) {
-			LongHashMap.Entry<V> var5 = this.hashArray[i];
-			LongHashMap.Entry<V> var6;
-			LongHashMap.Entry<V> var7;
-
-			for (var6 = var5; var6 != null; var6 = var7) {
-				var7 = var6.nextEntry;
-				con.accept(var6.key, var6.value);
-			}
 		}
 	}
 }

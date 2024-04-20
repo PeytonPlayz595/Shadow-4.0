@@ -182,7 +182,8 @@ public class RenderItem implements IResourceManagerReloadListener {
 					if (DeferredStateManager.forwardCallbackHandler != null) {
 						final Matrix4f mat = new Matrix4f(GlStateManager.getModelViewReference());
 						final float lx = GlStateManager.getTexCoordX(1), ly = GlStateManager.getTexCoordY(1);
-						DeferredStateManager.forwardCallbackHandler.push(new ShadersRenderPassFuture(renderPosX, renderPosY, renderPosZ, EaglerDeferredPipeline.instance.getPartialTicks()) {
+						DeferredStateManager.forwardCallbackHandler.push(new ShadersRenderPassFuture(renderPosX,
+								renderPosY, renderPosZ, EaglerDeferredPipeline.instance.getPartialTicks()) {
 							@Override
 							public void draw(PassType pass) {
 								if (pass == PassType.MAIN) {
@@ -381,7 +382,6 @@ public class RenderItem implements IResourceManagerReloadListener {
 			}
 
 			this.renderItemModelTransform(stack, ibakedmodel, cameraTransformType);
-			this.modelLocation = null;
 		}
 	}
 

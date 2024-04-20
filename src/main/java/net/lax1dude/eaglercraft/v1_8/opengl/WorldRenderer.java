@@ -145,7 +145,7 @@ public class WorldRenderer {
 		}
 
 	}
-	
+
 	/**
 	 * SLOW AND STUPID UPLOAD QUEUE SYSTEM, MUST BE REPLACED
 	 */
@@ -158,7 +158,7 @@ public class WorldRenderer {
 		this.intBuffer.get(aint);
 		return new WorldRenderer.State(aint, fmt);
 	}
-
+	
 	public WorldRenderer.State func_181672_a() {
 		if(Minecraft.getMinecraft().gameSettings.experimentalBufferQueue) {
 			return func_181672_a_new();
@@ -561,7 +561,7 @@ public class WorldRenderer {
 			return this.stateVertexFormat;
 		}
 	}
-
+	
 	public RenderEnv getRenderEnv(IBlockState p_getRenderEnv_1_, BlockPos p_getRenderEnv_2_) {
         if (this.renderEnv == null) {
             this.renderEnv = new RenderEnv(p_getRenderEnv_1_, p_getRenderEnv_2_);

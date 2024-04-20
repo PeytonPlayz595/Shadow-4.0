@@ -32,7 +32,6 @@ public class ServerPlatformSingleplayer {
 	}
 
 	public static void sendPacket(IPCPacketData packet) {
-		
 		String s = null;
 		byte[] data = packet.contents;
 		try {

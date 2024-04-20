@@ -70,25 +70,6 @@ public class IOUtils {
 			}
 		}
 	}
-	
-	public static String inputStreamToString(InputStream is, Charset c, boolean b1) throws IOException {
-		if(is instanceof EaglerInputStream) {
-			return new String(((EaglerInputStream)is).getAsArray(), c);
-		}else {
-			try {
-				StringBuilder b = new StringBuilder();
-				BufferedReader rd = new BufferedReader(new InputStreamReader(is, c));
-				String s;
-				while((s = rd.readLine()) != null) {
-					b.append(s).append('\n');
-				}
-				return b.toString();
-			} catch(Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-		}
-	}
 
 	public static int readFully(InputStream is, byte[] out) throws IOException {
 		int i = 0, j;

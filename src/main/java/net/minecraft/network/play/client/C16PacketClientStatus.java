@@ -27,7 +27,7 @@ import net.minecraft.network.play.INetHandlerPlayServer;
  * 
  */
 public class C16PacketClientStatus implements Packet<INetHandlerPlayServer> {
-	private C16PacketClientStatus.EnumState status;
+	public C16PacketClientStatus.EnumState status;
 
 	public C16PacketClientStatus() {
 	}

@@ -106,7 +106,7 @@ public class CompiledChunk {
 	public void setStateRealisticWater(WorldRenderer.State stateIn) {
 		this.stateWater = stateIn;
 	}
-
+	
 	public void setVisibility(SetVisibility computeVisibility) {
 		this.setVisibility = computeVisibility;
 	}

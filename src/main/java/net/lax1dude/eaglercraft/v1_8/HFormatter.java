@@ -1257,7 +1257,7 @@ public final class HFormatter implements Closeable, Flushable {
 				break;
 			}
 			default: {
-				result = "";
+				throw new UnknownFormatConversionException(String.valueOf(token.getConversionType()));
 			}
 			}
 

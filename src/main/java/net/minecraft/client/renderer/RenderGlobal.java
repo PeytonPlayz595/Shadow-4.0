@@ -604,6 +604,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 					}
 				}
 			}
+
 			this.mc.gameSettings.fancyGraphics = flag4;
 			this.theWorld.theProfiler.endStartSection("blockentities");
 			RenderHelper.enableStandardItemLighting();
@@ -1041,7 +1042,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 					visgraph.func_178606_a(blockpos$mutableblockpos);
 				}
 			}
-
 			return visgraph.func_178609_b(pos);
 		} else {
 			VisGraphExperimental visgraph = new VisGraphExperimental();
@@ -1054,40 +1054,20 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 					visgraph.func_178606_a(blockpos$mutableblockpos);
 				}
 			}
-
 			return visgraph.getVisibleFacingsFrom(pos);
 		}
 	}
 
-	private RenderChunk func_181562_a(BlockPos p_181562_1_, RenderChunk p_181562_2_, EnumFacing p_181562_3_) {
-		if(this.mc.gameSettings.renderDistanceChunks >= 2) { //Breaks at one chunk render distance...
-			BlockPos blockpos = p_181562_2_.getPositionOffset16(p_181562_3_);
-
-			if (blockpos.getY() >= 0 && blockpos.getY() < 256) {
-				int i = MathHelper.abs_int(p_181562_1_.getX() - blockpos.getX());
-				int j = MathHelper.abs_int(p_181562_1_.getZ() - blockpos.getZ());
-
-				if (Config.isFogOff()) {
-					if (i > this.renderDistance || j > this.renderDistance) {
-						return null;
-					}
-				} else {
-					int k = i * i + j * j;
-
-					if (k > this.renderDistanceSq) {
-						return null;
-					}
-				}
-
-				return this.viewFrustum.getRenderChunk(blockpos);
-			} else {
-				return null;
-			}
-		} else {
-			BlockPos blockpos = p_181562_2_.getPositionOffset16(p_181562_3_);
-			return MathHelper .abs_int(p_181562_1_.getX() - blockpos.getX()) > this.renderDistanceChunks * 16 ? null : (blockpos.getY() >= 0 && blockpos.getY() < 256 ? (MathHelper.abs_int(p_181562_1_.getZ() - blockpos.getZ()) > this.renderDistanceChunks * 16 ? null : this.viewFrustum.getRenderChunk(blockpos)) : null);
-		}
-    }
+	private RenderChunk func_181562_a(BlockPos parBlockPos, RenderChunk parRenderChunk, EnumFacing parEnumFacing) {
+		BlockPos blockpos = parRenderChunk.func_181701_a(parEnumFacing);
+		return MathHelper
+				.abs_int(parBlockPos.getX() - blockpos.getX()) > this.renderDistanceChunks * 16
+						? null
+						: (blockpos.getY() >= 0 && blockpos.getY() < 256
+								? (MathHelper.abs_int(parBlockPos.getZ() - blockpos.getZ()) > this.renderDistanceChunks
+										* 16 ? null : this.viewFrustum.getRenderChunk(blockpos))
+								: null);
+	}
 
 	private void fixTerrainFrustum(double x, double y, double z) {
 		this.debugFixedClippingHelper = new ClippingHelperImpl();
@@ -1173,13 +1153,14 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		int j1 = flag ? -1 : 1;
 
 		for (int j = i1; j != i; j += j1) {
-			RenderChunk renderchunk = ((RenderGlobal.ContainerLocalRenderInformation) this.renderInfos.get(j)).renderChunk;
+			RenderChunk renderchunk = ((RenderGlobal.ContainerLocalRenderInformation) this.renderInfos
+					.get(j)).renderChunk;
 			if (!renderchunk.getCompiledChunk().isLayerEmpty(blockLayerIn)) {
 				++l;
 				this.renderContainer.addRenderChunk(renderchunk, blockLayerIn);
 			}
 		}
-		
+
 		if (l == 0) {
             this.mc.mcProfiler.endSection();
             return l;
@@ -1323,21 +1304,21 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			this.renderEngine.bindTexture(locationEndSkyPng);
 			Tessellator tessellator = Tessellator.getInstance();
 			WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-
+			
 			for (int i = 0; i < 6; ++i) {
 				GlStateManager.pushMatrix();
 				if (i == 1) {
 					GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
 				}
-
+				
 				if (i == 2) {
 					GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
 				}
-
+				
 				if (i == 3) {
 					GlStateManager.rotate(180.0F, 1.0F, 0.0F, 0.0F);
 				}
-
+				
 				if (i == 4) {
 					GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
 				}
@@ -1345,7 +1326,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				if (i == 5) {
 					GlStateManager.rotate(-90.0F, 0.0F, 0.0F, 1.0F);
 				}
-
+				
 				worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
                 int j = 40;
                 int k = 40;
@@ -1366,7 +1347,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                 tessellator.draw();
                 GlStateManager.popMatrix();
 			}
-
+			
 			GlStateManager.depthMask(true);
 			GlStateManager.enableTexture2D();
 			GlStateManager.enableAlpha();
@@ -1879,18 +1860,17 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		GlStateManager.disableBlend();
 		GlStateManager.enableCull();
 	}
-	
+
 	public void updateChunks(long finishTimeNano) {
-        finishTimeNano = (long)((double)finishTimeNano + 1.0E8D);
+		finishTimeNano = (long)((double)finishTimeNano + 1.0E8D);
         this.displayListEntitiesDirty |= this.renderDispatcher.updateChunks(finishTimeNano);
         int j = 0;
         int k = Config.getUpdatesPerFrame();
         int i = k * 2;
         Iterator<RenderChunk> iterator1 = this.chunksToUpdate.iterator();
-
+        
         while (iterator1.hasNext()) {
             RenderChunk renderchunk1 = (RenderChunk)iterator1.next();
-
             if (!this.renderDispatcher.updateChunkLater(renderchunk1)) {
                 break;
             }
@@ -1908,7 +1888,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                 break;
             }
         }
-    }
+	}
 
 	public void renderWorldBorder(Entity partialTicks, float parFloat1) {
 		Tessellator tessellator = Tessellator.getInstance();
@@ -2718,7 +2698,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
         if (p_getRenderChunk_1_ == null) {
             return null;
         } else {
-            BlockPos blockpos = p_getRenderChunk_1_.getPositionOffset16(p_getRenderChunk_2_);
+            BlockPos blockpos = p_getRenderChunk_1_.func_181701_a(p_getRenderChunk_2_);
             return this.viewFrustum.getRenderChunk(blockpos);
         }
     }

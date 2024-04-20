@@ -47,8 +47,6 @@ public class GuiShaderConfig extends GuiScreen {
 	public void initGui() {
 		this.title = I18n.format("shaders.gui.title");
 		this.buttonList.clear();
-		//this.buttonList.add(enableDisableButton = new GuiButton(0, width / 2 - 155, height - 30, 150, 20, I18n.format("shaders.gui.enable")
-				//+ ": " + (mc.gameSettings.shaders ? I18n.format("gui.yes") : I18n.format("gui.no"))));
 		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 6 + 178 + 11, I18n.format("gui.done")));
 		if(listView == null) {
 			this.listView = new GuiShaderConfigList(this, mc);

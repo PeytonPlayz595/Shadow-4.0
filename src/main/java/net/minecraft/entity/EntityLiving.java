@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.PeytonPlayz585.shadow.Config;
 import net.lax1dude.eaglercraft.v1_8.EaglercraftUUID;
-import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.EntityJumpHelper;

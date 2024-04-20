@@ -1,7 +1,6 @@
 package net.minecraft.server;
 
 import com.google.common.collect.Lists;
-
 import net.lax1dude.eaglercraft.v1_8.mojang.authlib.GameProfile;
 
 import java.io.IOException;
@@ -11,12 +10,10 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.Callable;
 
-import net.lax1dude.eaglercraft.v1_8.EagRuntime;
 import net.lax1dude.eaglercraft.v1_8.EaglercraftRandom;
 import net.lax1dude.eaglercraft.v1_8.EaglercraftUUID;
 import net.lax1dude.eaglercraft.v1_8.futures.FutureTask;
 import net.lax1dude.eaglercraft.v1_8.sp.server.EaglerIntegratedServerWorker;
-import net.lax1dude.eaglercraft.v1_8.sp.server.EaglerMinecraftServer;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandResultStats;
 import net.minecraft.command.ICommandManager;

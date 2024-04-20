@@ -98,6 +98,7 @@ public class RenderChunk {
 		this.stopCompileTask();
 		this.position = pos;
 		this.boundingBox = new AxisAlignedBB(pos, pos.add(16, 16, 16));
+
 		this.initModelviewMatrix();
 		
 		for (int i = 0; i < this.positionOffsets16.length; ++i) {
@@ -318,8 +319,8 @@ public class RenderChunk {
 	public boolean isNeedsUpdate() {
 		return this.needsUpdate;
 	}
-
-	public BlockPos getPositionOffset16(EnumFacing p_getPositionOffset16_1_) {
+	
+	public BlockPos func_181701_a(EnumFacing p_getPositionOffset16_1_) {
         int i = p_getPositionOffset16_1_.getIndex();
         BlockPos blockpos = this.positionOffsets16[i];
 

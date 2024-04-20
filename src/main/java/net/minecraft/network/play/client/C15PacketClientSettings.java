@@ -27,11 +27,11 @@ import net.minecraft.network.play.INetHandlerPlayServer;
  * 
  */
 public class C15PacketClientSettings implements Packet<INetHandlerPlayServer> {
-	private String lang;
-	private int view;
-	private EntityPlayer.EnumChatVisibility chatVisibility;
-	private boolean enableColors;
-	private int modelPartFlags;
+	public String lang;
+	public int view;
+	public EntityPlayer.EnumChatVisibility chatVisibility;
+	public boolean enableColors;
+	public int modelPartFlags;
 
 	public C15PacketClientSettings() {
 	}

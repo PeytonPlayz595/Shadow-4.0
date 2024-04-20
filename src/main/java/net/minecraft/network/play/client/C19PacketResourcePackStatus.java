@@ -27,8 +27,8 @@ import net.minecraft.network.play.INetHandlerPlayServer;
  * 
  */
 public class C19PacketResourcePackStatus implements Packet<INetHandlerPlayServer> {
-	private String hash;
-	private C19PacketResourcePackStatus.Action status;
+	public String hash;
+	public C19PacketResourcePackStatus.Action status;
 
 	public C19PacketResourcePackStatus() {
 	}

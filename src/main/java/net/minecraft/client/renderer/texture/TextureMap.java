@@ -182,6 +182,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         }
 		
         CustomItems.updateIcons(this);
+		
 		int i = Minecraft.getGLMaximumTextureSize();
 		Stitcher stitcher = new Stitcher(i, i, true, 0, this.mipmapLevels);
 		this.mapUploadedSprites.clear();
@@ -538,8 +539,8 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
 		_wglBindFramebuffer(_GL_FRAMEBUFFER, null);
 	}
-	
-    public ResourceLocation completeResourceLocation(ResourceLocation location, int p_147634_2_) {
+
+	public ResourceLocation completeResourceLocation(ResourceLocation location, int p_147634_2_) {
         return this.isAbsoluteLocation(location) ? new ResourceLocation(location.getResourceDomain(), location.getResourcePath() + ".png") : (p_147634_2_ == 0 ? new ResourceLocation(location.getResourceDomain(), String.format("%s/%s%s", new Object[] {this.basePath, location.getResourcePath(), ".png"})): new ResourceLocation(location.getResourceDomain(), String.format("%s/mipmaps/%s.%d%s", new Object[] {this.basePath, location.getResourcePath(), Integer.valueOf(p_147634_2_), ".png"})));
     }
     
@@ -581,8 +582,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 			}
 		}
 		
-		if (Config.isMultiTexture())
-        {
+		if (Config.isMultiTexture()) {
             for (Object textureatlassprite10 : this.listAnimatedSprites) {
             	EaglerTextureAtlasSprite textureatlassprite1 = (EaglerTextureAtlasSprite) textureatlassprite10;
 

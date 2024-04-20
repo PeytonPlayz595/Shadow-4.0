@@ -1,6 +1,5 @@
 package net.lax1dude.eaglercraft.v1_8.internal;
 
-import org.teavm.jso.JSBody;
 import org.teavm.jso.JSObject;
 import org.teavm.jso.core.JSNumber;
 import org.teavm.jso.webgl.WebGLUniformLocation;
@@ -563,10 +562,6 @@ public class PlatformOpenGL {
 		return ctx.getError();
 	}
 	
-	public static final void _wglFinish() {
-		ctx.finish();
-	}
-	
 	public static final boolean checkHDRFramebufferSupport(int bits) {
 		switch(bits) {
 		case 16:
@@ -576,6 +571,10 @@ public class PlatformOpenGL {
 		default:
 			return false;
 		}
+	}
+	
+	public static final void _wglFinish() {
+		ctx.finish();
 	}
 
 	private static final void checkErr(String name) {
@@ -594,7 +593,7 @@ public class PlatformOpenGL {
 			logger.error("##############################");
 		}
 	}
-
+	
 	public static int _wglGetTexLevelParameteri(int glTexture2d, int i, int glTextureWidth) {
 		JSObject object = ctx.getTexParameter(glTexture2d, glTextureWidth);
 		int parameterValue = ((JSNumber) object).intValue();

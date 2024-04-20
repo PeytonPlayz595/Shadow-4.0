@@ -25,10 +25,12 @@ import org.apache.commons.lang3.Validate;
 public class ResourceLocation {
 	protected final String resourceDomain;
 	protected final String resourcePath;
+	public String resourceName;
 
 	public Object cachedPointer = null;
 
 	protected ResourceLocation(int parInt1, String... resourceName) {
+		this.resourceName = resourceName[0];
 		this.resourceDomain = org.apache.commons.lang3.StringUtils.isEmpty(resourceName[0]) ? "minecraft"
 				: resourceName[0].toLowerCase();
 		this.resourcePath = resourceName[1];
@@ -37,6 +39,7 @@ public class ResourceLocation {
 
 	public ResourceLocation(String resourceName) {
 		this(0, splitObjectName(resourceName));
+		this.resourceName = resourceName;
 	}
 
 	public ResourceLocation(String resourceDomainIn, String resourcePathIn) {

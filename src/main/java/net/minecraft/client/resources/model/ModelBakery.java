@@ -392,8 +392,8 @@ public class ModelBakery {
 				Lists.newArrayList(new String[] { "oak_fence" }));
 		this.variantNames.put(Items.oak_door, Lists.newArrayList(new String[] { "oak_door" }));
 		
-		 CustomItems.update();
-	     CustomItems.loadModels(this);
+		CustomItems.update();
+		CustomItems.loadModels(this);
 	}
 
 	private List<String> getVariantNames(Item parItem) {

@@ -119,7 +119,7 @@ public class PlayerManager {
 	 * passi n the chunk x and y and a flag as to whether or not the
 	 * instance should be made if it doesnt exist
 	 */
-	public PlayerManager.PlayerInstance getPlayerInstance(int chunkX, int chunkZ, boolean createIfAbsent) {
+	private PlayerManager.PlayerInstance getPlayerInstance(int chunkX, int chunkZ, boolean createIfAbsent) {
 		long i = (long) chunkX + 2147483647L | (long) chunkZ + 2147483647L << 32;
 		PlayerManager.PlayerInstance playermanager$playerinstance = (PlayerManager.PlayerInstance) this.playerInstances
 				.getValueByKey(i);
@@ -327,7 +327,7 @@ public class PlayerManager {
 		return distance * 16 - 16;
 	}
 
-	public class PlayerInstance {
+	class PlayerInstance {
 		private final List<EntityPlayerMP> playersWatchingChunk = Lists.newArrayList();
 		private final ChunkCoordIntPair chunkCoords;
 		private short[] locationOfBlockChange = new short[64];
@@ -494,14 +494,5 @@ public class PlayerManager {
 			}
 
 		}
-		
-		public boolean isEmpty() {
-			return players.size() <= 0;
-		}
-	}
-	
-	public void freePlayerInstance(long l) {
-		this.playerInstances.remove(l);
-		this.playerInstancesToUpdate.remove(l);
 	}
 }

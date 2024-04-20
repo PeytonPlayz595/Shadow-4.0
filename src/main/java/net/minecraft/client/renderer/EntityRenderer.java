@@ -142,7 +142,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	private float fovModifierHandPrev;
 	private float bossColorModifier;
 	private float bossColorModifierPrev;
-	//private boolean cloudFog;
 	private boolean renderHand = true;
 	private boolean drawBlockOutline = true;
 	/**+
@@ -179,6 +178,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	private int frameCount;
 	private GameOverlayFramebuffer overlayFramebuffer;
 	private float eagPartialTicks = 0.0f;
+	
 	private boolean initialized = false;
 	private DebugChunkRenderer chunkRenderer;
 	private float clipDistance = 128.0F;
@@ -213,9 +213,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				this.rainYCoords[i << 5 | j] = f / f2;
 			}
 		}
-		
-		chunkRenderer = new DebugChunkRenderer();
 
+		chunkRenderer = new DebugChunkRenderer();
 	}
 
 	public boolean isShaderActive() {
@@ -454,7 +453,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
                 this.mouseFilterYAxis = new MouseFilter();
                 this.mc.renderGlobal.displayListEntitiesDirty = true;
             }
-
+			
 			if (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0.0F) {
 				float f1 = (float) ((EntityLivingBase) entity).deathTime + partialTicks;
 				f /= (1.0F - 500.0F / (f1 + 500.0F)) * 2.0F + 1.0F;
@@ -611,7 +610,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		d0 = entity.prevPosX + (entity.posX - entity.prevPosX) * (double) partialTicks;
 		d1 = entity.prevPosY + (entity.posY - entity.prevPosY) * (double) partialTicks + (double) f;
 		d2 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * (double) partialTicks;
-		//this.cloudFog = this.mc.renderGlobal.hasCloudFog(d0, d1, d2, partialTicks);
 	}
 
 	/**+
@@ -793,7 +791,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			this.mc.mcProfiler.startSection("lightTex");
 			WorldClient worldclient = this.mc.theWorld;
 			if (worldclient != null) {
-				
 				if (Config.isCustomColors() && CustomColors.updateLightmap(worldclient, this.torchFlickerX, this.lightmapColors, this.mc.thePlayer.isPotionActive(Potion.nightVision), partialTicks)) {
                     this.lightmapTexture.updateDynamicTexture();
                     this.lightmapUpdateNeeded = false;
@@ -951,9 +948,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		if (this.mc.inGameHasFocus && flag) {
 			this.mc.mouseHelper.mouseXYChange();
 			float f = this.mc.gameSettings.mouseSensitivity * 0.6F + 0.2F;
-			//if (this.mc.gameSettings.keyBindZoomCamera.isKeyDown()) {
-				//f *= 0.7f;
-			//}
 			float f1 = f * f * f * 8.0F;
 			float f2 = (float) this.mc.mouseHelper.deltaX * f1;
 			float f3 = (float) this.mc.mouseHelper.deltaY * f1;
@@ -1040,9 +1034,10 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 					}
 				}
 				
-				 if (this.mc.gameSettings.showDebugInfo) {
-                     Lagometer.showLagometer(scaledresolution);
-                 }
+				if (this.mc.gameSettings.showDebugInfo) {
+                    Lagometer.showLagometer(scaledresolution);
+                }
+
 				this.mc.mcProfiler.endSection();
 			} else {
 				GlStateManager.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
@@ -1089,6 +1084,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			}
 
 		}
+		
 		Lagometer.updateLagometer();
 		
 		if (this.mc.gameSettings.ofProfiler) {
@@ -1255,8 +1251,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 		RenderHelper.disableStandardItemLighting();
 		this.mc.mcProfiler.endStartSection("terrain_setup");
-		renderglobal.setupTerrain(entity, (double) partialTicks, frustum, this.frameCount++, this.mc.thePlayer.isSpectator());
-		
+		renderglobal.setupTerrain(entity, (double) partialTicks, frustum, this.frameCount++,
+				this.mc.thePlayer.isSpectator());
 		if (pass == 0 || pass == 2) {
 			this.mc.mcProfiler.endStartSection("updatechunks");
 			Lagometer.timerChunkUpload.start();
@@ -1265,6 +1261,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		}
 
 		this.mc.mcProfiler.endStartSection("terrain");
+		
 		if (this.chunkRenderer.shouldRender()) {
             boolean fogEnabled = GlStateManager.isFogEnabled();
             GlStateManager.disableFog();
@@ -1366,7 +1363,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		GlStateManager.enableCull();
 		GlStateManager.disableBlend();
 		GlStateManager.disableFog();
-		if (entity.posY + (double)entity.getEyeHeight() >= 128.0D + (double)(this.mc.gameSettings.ofCloudsHeight * 128.0F)) {
+		if (entity.posY + (double) entity.getEyeHeight() >= 128.0D) {
 			this.mc.mcProfiler.endStartSection("aboveClouds");
 			this.renderCloudsCheck(renderglobal, partialTicks, pass);
 		}
@@ -1415,8 +1412,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	private void addRainParticles() {
 		float f = this.mc.theWorld.getRainStrength(1.0F);
 		if (!Config.isRainFancy() && Config.isRainSplash()) {
-            f /= 2.0F;
-        }
+			f /= 2.0F;
+		}
 
 		if (f != 0.0F) {
 			this.random.setSeed((long) this.rendererUpdateCount * 312987231L);
@@ -1713,7 +1710,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		this.fogColorRed = (float) vec31.xCoord;
 		this.fogColorGreen = (float) vec31.yCoord;
 		this.fogColorBlue = (float) vec31.zCoord;
-		//if (this.mc.gameSettings.renderDistanceChunks >= 4) {
+		//	if (this.mc.gameSettings.renderDistanceChunks >= 4) {
 			double d0 = -1.0D;
 			Vec3 vec32 = MathHelper.sin(worldclient.getCelestialAngleRadians(partialTicks)) > 0.0F
 					? new Vec3(d0, 0.0D, 0.0D)
@@ -1756,12 +1753,12 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		}
 
 		Block block = ActiveRenderInfo.getBlockAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
-		//if (this.cloudFog) {
-			//Vec3 vec33 = worldclient.getCloudColour(partialTicks);
-			//this.fogColorRed = (float) vec33.xCoord;
-			//this.fogColorGreen = (float) vec33.yCoord;
-			//this.fogColorBlue = (float) vec33.zCoord;
-		/*} else */if (block.getMaterial() == Material.water) {
+		/*if (this.cloudFog) {
+			Vec3 vec33 = worldclient.getCloudColour(partialTicks);
+			this.fogColorRed = (float) vec33.xCoord;
+			this.fogColorGreen = (float) vec33.yCoord;
+			this.fogColorBlue = (float) vec33.zCoord;
+		} else*/ if (block.getMaterial() == Material.water) {
 			float f12 = (float) EnchantmentHelper.getRespiration(entity) * 0.2F;
 			if (entity instanceof EntityLivingBase
 					&& ((EntityLivingBase) entity).isPotionActive(Potion.waterBreathing)) {
@@ -1782,7 +1779,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			this.fogColorRed = 0.6F;
 			this.fogColorGreen = 0.1F;
 			this.fogColorBlue = 0.0F;
-            Vec3 vec34 = CustomColors.getUnderlavaColor(this.mc.theWorld, this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().posY + 1.0D, this.mc.getRenderViewEntity().posZ);
+			Vec3 vec34 = CustomColors.getUnderlavaColor(this.mc.theWorld, this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().posY + 1.0D, this.mc.getRenderViewEntity().posZ);
 
             if (vec34 != null) {
                 this.fogColorRed = (float)vec34.xCoord;
@@ -1890,10 +1887,10 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			if (Config.isFogFancy()) {
                 EaglercraftGPU.glFogi(34138, 34139);
             }
-		//} else if (this.cloudFog) {
-			//GlStateManager.setFog(GL_EXP);
-			//GlStateManager.setFogDensity(0.1F);
-		} else if (block.getMaterial() == Material.water) {
+		} /*else if (this.cloudFog) {
+			GlStateManager.setFog(GL_EXP);
+			GlStateManager.setFogDensity(0.1F);
+		}*/ else if (block.getMaterial() == Material.water) {
 			GlStateManager.setFog(GL_EXP);
 			if (entity instanceof EntityLivingBase
 					&& ((EntityLivingBase) entity).isPotionActive(Potion.waterBreathing)) {
@@ -1911,10 +1908,10 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		} else {
 			float f = this.farPlaneDistance;
 			this.fogStandard = true;
-			GlStateManager.setFog(GL_LINEAR);
 			
+			GlStateManager.setFog(GL_LINEAR);
 			if (partialTicks == -1) {
-                GlStateManager.setFogStart(0.0F);
+				GlStateManager.setFogStart(0.0F);
                 GlStateManager.setFogEnd(f);
             } else {
                 GlStateManager.setFogStart(f * Config.getFogStart());
@@ -1952,13 +1949,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 	public MapItemRenderer getMapItemRenderer() {
 		return this.theMapItemRenderer;
-	}
-	
-	private void frameInit() {
-		if (!this.initialized) {
-            TextureUtils.registerResourceListener();
-            this.initialized = true;
-        }
 	}
 
 	private static final Vector4f tmpVec4f_1 = new Vector4f();
@@ -2935,5 +2925,12 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		GlStateManager.rotate(celestialAngle + 90.0f, 1.0F, 0.0F, 0.0F);
 		GlStateManager.rotate(-DeferredStateManager.sunAngle, 0.0F, 1.0F, 0.0F);
 		GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
+	}
+	
+	private void frameInit() {
+		if (!this.initialized) {
+            TextureUtils.registerResourceListener();
+            this.initialized = true;
+        }
 	}
 }

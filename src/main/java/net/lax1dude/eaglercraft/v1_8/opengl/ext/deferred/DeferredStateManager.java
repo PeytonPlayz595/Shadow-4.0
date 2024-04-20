@@ -79,7 +79,7 @@ public class DeferredStateManager {
 	static int projMatrixSerial = -1;
 	static int passViewMatrixSerial = -1;
 	static int passProjMatrixSerial = -1;
-	public static boolean isShadowPassMatrixLoaded = false;
+	static boolean isShadowPassMatrixLoaded = false;
 	static final Matrix4f viewMatrix = new Matrix4f();
 	static final Matrix4f projMatrix = new Matrix4f();
 	static final Matrix4f inverseViewMatrix = new Matrix4f();

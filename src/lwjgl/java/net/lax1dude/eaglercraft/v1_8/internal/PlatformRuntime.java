@@ -517,7 +517,7 @@ public class PlatformRuntime {
 	public static long getWindowHandle() {
 		return windowHandle;
 	}
-
+	
 	public static int getAvailableProcessors() {
 		return Runtime.getRuntime().availableProcessors();
 	}

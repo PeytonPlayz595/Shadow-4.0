@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import net.lax1dude.eaglercraft.v1_8.internal.buffer.IntBuffer;
 import net.PeytonPlayz585.shadow.Config;
-import net.PeytonPlayz585.shadow.TextureUtils;
 import net.lax1dude.eaglercraft.v1_8.IOUtils;
 import net.lax1dude.eaglercraft.v1_8.log4j.LogManager;
 import net.lax1dude.eaglercraft.v1_8.log4j.Logger;
@@ -166,7 +165,7 @@ public class TextureUtil {
 			int parInt5, boolean parFlag, boolean parFlag2, boolean parFlag3) {
 		int i;
 		if(parInt2 == 0) {
-			i = 4194304;
+			i = 0;
 		} else {
 			i = 4194304 / parInt2;
 		}
@@ -205,7 +204,6 @@ public class TextureUtil {
 			// EaglercraftGPU.glTexParameterf(GL_TEXTURE_2D, '\u8501', 0.0F);
 		}
 		EaglercraftGPU.glTexStorage2D(GL_TEXTURE_2D, parInt2 + 1, GL_RGBA8, parInt3, parInt4);
-		TextureUtils.applyAnisotropicLevel();
 	}
 
 	public static int uploadTextureImageSub(int textureId, ImageData parBufferedImage, int parInt2, int parInt3,
@@ -354,10 +352,5 @@ public class TextureUtil {
 
 		missingTexture.updateDynamicTexture();
 		mipmapBuffer = new int[4];
-	}
-
-	public static void applyAnisotropicLevel() {
-		// TODO Auto-generated method stub
-		
 	}
 }
