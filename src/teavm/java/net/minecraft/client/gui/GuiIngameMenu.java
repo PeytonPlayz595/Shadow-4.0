@@ -77,7 +77,7 @@ public class GuiIngameMenu extends GuiScreen {
 		this.buttonList.add(new GuiButton(6, this.width / 2 + 2, this.height / 4 + 48 + b0, 98, 20,
 				I18n.format("gui.stats", new Object[0])));
 		this.buttonList.add(new GuiButton(69420, this.width / 2 - 100, this.height / 4 + 73 + b0,
-				I18n.format("eaglerforge.menu.mods", new Object[0])));
+				I18n.format("EaglerForge Mods", new Object[0])));
 		lanButton.enabled = SingleplayerServerController.isWorldRunning();
 		if (!hasSentAutoSave) {
 			hasSentAutoSave = true;

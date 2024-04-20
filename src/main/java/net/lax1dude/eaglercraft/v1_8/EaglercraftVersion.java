@@ -12,7 +12,7 @@ public class EaglercraftVersion {
 	/// Customize these to fit your fork:
 
 	public static final String projectForkName = "Shadow Client";
-	public static final String projectForkVersion = "4.0";
+	public static final String projectForkVersion = "4.1";
 	public static final String projectForkVendor = "PeytonPlayz585";
 
 	public static final String projectForkURL = "https://gitlab.com/lax1dude/eaglercraftx-1.8";
@@ -21,7 +21,7 @@ public class EaglercraftVersion {
 	
 	public static final String projectOriginName = "Shadow";
 	public static final String projectOriginAuthor = "lax1dude";
-	public static final String projectOriginRevision = "4.0";
+	public static final String projectOriginRevision = projectForkVersion;
 	public static final String projectOriginVersion = "(Singleplayer)";
 	
 	public static final String projectOriginURL = "https://gitlab.com/lax1dude/eaglercraftx-1.8"; // rest in peace
@@ -53,7 +53,7 @@ public class EaglercraftVersion {
 	public static final String mainMenuStringE = projectForkName + " " + projectForkVersion;
 	public static final String mainMenuStringF = "Made by " + projectForkVendor;
 
-	public static final String mainMenuStringG = "Shadow Client 4.0";
+	public static final String mainMenuStringG = "Shadow Client " + projectForkVersion;
 	public static final String mainMenuStringH = "Singleplayer + Optifine";
 
 	public static final long demoWorldSeed = (long) "North Carolina".hashCode();
