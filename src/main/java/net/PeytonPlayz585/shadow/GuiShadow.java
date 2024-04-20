@@ -9,7 +9,7 @@ import net.minecraft.client.settings.GameSettings;
 
 public class GuiShadow extends GuiScreen {
 	
-	private static GameSettings.Options[] enumOptions = new GameSettings.Options[] {GameSettings.Options.TOGGLE_SPRINT, GameSettings.Options.CHUNK_BORDERS};
+	private static GameSettings.Options[] enumOptions = new GameSettings.Options[] {GameSettings.Options.TOGGLE_SPRINT, GameSettings.Options.CHUNK_BORDERS, GameSettings.Options.HIDE_PASSWORD};
 	
 	private GuiScreen parentScreen;
 	protected String title;

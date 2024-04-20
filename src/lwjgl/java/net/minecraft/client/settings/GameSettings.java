@@ -264,6 +264,7 @@ public class GameSettings {
 	public boolean ofSwampColors = true;
 	public boolean ofSmoothBiomes = true;
 	public boolean ofCustomColors = true;
+	public boolean hidePassword = true;
 
 	public GameSettings(Minecraft mcIn) {
 		this.keyBindings = (KeyBinding[]) ArrayUtils.addAll(new KeyBinding[] { this.keyBindAttack, this.keyBindUseItem,
@@ -891,6 +892,10 @@ public class GameSettings {
             CustomColors.update();
             this.mc.renderGlobal.loadRenderers();
         }
+        
+        if (parOptions == GameSettings.Options.HIDE_PASSWORD) {
+			hidePassword =! hidePassword;
+		}
 
 		this.saveOptions();
 	}
@@ -1012,6 +1017,8 @@ public class GameSettings {
 			return this.ofSmoothBiomes;
 		case CUSTOM_COLORS:
 			return this.ofCustomColors;
+		case HIDE_PASSWORD:
+			return hidePassword;
 		default:
 			return false;
 		}
@@ -1289,7 +1296,9 @@ public class GameSettings {
         	return this.ofSmoothBiomes ? s + Lang.getOn() : s + Lang.getOff();
     	} else if (parOptions == GameSettings.Options.CUSTOM_COLORS) {
         	return this.ofCustomColors ? s + Lang.getOn() : s + Lang.getOff();
-    	} else {
+    	} else if (parOptions == GameSettings.Options.HIDE_PASSWORD) {
+			return hidePassword ? s + "ON" : s + "OFF";	
+		} else {
     		return s;
     	}
 	}
@@ -1855,6 +1864,10 @@ public class GameSettings {
                     if (astring[0].equals("ofCustomColors") && astring.length >= 2) {
                         this.ofCustomColors = Boolean.valueOf(astring[1]).booleanValue();
                     }
+                    
+                    if (astring[0].equals("hidePassword") && astring.length >= 2) {
+						hidePassword = Boolean.valueOf(astring[1]).booleanValue();
+					}
 
 					Keyboard.setFunctionKeyModifier(keyBindFunction.getKeyCode());
 
@@ -2033,6 +2046,7 @@ public class GameSettings {
             printwriter.println("ofSwampColors:" + this.ofSwampColors);
             printwriter.println("ofSmoothBiomes:" + this.ofSmoothBiomes);
             printwriter.println("ofCustomColors:" + this.ofCustomColors);
+            printwriter.println("hidePassword:" + hidePassword);
 
 			for (KeyBinding keybinding : this.keyBindings) {
 				printwriter.println("key_" + keybinding.getKeyDescription() + ":" + keybinding.getKeyCode());
@@ -2240,7 +2254,8 @@ public class GameSettings {
         CUSTOM_ITEMS("Custom Items", false, false),
         SWAMP_COLORS("Swamp Colors", false, false),
         SMOOTH_BIOMES("Smooth Biomes", false, false),
-        CUSTOM_COLORS("Custom Colors", false, false);
+        CUSTOM_COLORS("Custom Colors", false, false),
+        HIDE_PASSWORD("Hide Password", false, false);
 
 		private final boolean enumFloat;
 		private final boolean enumBoolean;

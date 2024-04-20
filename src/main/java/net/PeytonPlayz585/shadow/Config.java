@@ -323,6 +323,10 @@ public class Config {
     public static boolean isCustomColors() {
         return gameSettings.ofCustomColors;
     }
+    
+    public static boolean isPasswordHidden() {
+    	return gameSettings.hidePassword;
+    }
 	
 	public static int limit(int p_limit_0_, int p_limit_1_, int p_limit_2_) {
         return p_limit_0_ < p_limit_1_ ? p_limit_1_ : (p_limit_0_ > p_limit_2_ ? p_limit_2_ : p_limit_0_);
