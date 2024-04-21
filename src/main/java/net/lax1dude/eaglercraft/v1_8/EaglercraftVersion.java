@@ -17,7 +17,7 @@ public class EaglercraftVersion {
 	public static final String projectForkVersion = "4.1.1";
 	public static final String projectForkVendor = "PeytonPlayz585";
 
-	public static final String projectForkURL = "https://github.com/PeytonPlayz595/Shadow-4.0";
+	//public static final String projectForkURL = "https://github.com/PeytonPlayz595/Shadow-4.0";
 
 	//////////////////////////////////////////////////////////////////////
 	
