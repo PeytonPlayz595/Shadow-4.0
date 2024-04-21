@@ -14,10 +14,10 @@ public class EaglercraftVersion {
 	/// Customize these to fit your fork:
 
 	public static final String projectForkName = "Shadow Client";
-	public static final String projectForkVersion = "4.2";
+	public static final String projectForkVersion = "4.1.1";
 	public static final String projectForkVendor = "PeytonPlayz585";
 
-	public static final String projectForkURL = "https://gitlab.com/lax1dude/eaglercraftx-1.8";
+	public static final String projectForkURL = "https://github.com/PeytonPlayz595/Shadow-4.0";
 
 	//////////////////////////////////////////////////////////////////////
 	
