@@ -30,10 +30,10 @@ dependencies {
 }
 
 teavm.js {
-    obfuscated = true
+    obfuscated = false
     sourceMap = true
     targetFileName = "../classes.js"
-    optimization = org.teavm.gradle.api.OptimizationLevel.BALANCED // no fps boost was observed with "AGGRESSIVE"
+    optimization = org.teavm.gradle.api.OptimizationLevel.BALANCED
     outOfProcess = false
     fastGlobalAnalysis = false
     processMemory = 512
