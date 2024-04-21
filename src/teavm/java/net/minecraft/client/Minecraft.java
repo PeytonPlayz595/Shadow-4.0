@@ -499,7 +499,11 @@ public class Minecraft extends ModData implements IThreadListener {
 		this.renderEngine.deleteTexture(this.mojangLogo);
 		this.mojangLogo = null;
 		this.loadingScreen = new LoadingScreenRenderer(this);
-
+		
+		//(EaglerForge bug)
+		modapi.onFrame(); //Mods were loaded before onFrame is called
+		ModAPI.setGlobal("settings", this.gameSettings.makeModData());
+		
 		ModLoader.loadLoader();
 		ModLoader.loadModsFromLocalStorage();
 		ModLoader.loadMods(ModLoader.Mods);
