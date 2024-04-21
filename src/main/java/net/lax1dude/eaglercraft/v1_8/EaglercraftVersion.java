@@ -2,6 +2,8 @@ package net.lax1dude.eaglercraft.v1_8;
 
 import java.math.BigInteger;
 
+import net.lax1dude.eaglercraft.v1_8.internal.PlatformRuntime;
+
 import static net.eaglerforge.api.ModLoader.returntotalloadedmods;
 
 public class EaglercraftVersion {
@@ -43,8 +45,6 @@ public class EaglercraftVersion {
 	
 	// Miscellaneous variables:
 
-	public static int loadedmods = returntotalloadedmods();
-	public static final String mainMenuStringA = "Minecraft 1.8.8" + " (" + loadedmods + " Mods loaded)";
 	public static final String mainMenuStringB = projectOriginName + " " +
 			projectOriginRevision + " " + projectOriginVersion;
 	public static final String mainMenuStringC = "";
@@ -61,5 +61,19 @@ public class EaglercraftVersion {
 	public static final boolean mainMenuEnableGithubButton = true;
 
 	public static final boolean forceDemoMode = false;
+	
+	public static String getMainMenuStringA() {
+		int loadedmods = returntotalloadedmods();
+		String mainMenuStringA = "Minecraft 1.8.8";
+		if(!PlatformRuntime.isDebugRuntime()) {
+			if(loadedmods == 1) {
+				mainMenuStringA = mainMenuStringA + " (" + loadedmods + " Mod loaded)";
+			} else {
+				mainMenuStringA = mainMenuStringA + " (" + loadedmods + " Mods loaded)";
+			}
+		}
+		
+		return mainMenuStringA;
+	}
 
 }
