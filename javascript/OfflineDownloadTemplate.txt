@@ -30,7 +30,7 @@ Compile it yourself here: https://gitlab.com/lax1dude/eaglercraftx-1.8/
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="EaglercraftX 1.8 Offline" />
 <meta name="keywords" content="eaglercraft, eaglercraftx, minecraft, 1.8, 1.8.8" />
-<title>Shadow Client 4.1.1 (Offline)</title>
+<title>Shadow Client Offline</title>
 <meta property="og:locale" content="en-US" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="EaglercraftX 1.8 Offline" />
@@ -535,7 +535,7 @@ ${classes_js}
 <body style="margin:0px;width:100vw;height:100vh;overflow:hidden;" id="game_frame">
 <div style="margin:0px;width:100%;height:100%;font-family:sans-serif;display:flex;align-items:center;user-select:none;" id="launch_countdown_screen">
 <div style="margin:auto;text-align:center;">
-<h1>This file is from <span style="color:#AA0000;">${date}</span></h1>
+<h1>Shadow Client <span style="color:#AA0000;">4.1.1</span></h1>
 <h2>Game will launch in <span id="launchCountdownNumber">5</span>...</h2>
 <div style="border:2px solid black;width:100%;height:15px;padding:1px;margin-bottom:20vh;"><div id="launchCountdownProgress" style="background-color:#555555;width:0%;height:100%;"></div></div>
 </div>
