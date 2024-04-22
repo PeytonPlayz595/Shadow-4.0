@@ -1,28 +1,26 @@
 name: build
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
+    - name: checkout repository
+      uses: actions/checkout@v4
+    - name: setup jdk 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
-    - name: Gradle Wrapper Validation
+    - name: validate gradle wrapper
       uses: gradle/wrapper-validation-action@v3.3.1
-    - name: Build with Gradle Wrapper
+    - name: make gradle wrapper executable
+      run: chmod +x ./gradlew
+    - name: generate javascript
       run: ./gradlew generatejavascript
     - name: make offline download
       run: bash MakeOfflineDownload.sh
-    - name: upload offline download
+    - name: upload artifact
       uses: actions/upload-artifact@v4
       with:
         path: javascript/Shadow_Client_Offline.html
