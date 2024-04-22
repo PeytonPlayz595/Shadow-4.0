@@ -32,7 +32,7 @@ public class EaglercraftVersion {
 
 	// Updating configuration
 	
-	public static final boolean enableUpdateService = true;
+	public static final boolean enableUpdateService = false;
 
 	public static final String updateBundlePackageName = "net.lax1dude.eaglercraft.v1_8.client";
 	public static final int updateBundlePackageVersionInt = 29;
