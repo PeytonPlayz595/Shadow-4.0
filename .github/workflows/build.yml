@@ -11,7 +11,6 @@ jobs:
         cache-disabled: true
         validate-wrappers: true
     - run: chmod +x ./gradlew
-    - run: ./gradleww dontbuild
     - run: ./gradlew generateJavascript
     - run: bash MakeOfflineDownload.sh
     - uses: actions/upload-artifact@v4
