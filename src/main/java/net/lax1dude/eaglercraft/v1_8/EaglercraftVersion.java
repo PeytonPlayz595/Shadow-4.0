@@ -52,9 +52,9 @@ public class EaglercraftVersion {
 		String mainMenuStringC = "EaglerForge v1.3";
 		if(!PlatformRuntime.isDebugRuntime()) {
 			if(loadedmods == 1) {
-				mainMenuStringC = mainMenuStringC + " (" + loadedmods + " Mod loaded)";
+				mainMenuStringC = mainMenuStringC + " (" + loadedmods + " mod loaded)";
 			} else {
-				mainMenuStringC = mainMenuStringC + " (" + loadedmods + " Mods loaded)";
+				mainMenuStringC = mainMenuStringC + " (" + loadedmods + " mods loaded)";
 			}
 		}
 		return mainMenuStringC;
