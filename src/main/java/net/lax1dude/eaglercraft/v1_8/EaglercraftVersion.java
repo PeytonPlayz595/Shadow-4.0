@@ -62,7 +62,7 @@ public class EaglercraftVersion {
 
 	public static final boolean forceDemoMode = false;
 	
-		public static String getMainMenuStringC() {
+	public static String getMainMenuStringC() {
 		int loadedmods = returntotalloadedmods();
 		String mainMenuStringC = "EaglerForge 1.3";
 		if(!PlatformRuntime.isDebugRuntime()) {
