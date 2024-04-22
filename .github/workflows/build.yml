@@ -9,6 +9,7 @@ jobs:
     - uses: gradle/actions/setup-gradle@v3
       with:
         validate-wrappers: true
+    - run: chmod +x ./gradlew
     - run: ./gradlew build
     - run: ./gradlew generateJavascript
     - run: bash MakeOfflineDownload.sh
