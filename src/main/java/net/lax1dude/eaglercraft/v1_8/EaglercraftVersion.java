@@ -62,8 +62,8 @@ public class EaglercraftVersion {
 
 	public static final String mainMenuStringD = "Copyright Mojang AB. Do not distribute!";
 
-	public static final String mainMenuStringE = projectForkName + projectForkVersion;
-	public static final String mainMenuStringF = "Made by1 " + projectForkVendor;
+	public static final String mainMenuStringE = projectForkName + "" + projectForkVersion;
+	public static final String mainMenuStringF = "Made by " + projectForkVendor;
 
 	public static final String mainMenuStringG = "Zombie was here";
 	public static final String mainMenuStringH = "";
