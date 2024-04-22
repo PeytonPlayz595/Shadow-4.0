@@ -47,7 +47,7 @@ public class EaglercraftVersion {
 
 	public static final String mainMenuStringA = "Minecraft 1.8.8";
 	public static final String mainMenuStringB = projectOriginName + " " + projectOriginVersion;
-	
+
 	public static String getMainMenuStringC() {
 		int loadedmods = returntotalloadedmods();
 		String mainMenuStringC = "EaglerForge 1.3";
