@@ -39,7 +39,7 @@ teavm.js {
     processMemory = 512
     entryPointName = 'main'
     mainClass = 'net.lax1dude.eaglercraft.v1_8.internal.teavm.MainClass'
-    outputDir = file("javascript")
+    outputDir = file("javascript/web_files")
     properties = null
     sourceMap = true
     debugInformation = false
