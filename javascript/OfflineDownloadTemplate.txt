@@ -491,7 +491,7 @@ ${classes_js}
 <script type="text/javascript">
 "use strict";
 (function(){
-  window.eaglercraftXOpts.assetsURI = ${assets_epk};
+	window.eaglercraftXOpts.assetsURI = ${assets_epk};
 
 	var launchInterval = -1;
 	var launchCounter = 1;
