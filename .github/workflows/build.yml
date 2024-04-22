@@ -12,9 +12,9 @@ jobs:
       with:
         validate-wrappers: true
     - name: compile javascript
-      run: chmod +x ./gradlew; ./gradlew generateJavascript --info
+      run: bash CompileJS.sh
     - name: build with gradle wrapper
-      run: ./gradlew build --info
+      run: ./gradlew build
     - name: upload artifact
       uses: actions/upload-artifact@v4
       with:
