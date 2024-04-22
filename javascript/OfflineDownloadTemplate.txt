@@ -463,7 +463,6 @@ const relayId = Math.floor(Math.random() * 3);
 
 window.eaglercraftXOpts = {
 	container: "game_frame",
-  assetsURI: ${assets_epk},
   servers: [
     { addr: "wss://mcproxy.amogus.top", name: "EaglerProxy" },
     { addr: "wss://mc.arch.lol", name: "ArchMC" },
@@ -492,6 +491,8 @@ ${classes_js}
 <script type="text/javascript">
 "use strict";
 (function(){
+	window.eaglercraftXOpts.assetsURI = ${assets_epk};
+
 	var launchInterval = -1;
 	var launchCounter = 1;
 	var launchCountdownNumberElement = null;
