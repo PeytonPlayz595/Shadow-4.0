@@ -11,11 +11,17 @@ jobs:
       uses: gradle/actions/setup-gradle@v3
       with:
         validate-wrappers: true
+    - name: make gradle wrapper executable
+      run: chmod +x ./gradlew
     - name: compile javascript
-      run: bash CompileJS.sh
+      run: ./gradlew generateJavascript
     - name: build with gradle wrapper
       run: ./gradlew build
+    - name: make offline download
+      run: bash MakeOfflineDownload.sh
     - name: upload artifact
       uses: actions/upload-artifact@v4
       with:
-        path: javascript/*
+        path: |
+          javascript/web_files
+          javascript/Shadow_Client_Offline.html
