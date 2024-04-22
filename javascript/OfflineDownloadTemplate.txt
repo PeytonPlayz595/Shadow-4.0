@@ -502,7 +502,7 @@ ${classes_js}
 		launchCountdownProgressElement.style.width = "" + launchCounter + "%";
 		if(++launchCounter > 100) {
 			clearInterval(launchInterval);
-			setTimeout(() => { document.getElementById("launch_countdown_screen").remove(); main(); }, 0);
+			setTimeout(() => { document.getElementById("launch_countdown_screen").remove(); main(); }, 50);
 		}
 	}
 
