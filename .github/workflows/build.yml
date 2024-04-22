@@ -16,8 +16,8 @@ jobs:
       run: bash CompileJS.sh
     - name: make offline download
       run: bash MakeOfflineDownload.sh
-    - name: upload file
+    - name: upload offline
       uses: actions/upload-artifact@v4
       with:
-        name: Shadow_Client.html
+        name: offline
         path: javascript/Shadow_Client.html
