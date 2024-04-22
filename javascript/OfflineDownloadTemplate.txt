@@ -21,40 +21,40 @@ function initAPI(version) {
 
   ModAPI.addEventListener = function AddEventListener(name, callback) {
   if (!callback) {
-    throw new Error("Invalid callback!");
+	throw new Error("Invalid callback!");
   }
   if (ModAPI.events.types.includes(name)) {
-    if (!Array.isArray(ModAPI.events.listeners[name])) {
-    ModAPI.events.listeners[name] = [];
-    }
-    ModAPI.events.listeners[name].push(callback);
-    console.log("Added new event listener.");
+	if (!Array.isArray(ModAPI.events.listeners[name])) {
+	ModAPI.events.listeners[name] = [];
+	}
+	ModAPI.events.listeners[name].push(callback);
+	console.log("Added new event listener.");
   } else {
-    throw new Error("This event does not exist!");
+	throw new Error("This event does not exist!");
   }
   };
 
   ModAPI.removeEventListener = function removeEventListener(name, func, slow) {
   if (!func) {
-    throw new Error("Invalid callback!");
+	throw new Error("Invalid callback!");
   }
   if (!Array.isArray(ModAPI.events.listeners[name])) {
-    ModAPI.events.listeners[name] = [];
+	ModAPI.events.listeners[name] = [];
   }
   var targetArr = ModAPI.events.listeners[name];
   if (!slow) {
-    if (targetArr.indexOf(func) !== -1) {
-    targetArr.splice(targetArr.indexOf(func), 1);
-    console.log("Removed event listener.");
-    }
+	if (targetArr.indexOf(func) !== -1) {
+	targetArr.splice(targetArr.indexOf(func), 1);
+	console.log("Removed event listener.");
+	}
   } else {
-    var functionString = func.toString();
-    targetArr.forEach((f, i) => {
-    if (f.toString() === functionString) {
-      targetArr.splice(i, 1);
-      console.log("Removed event listener.");
-    }
-    });
+	var functionString = func.toString();
+	targetArr.forEach((f, i) => {
+	if (f.toString() === functionString) {
+	  targetArr.splice(i, 1);
+	  console.log("Removed event listener.");
+	}
+	});
   }
   };
 
@@ -64,29 +64,29 @@ function initAPI(version) {
 
   ModAPI.events.callEvent = function callEvent(name, data) {
   if (
-    !ModAPI.events.types.includes(name) ||
-    !Array.isArray(ModAPI.events.listeners[name])
+	!ModAPI.events.types.includes(name) ||
+	!Array.isArray(ModAPI.events.listeners[name])
   ) {
-    if (!Array.isArray(ModAPI.events.listeners[name])) {
-    if (ModAPI.events.types.includes(name)) {
-      ModAPI.events.listeners.event.forEach((func) => {
-      func({ event: name, data: data });
-      });
-      return;
-    }
-    return;
-    }
-    console.error(
-    "The ModAPI has been called with an invalid event name: " + name
-    );
-    console.error("Please report this bug to the repo.");
-    return;
+	if (!Array.isArray(ModAPI.events.listeners[name])) {
+	if (ModAPI.events.types.includes(name)) {
+	  ModAPI.events.listeners.event.forEach((func) => {
+	  func({ event: name, data: data });
+	  });
+	  return;
+	}
+	return;
+	}
+	console.error(
+	"The ModAPI has been called with an invalid event name: " + name
+	);
+	console.error("Please report this bug to the repo.");
+	return;
   }
   ModAPI.events.listeners[name].forEach((func) => {
-    func(data);
+	func(data);
   });
   ModAPI.events.listeners.event.forEach((func) => {
-    func({ event: name, data: data });
+	func({ event: name, data: data });
   });
 
   ModAPI.globals._initUpdate();
@@ -94,39 +94,39 @@ function initAPI(version) {
 
   ModAPI.updateComponent = function updateComponent(component) {
   if (
-    typeof component !== "string" ||
-    ModAPI[component] === null ||
-    ModAPI[component] === undefined
+	typeof component !== "string" ||
+	ModAPI[component] === null ||
+	ModAPI[component] === undefined
   ) {
-    return;
+	return;
   }
   if (!ModAPI.globals || !ModAPI.globals.onGlobalsUpdate) {
-    return;
+	return;
   }
   if (!ModAPI.globals.toUpdate) {
-    ModAPI.globals.toUpdate = [];
+	ModAPI.globals.toUpdate = [];
   }
   if (ModAPI.globals.toUpdate.indexOf(component) === -1) {
-    ModAPI.globals.toUpdate.push(component);
+	ModAPI.globals.toUpdate.push(component);
   }
   };
 
   ModAPI.require = function require(component) {
   if (typeof component !== "string") {
-    return;
+	return;
   }
   if (!ModAPI.globals || !ModAPI.globals.onRequire) {
-    return;
+	return;
   }
   ModAPI.globals.onRequire(component);
   };
 
   ModAPI.globals._initUpdate = function _initUpdate() {
   if (!ModAPI.globals.toUpdate) {
-    ModAPI.globals.toUpdate = [];
+	ModAPI.globals.toUpdate = [];
   }
   ModAPI.globals.toUpdate.forEach((id) => {
-    ModAPI.globals.onGlobalsUpdate(id);
+	ModAPI.globals.onGlobalsUpdate(id);
   });
   ModAPI.globals.toUpdate = [];
   };
@@ -138,134 +138,134 @@ function initAPI(version) {
 function loadLoader() {
   window.ModLoader = function ModLoader(ModsArr) {
   if (!window.eaglerMLoaderMainRun) {
-    var searchParams = new URLSearchParams(location.search);
-    searchParams.getAll("Mod").forEach((ModToAdd) => {
-    console.log(
-      "EaglerML: Adding Mod to loadlist from search params: " + ModToAdd
-    );
-    ModsArr.push(ModToAdd);
-    });
-    if (
-    !!eaglercraftXOpts &&
-    !!eaglercraftXOpts.Mods &&
-    Array.isArray(eaglercraftXOpts.Mods)
-    ) {
-    eaglercraftXOpts.Mods.forEach((ModToAdd) => {
-      console.log(
-      "EaglerML: Adding Mod to loadlist from eaglercraftXOpts: " +
-        ModToAdd
-      );
-      ModsArr.push(ModToAdd);
-    });
-    }
-    window.eaglerMLoaderMainRun = true;
+	var searchParams = new URLSearchParams(location.search);
+	searchParams.getAll("Mod").forEach((ModToAdd) => {
+	console.log(
+	  "EaglerML: Adding Mod to loadlist from search params: " + ModToAdd
+	);
+	ModsArr.push(ModToAdd);
+	});
+	if (
+	!!eaglercraftXOpts &&
+	!!eaglercraftXOpts.Mods &&
+	Array.isArray(eaglercraftXOpts.Mods)
+	) {
+	eaglercraftXOpts.Mods.forEach((ModToAdd) => {
+	  console.log(
+	  "EaglerML: Adding Mod to loadlist from eaglercraftXOpts: " +
+		ModToAdd
+	  );
+	  ModsArr.push(ModToAdd);
+	});
+	}
+	window.eaglerMLoaderMainRun = true;
   }
   if (window.noLoadMods === true) {
-    ModsArr.splice(0, ModsArr.length);
+	ModsArr.splice(0, ModsArr.length);
   }
   function checkModsLoaded(totalLoaded, identifier) {
-    console.log(
-    "EaglerML: Checking if Mods are finished :: " +
-      totalLoaded +
-      "/" +
-      ModsArr.length
-    );
-    if (totalLoaded >= ModsArr.length) {
-    clearInterval(identifier);
-    window.ModGracePeriod = false;
-    if (
-      window.eaglerMLoaderMainRun &&
-      ModAPI &&
-      ModAPI.events &&
-      ModAPI.events.callEvent
-    ) {
-      ModAPI.events.callEvent("load", {});
-    }
-    console.log(
-      "EaglerML: Checking if Mods are finished :: All Mods loaded! Grace period off."
-    );
-    }
+	console.log(
+	"EaglerML: Checking if Mods are finished :: " +
+	  totalLoaded +
+	  "/" +
+	  ModsArr.length
+	);
+	if (totalLoaded >= ModsArr.length) {
+	clearInterval(identifier);
+	window.ModGracePeriod = false;
+	if (
+	  window.eaglerMLoaderMainRun &&
+	  ModAPI &&
+	  ModAPI.events &&
+	  ModAPI.events.callEvent
+	) {
+	  ModAPI.events.callEvent("load", {});
+	}
+	console.log(
+	  "EaglerML: Checking if Mods are finished :: All Mods loaded! Grace period off."
+	);
+	}
   }
   function methodB(currentMod) {
-    try {
-    console.log("EaglerML: Loading " + currentMod + " via method B.");
-    var script = document.createElement("script");
-    script.src = currentMod;
-    script.setAttribute("data-Mod", currentMod);
-    script.setAttribute("data-isMod", true);
-    script.onerror = () => {
-      console.log(
-      "EaglerML: Failed to load " + currentMod + " via method B!"
-      );
-      script.remove();
-      totalLoaded++;
-    };
-    script.onload = () => {
-      console.log(
-      "EaglerML: Successfully loaded " + currentMod + " via method B."
-      );
-      totalLoaded++;
-    };
-    document.body.appendChild(script);
-    } catch (error) {
-    console.log(
-      "EaglerML: Oh no! The Mod " + currentMod + " failed to load!"
-    );
-    totalLoaded++;
-    }
+	try {
+	console.log("EaglerML: Loading " + currentMod + " via method B.");
+	var script = document.createElement("script");
+	script.src = currentMod;
+	script.setAttribute("data-Mod", currentMod);
+	script.setAttribute("data-isMod", true);
+	script.onerror = () => {
+	  console.log(
+	  "EaglerML: Failed to load " + currentMod + " via method B!"
+	  );
+	  script.remove();
+	  totalLoaded++;
+	};
+	script.onload = () => {
+	  console.log(
+	  "EaglerML: Successfully loaded " + currentMod + " via method B."
+	  );
+	  totalLoaded++;
+	};
+	document.body.appendChild(script);
+	} catch (error) {
+	console.log(
+	  "EaglerML: Oh no! The Mod " + currentMod + " failed to load!"
+	);
+	totalLoaded++;
+	}
   }
   window.ModGracePeriod = true;
   var totalLoaded = 0;
   var loaderCheckInterval = null;
   ModsArr.forEach((c) => {
-    let currentMod = c;
-    console.log("EaglerML: Starting " + currentMod);
-    try {
-    var req = new XMLHttpRequest();
-    req.open("GET", currentMod);
-    req.onload = function xhrLoadHandler() {
-      console.log("EaglerML: Loading " + currentMod + " via method A.");
-      var script = document.createElement("script");
-      try {
-      script.src =
-        "data:text/javascript," + encodeURIComponent(req.responseText);
-      } catch (error) {
-      methodB(currentMod);
-      return;
-      }
-      script.setAttribute("data-Mod", currentMod);
-      script.setAttribute("data-isMod", true);
-      script.onerror = () => {
-      console.log(
-        "EaglerML: Failed to load " + currentMod + " via method A!"
-      );
-      script.remove();
-      totalLoaded++;
-      };
-      script.onload = () => {
-      console.log(
-        "EaglerML: Successfully loaded " + currentMod + " via method A."
-      );
-      totalLoaded++;
-      };
-      document.body.appendChild(script);
-    };
-    req.onerror = function xhrErrorHandler() {
-      methodB(currentMod);
-    };
-    req.send();
-    } catch (error) {
-    methodB(currentMod);
-    }
+	let currentMod = c;
+	console.log("EaglerML: Starting " + currentMod);
+	try {
+	var req = new XMLHttpRequest();
+	req.open("GET", currentMod);
+	req.onload = function xhrLoadHandler() {
+	  console.log("EaglerML: Loading " + currentMod + " via method A.");
+	  var script = document.createElement("script");
+	  try {
+	  script.src =
+		"data:text/javascript," + encodeURIComponent(req.responseText);
+	  } catch (error) {
+	  methodB(currentMod);
+	  return;
+	  }
+	  script.setAttribute("data-Mod", currentMod);
+	  script.setAttribute("data-isMod", true);
+	  script.onerror = () => {
+	  console.log(
+		"EaglerML: Failed to load " + currentMod + " via method A!"
+	  );
+	  script.remove();
+	  totalLoaded++;
+	  };
+	  script.onload = () => {
+	  console.log(
+		"EaglerML: Successfully loaded " + currentMod + " via method A."
+	  );
+	  totalLoaded++;
+	  };
+	  document.body.appendChild(script);
+	};
+	req.onerror = function xhrErrorHandler() {
+	  methodB(currentMod);
+	};
+	req.send();
+	} catch (error) {
+	methodB(currentMod);
+	}
   });
   loaderCheckInterval = setInterval(() => {
-    checkModsLoaded(totalLoaded, loaderCheckInterval);
+	checkModsLoaded(totalLoaded, loaderCheckInterval);
   }, 500);
   console.log(
-    "EaglerML: Starting to load " + ModsArr.length + " Mods..."
+	"EaglerML: Starting to load " + ModsArr.length + " Mods..."
   );
   window.returntotalloadedmods = function returntotalloadedmods(){
-    return totalLoaded
+	return totalLoaded
   }
   };
 }
@@ -274,19 +274,19 @@ function loadLoader() {
 function displayGui() {
   function gui() {
   if (document.querySelector("#eaglerpl_gui")) {
-    document.querySelector("#eaglerpl_gui").remove();
+	document.querySelector("#eaglerpl_gui").remove();
   }
   localStorage.setItem(
-    "ml::Mods",
-    localStorage.getItem("ml::Mods") || "[]"
+	"ml::Mods",
+	localStorage.getItem("ml::Mods") || "[]"
   );
   try {
-    localStorage.setItem(
-    "ml::Mods",
-    JSON.stringify(JSON.parse(localStorage.getItem("ml::Mods")))
-    );
+	localStorage.setItem(
+	"ml::Mods",
+	JSON.stringify(JSON.parse(localStorage.getItem("ml::Mods")))
+	);
   } catch (error) {
-    localStorage.setItem("ml::Mods", "[]");
+	localStorage.setItem("ml::Mods", "[]");
   }
   var Mods = JSON.parse(localStorage.getItem("ml::Mods"));
   var container = document.createElement("div");
@@ -299,7 +299,7 @@ function displayGui() {
   closeButton.style = `margin-left: 2rem; color: red;`;
   closeButton.href = "javascript:void(0)";
   closeButton.addEventListener("click", () => {
-    document.querySelector("#eaglerpl_gui").remove();
+	document.querySelector("#eaglerpl_gui").remove();
   });
   closeButton.innerHTML = "[X]";
   title.appendChild(closeButton);
@@ -308,13 +308,13 @@ function displayGui() {
   var warningPoster = document.createElement("p");
   warningPoster.style = "font-size: 0.8rem; color: orangered;";
   warningPoster.innerHTML =
-    "Warning: Installing Mods gives them full control over the game. Be cautious when installing them.<br>Mods that have been removed also need a reload to stop running in the background.";
+	"Warning: Installing Mods gives them full control over the game. Be cautious when installing them.<br>Mods that have been removed also need a reload to stop running in the background.";
   container.appendChild(warningPoster);
 
   var tipPoster = document.createElement("p");
   tipPoster.style = "font-size: 0.8rem; color: yellow;";
   tipPoster.innerHTML =
-    "Tip: if the mods say that they failed loading, try refreshing the gui";
+	"Tip: if the mods say that they failed loading, try refreshing the gui";
   container.appendChild(tipPoster);
 
   var table = document.createElement("table");
@@ -332,93 +332,93 @@ function displayGui() {
   table.appendChild(headerRow);
 
   Mods.forEach((url) => {
-    var row = document.createElement("tr");
-    row.style = `box-shadow: 0px 2px 0px grey;`;
-    var urlBox = document.createElement("td");
-    urlBox.style = "user-select: text;";
-    var textWrapper = document.createElement("div");
-    textWrapper.style = `max-width: 100%; overflow-wrap: anywhere; max-height: 3rem; overflow-y: scroll;`;
-    textWrapper.innerText = url;
-    urlBox.append(textWrapper);
-    row.appendChild(urlBox);
-    var statusBox = document.createElement("td");
-    statusBox.innerHTML = ((curl) => {
-    var targs = document.querySelectorAll("script[data-Mod]");
-    for (let i = 0; i < targs.length; i++) {
-      const elem = targs[i];
-      if (elem.getAttribute("data-Mod") === curl) {
-      return "LOADED";
-      }
-    }
-    return "FAILED";
-    })(url);
-    switch (statusBox.innerHTML) {
-    case "LOADED":
-      statusBox.style = "background-color: green; text-align: center;";
-      break;
-    case "FAILED":
-      statusBox.style = "background-color: dimgrey; text-align: center;";
-      break;
-    default:
-      break;
-    }
-    var binBtn = document.createElement("button");
-    binBtn.style =
-    "background: transparent; text-align: center; color: yellow; cursor: pointer; font-family: 'Minecraftia', sans-serif; text-decoration: underline; border: 0; margin-left: 1rem; font-size: 1rem;";
-    binBtn.innerHTML = "[X]";
-    binBtn.addEventListener("click", () => {
-    if (!window.confirm("Delete Mod?") || Mods.indexOf(url) === -1) {
-      return;
-    }
-    Mods.splice(Mods.indexOf(url), 1);
-    localStorage.setItem("ml::Mods", JSON.stringify(Mods));
-    gui();
-    });
-    statusBox.appendChild(binBtn);
-    row.appendChild(statusBox);
-    table.appendChild(row);
+	var row = document.createElement("tr");
+	row.style = `box-shadow: 0px 2px 0px grey;`;
+	var urlBox = document.createElement("td");
+	urlBox.style = "user-select: text;";
+	var textWrapper = document.createElement("div");
+	textWrapper.style = `max-width: 100%; overflow-wrap: anywhere; max-height: 3rem; overflow-y: scroll;`;
+	textWrapper.innerText = url;
+	urlBox.append(textWrapper);
+	row.appendChild(urlBox);
+	var statusBox = document.createElement("td");
+	statusBox.innerHTML = ((curl) => {
+	var targs = document.querySelectorAll("script[data-Mod]");
+	for (let i = 0; i < targs.length; i++) {
+	  const elem = targs[i];
+	  if (elem.getAttribute("data-Mod") === curl) {
+	  return "LOADED";
+	  }
+	}
+	return "FAILED";
+	})(url);
+	switch (statusBox.innerHTML) {
+	case "LOADED":
+	  statusBox.style = "background-color: green; text-align: center;";
+	  break;
+	case "FAILED":
+	  statusBox.style = "background-color: dimgrey; text-align: center;";
+	  break;
+	default:
+	  break;
+	}
+	var binBtn = document.createElement("button");
+	binBtn.style =
+	"background: transparent; text-align: center; color: yellow; cursor: pointer; font-family: 'Minecraftia', sans-serif; text-decoration: underline; border: 0; margin-left: 1rem; font-size: 1rem;";
+	binBtn.innerHTML = "[X]";
+	binBtn.addEventListener("click", () => {
+	if (!window.confirm("Delete Mod?") || Mods.indexOf(url) === -1) {
+	  return;
+	}
+	Mods.splice(Mods.indexOf(url), 1);
+	localStorage.setItem("ml::Mods", JSON.stringify(Mods));
+	gui();
+	});
+	statusBox.appendChild(binBtn);
+	row.appendChild(statusBox);
+	table.appendChild(row);
   });
 
   var addBtn = document.createElement("button");
   addBtn.style =
-    "background: transparent; text-align: center; color: yellow; cursor: pointer; font-family: 'Minecraftia', sans-serif; text-decoration: underline; border: 0; margin-right: 1rem;  font-size: 1rem;";
+	"background: transparent; text-align: center; color: yellow; cursor: pointer; font-family: 'Minecraftia', sans-serif; text-decoration: underline; border: 0; margin-right: 1rem;  font-size: 1rem;";
   addBtn.innerHTML = "Add new";
   addBtn.addEventListener("click", () => {
-    var newMod = window.prompt("URL of Mod: ", "http://example.com/example.js");
-    Mods.push(
-    newMod
-    );
-    localStorage.setItem("ml::Mods", JSON.stringify(Mods));
-    if(window.ModLoader){
-    ModLoader([newMod]);
-    }
-    gui();
+	var newMod = window.prompt("URL of Mod: ", "http://example.com/example.js");
+	Mods.push(
+	newMod
+	);
+	localStorage.setItem("ml::Mods", JSON.stringify(Mods));
+	if(window.ModLoader){
+	ModLoader([newMod]);
+	}
+	gui();
   });
 
   var uploadBtn = document.createElement("button");
   uploadBtn.style =
-    "background: transparent; text-align: center; color: yellow; cursor: pointer; font-family: 'Minecraftia', sans-serif; text-decoration: underline; border: 0;  font-size: 1rem;";
+	"background: transparent; text-align: center; color: yellow; cursor: pointer; font-family: 'Minecraftia', sans-serif; text-decoration: underline; border: 0;  font-size: 1rem;";
   uploadBtn.innerHTML = "Upload...";
   uploadBtn.addEventListener("click", function uploadBtnListener() {
-    var filePicker = document.createElement("input");
-    filePicker.type = "file";
-    filePicker.accept = ".js";
-    filePicker.addEventListener("input", function onInput() {
-    if (filePicker.files[0]) {
-      var reader = new FileReader();
-      reader.addEventListener("load", function onModRead() {
-      var newMod = reader.result.replace(";base64", `;fs=${encodeURIComponent(filePicker.files[0].name) || "unknown"};base64`);
-      Mods.push(newMod);
-      localStorage.setItem("ml::Mods", JSON.stringify(Mods));
-      if(window.ModLoader){
-        ModLoader([newMod]);
-      }
-      gui();
-      });
-      reader.readAsDataURL(filePicker.files[0]);
-    }
-    });
-    filePicker.click();
+	var filePicker = document.createElement("input");
+	filePicker.type = "file";
+	filePicker.accept = ".js";
+	filePicker.addEventListener("input", function onInput() {
+	if (filePicker.files[0]) {
+	  var reader = new FileReader();
+	  reader.addEventListener("load", function onModRead() {
+	  var newMod = reader.result.replace(";base64", `;fs=${encodeURIComponent(filePicker.files[0].name) || "unknown"};base64`);
+	  Mods.push(newMod);
+	  localStorage.setItem("ml::Mods", JSON.stringify(Mods));
+	  if(window.ModLoader){
+		ModLoader([newMod]);
+	  }
+	  gui();
+	  });
+	  reader.readAsDataURL(filePicker.files[0]);
+	}
+	});
+	filePicker.click();
   });
 
   container.appendChild(table);
@@ -429,11 +429,11 @@ function displayGui() {
   notice.innerHTML = "Refresh GUI";
   notice.href = "javascript:void(0)";
   notice.addEventListener("click", function reloadListener() {
-    setTimeout(gui, 500);
-    this.remove();
+	setTimeout(gui, 500);
+	this.remove();
   });
   notice.style =
-    "color: yellow; display: block; margin-top: 2rem; width: 0; white-space: nowrap;";
+	"color: yellow; display: block; margin-top: 2rem; width: 0; white-space: nowrap;";
   container.appendChild(notice);
   ModAPI.events.callEvent("gui", {});
   document.body.appendChild(container);
@@ -463,6 +463,7 @@ const relayId = Math.floor(Math.random() * 3);
 
 window.eaglercraftXOpts = {
   container: "game_frame",
+  worldsDB: "worlds",
   servers: [
   { addr: "wss://mcproxy.amogus.top", name: "EaglerProxy" }
   { addr: "wss://mc.arch.lol", name: "ArchMC" },
@@ -474,9 +475,9 @@ window.eaglercraftXOpts = {
   { addr: "wss://vanillamc.me", name: "VanillaMC Legacy" }
   ],
   relays: [
-    { addr: "wss://relay.deev.is/", comment: "lax1dude relay #1", primary: relayId == 0 },
-    { addr: "wss://relay.lax1dude.net/", comment: "lax1dude relay #2", primary: relayId == 1 },
-    { addr: "wss://relay.shhnowisnottheti.me/", comment: "ayunami relay #1", primary: relayId == 2 }
+	{ addr: "wss://relay.deev.is/", comment: "lax1dude relay #1", primary: relayId == 0 },
+	{ addr: "wss://relay.lax1dude.net/", comment: "lax1dude relay #2", primary: relayId == 1 },
+	{ addr: "wss://relay.shhnowisnottheti.me/", comment: "ayunami relay #1", primary: relayId == 2 }
   ]
 };
 
@@ -499,18 +500,18 @@ ${classes_js}
   var launchCountdownProgressElement = null;
 
   function launchTick() {
-    launchCountdownNumberElement.innerText = "" + Math.floor(6.0 - launchCounter * 0.06);
-    launchCountdownProgressElement.style.width = "" + launchCounter + "%";
-    if(++launchCounter > 100) {
-      clearInterval(launchInterval);
-      setTimeout(() => { document.getElementById("launch_countdown_screen").remove(); main(); }, 50);
-    }
+	launchCountdownNumberElement.innerText = "" + Math.floor(6.0 - launchCounter * 0.06);
+	launchCountdownProgressElement.style.width = "" + launchCounter + "%";
+	if(++launchCounter > 100) {
+	  clearInterval(launchInterval);
+	  setTimeout(() => { document.getElementById("launch_countdown_screen").remove(); main(); }, 50);
+	}
   }
 
   window.addEventListener("load", () => {
-    launchCountdownNumberElement = document.getElementById("launchCountdownNumber");
-    launchCountdownProgressElement = document.getElementById("launchCountdownProgress");
-    launchInterval = setInterval(launchTick, 50);
+	launchCountdownNumberElement = document.getElementById("launchCountdownNumber");
+	launchCountdownProgressElement = document.getElementById("launchCountdownProgress");
+	launchInterval = setInterval(launchTick, 50);
   });
 })();
 </script>
