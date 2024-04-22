@@ -5,15 +5,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - name: checkout repository
+      uses: actions/checkout@v4
     - name: setup gradle
       uses: gradle/actions/setup-gradle@v3
       with:
         validate-wrappers: true
-    - name: generate javascript
-      run: ./gradlew generatejavascript
-    - name: make offline download
-      run: bash MakeOfflineDownload.sh
+    - name: compile javascript
+      run: bash CompileJS.sh
+    - name: build with gradle wrapper
+      run: ./gradlew build
     - name: zip javascript folder
       run: zip -r javascript.zip javascript/*
     - name: upload artifact
