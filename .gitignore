@@ -15,7 +15,7 @@ desktopRuntime/_eagstorage*
 desktopRuntime/filesystem/*
 desktopRuntime/downloads/*
 
-#Ignore builds too
+#Dont commit builds
 javascript/classes.js
 javascript/classes.js.map
 javascript/Shadow_Client.html
