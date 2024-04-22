@@ -47,24 +47,9 @@ public class EaglercraftVersion {
 
 	public static final String mainMenuStringA = "Minecraft 1.8.8";
 	public static final String mainMenuStringB = projectOriginName + " " + projectOriginVersion;
-
-	public static final String mainMenuStringD = "Copyright Mojang AB. Do not distribute!";
-
-	public static final String mainMenuStringE = projectForkName + projectForkVersion;
-	public static final String mainMenuStringF = "Made by " + projectForkVendor;
-
-	public static final String mainMenuStringG = "";
-	public static final String mainMenuStringH = "";
-
-	public static final long demoWorldSeed = (long) "North Carolina".hashCode();
-
-	public static final boolean mainMenuEnableGithubButton = false;
-
-	public static final boolean forceDemoMode = false;
-	
 	public static String getMainMenuStringC() {
 		int loadedmods = returntotalloadedmods();
-		String mainMenuStringC = "EaglerForge 1.3";
+		String mainMenuStringC = "EaglerForge v1.3";
 		if(!PlatformRuntime.isDebugRuntime()) {
 			if(loadedmods == 1) {
 				mainMenuStringC = mainMenuStringC + " (" + loadedmods + " Mod loaded)";
@@ -74,5 +59,19 @@ public class EaglercraftVersion {
 		}
 		return mainMenuStringC;
 	}
+
+	public static final String mainMenuStringD = "Copyright Mojang AB. Do not distribute!";
+
+	public static final String mainMenuStringE = projectForkName + projectForkVersion;
+	public static final String mainMenuStringF = "Made by1 " + projectForkVendor;
+
+	public static final String mainMenuStringG = "Zombie was here";
+	public static final String mainMenuStringH = "";
+
+	public static final long demoWorldSeed = (long) "North Carolina".hashCode();
+
+	public static final boolean mainMenuEnableGithubButton = false;
+
+	public static final boolean forceDemoMode = false;
 
 }
