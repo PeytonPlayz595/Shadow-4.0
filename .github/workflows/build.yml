@@ -1,5 +1,5 @@
 name: build
-on: push
+on: [push, pull_request]
 
 jobs:
   build:
@@ -19,4 +19,5 @@ jobs:
     - name: upload file
       uses: actions/upload-artifact@v4
       with:
+        name: Shadow_Client.html
         path: javascript/Shadow_Client.html
