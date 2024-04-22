@@ -559,7 +559,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		this.drawCenteredString(this.fontRendererObj, this.splashText, 0, -8, -256);
 		GlStateManager.popMatrix();
 		
-		String s = EaglercraftVersion.MainMenuStringA();
+		String s = EaglercraftVersion.MainMenuStringA;
 		if (this.mc.isDemo()) {
 			s += " Demo";
 		}
@@ -567,7 +567,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		s = EaglercraftVersion.mainMenuStringB;
 		this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
 
-		String s1 = EaglercraftVersion.getmainMenuStringC;
+		String s1 = EaglercraftVersion.getmainMenuStringC();
 		this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2,
 				this.height - 20, -1);
 		s1 = EaglercraftVersion.mainMenuStringD;
