@@ -9,7 +9,8 @@ jobs:
     - uses: gradle/actions/setup-gradle@v3
       with:
         validate-wrappers: true
-    - run: bash CompileJS.sh
+    - run: ./gradlew build
+    - run: ./gradlew generateJavascript
     - run: bash MakeOfflineDownload.sh
     - uses: actions/upload-artifact@v4
       with:
