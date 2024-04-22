@@ -1,41 +1,41 @@
 <!DOCTYPE html>
-
-
-
-<!--
-
-This file is from ${date}, there is no official eagler download link anymore, check the websites and discords of your favorite eagler servers for new versions
-
-Be aware that some server owners are lazy and do not update their client regularly
-
-Compile it yourself here: https://gitlab.com/lax1dude/eaglercraftx-1.8/
-
--->
-
-
-
-
-
-
-
-
-
-
-
-
-
 <html>
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="EaglercraftX 1.8 Offline" />
 <meta name="keywords" content="eaglercraft, eaglercraftx, minecraft, 1.8, 1.8.8" />
-<title>Shadow Client Offline</title>
+<title>Shadow Client</title>
 <meta property="og:locale" content="en-US" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="EaglercraftX 1.8 Offline" />
 <meta property="og:description" content="this file is not a website, whoever uploaded it to this URL is a dumbass" />
 <script type="text/javascript">
+
+// %%%%%%%%% launch options %%%%%%%%%%%%
+
+window.eaglercraftXOpts = {
+	container: "game_frame",
+  assetsURI = ${assets_epk};
+  servers: [
+    { addr: "wss://mcproxy.amogus.top", name: "EaglerProxy" }
+    { addr: "wss://mc.arch.lol", name: "ArchMC" },
+    { addr: "wss://mc.asspixel.net", name: "Asspixel" },
+    { addr: "wss://aeon-network.net", name: "Aeon Network" },
+    { addr: "wss://zentic.cc", name: "Zentic" },
+    { addr: "wss://clever-teaching.com", name: "Clever Teaching" },
+    { addr: "wss://ep.rufan.tech", name: "TimeLegacy"},
+    { addr: "wss://vanillamc.me", name: "VanillaMC Legacy" }
+  ],
+	relays: [
+		{ addr: "wss://relay.deev.is/", comment: "lax1dude relay #1", primary: relayId == 0 },
+		{ addr: "wss://relay.lax1dude.net/", comment: "lax1dude relay #2", primary: relayId == 1 },
+		{ addr: "wss://relay.shhnowisnottheti.me/", comment: "ayunami relay #1", primary: relayId == 2 }
+	]
+};
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 function initAPI(version) {
   var ModAPI = {};
   ModAPI.events = {};
@@ -484,20 +484,6 @@ document.body.appendChild(img);
 "use strict";
 const relayId = Math.floor(Math.random() * 3);
 
-// %%%%%%%%% launch options %%%%%%%%%%%%
-
-window.eaglercraftXOpts = {
-	container: "game_frame",
-	worldsDB: "worlds",
-	relays: [
-		{ addr: "wss://relay.deev.is/", comment: "lax1dude relay #1", primary: relayId == 0 },
-		{ addr: "wss://relay.lax1dude.net/", comment: "lax1dude relay #2", primary: relayId == 1 },
-		{ addr: "wss://relay.shhnowisnottheti.me/", comment: "ayunami relay #1", primary: relayId == 2 }
-	]
-};
-
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 </script>
 <script type="text/javascript">
 "use strict";
@@ -507,8 +493,6 @@ ${classes_js}
 <script type="text/javascript">
 "use strict";
 (function(){
-	window.eaglercraftXOpts.assetsURI = ${assets_epk};
-
 	var launchInterval = -1;
 	var launchCounter = 1;
 	var launchCountdownNumberElement = null;
@@ -519,7 +503,7 @@ ${classes_js}
 		launchCountdownProgressElement.style.width = "" + launchCounter + "%";
 		if(++launchCounter > 100) {
 			clearInterval(launchInterval);
-			setTimeout(() => { document.getElementById("launch_countdown_screen").remove(); main(); }, 50);
+			setTimeout(() => { document.getElementById("launch_countdown_screen").remove(); main(); }, 0);
 		}
 	}
 

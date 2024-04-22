@@ -5,23 +5,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: checkout repository
-      uses: actions/checkout@v4
-    - name: setup gradle
-      uses: gradle/actions/setup-gradle@v3
+    - uses: actions/checkout@v4
+    - uses: gradle/actions/setup-gradle@v3
       with:
         validate-wrappers: true
-    - name: make gradle wrapper executable
-      run: chmod +x ./gradlew
-    - name: compile javascript
-      run: ./gradlew generateJavascript
-    - name: build with gradle wrapper
-      run: ./gradlew build
-    - name: make offline download
-      run: bash MakeOfflineDownload.sh
-    - name: upload artifact
-      uses: actions/upload-artifact@v4
+    - run: bash CompileJS.sh
+    - run: bash MakeOfflineDownload.sh
+    - uses: actions/upload-artifact@v4
       with:
-        path: |
-          javascript/web_files
-          javascript/Shadow_Client_Offline.html
+        path: javascript/Shadow_Client.html
