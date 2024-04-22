@@ -66,11 +66,11 @@ ${classes_js}
 		launchCountdownProgressElement = document.getElementById("launchCountdownProgress");
 		launchInterval = setInterval(launchTick, 50);
 	});
-		function safeLaunch() {
-			window.noLoadMods = true;
-			clearInterval(launchInterval);
-			setTimeout(() => { document.getElementById("launch_countdown_screen").remove(); main(); }, 50);
-		}
+	function safeLaunch() {
+		window.noLoadMods = true;
+		clearInterval(launchInterval);
+		setTimeout(() => { document.getElementById("launch_countdown_screen").remove(); main(); }, 50);
+	}
 })();
 </script>
 <script type="text/javascript">
