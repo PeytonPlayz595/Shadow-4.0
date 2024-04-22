@@ -9,7 +9,6 @@
 <meta property="og:locale" content="en-US" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="EaglercraftX 1.8 Offline" />
-<meta property="og:description" content="this file is not a website, whoever uploaded it to this URL is a dumbass" />
 <script type="text/javascript">
 "use strict";
 const relayId = Math.floor(Math.random() * 3);
