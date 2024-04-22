@@ -12,10 +12,10 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    - name: setup gradle
+      uses: gradle/actions/setup-gradle@v3
     - name: validate gradle wrapper
       uses: gradle/actions/wrapper-validation@v3
-    - name: make gradle wrapper executable
-      run: chmod +x ./gradlew
     - name: generate javascript
       run: ./gradlew generatejavascript
     - name: make offline download
