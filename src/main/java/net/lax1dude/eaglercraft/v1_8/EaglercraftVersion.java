@@ -48,19 +48,6 @@ public class EaglercraftVersion {
 	public static final String mainMenuStringA = "Minecraft 1.8.8";
 	public static final String mainMenuStringB = projectOriginName + " " + projectOriginVersion;
 
-	public static String getMainMenuStringC() {
-		int loadedmods = returntotalloadedmods();
-		String mainMenuStringC = "EaglerForge 1.3";
-		if(!PlatformRuntime.isDebugRuntime()) {
-			if(loadedmods == 1) {
-				mainMenuStringC = mainMenuStringC + " (" + loadedmods + " Mod loaded)";
-			} else {
-				mainMenuStringC = mainMenuStringC + " (" + loadedmods + " Mods loaded)";
-			}
-		}
-		return mainMenuStringC;
-	}
-
 	public static final String mainMenuStringD = "Copyright Mojang AB. Do not distribute!";
 
 	public static final String mainMenuStringE = projectForkName + projectForkVersion;
@@ -75,4 +62,17 @@ public class EaglercraftVersion {
 
 	public static final boolean forceDemoMode = false;
 	
+		public static String getMainMenuStringC() {
+		int loadedmods = returntotalloadedmods();
+		String mainMenuStringC = "EaglerForge 1.3";
+		if(!PlatformRuntime.isDebugRuntime()) {
+			if(loadedmods == 1) {
+				mainMenuStringC = mainMenuStringC + " (" + loadedmods + " Mod loaded)";
+			} else {
+				mainMenuStringC = mainMenuStringC + " (" + loadedmods + " Mods loaded)";
+			}
+		}
+		return mainMenuStringC;
+	}
+
 }
