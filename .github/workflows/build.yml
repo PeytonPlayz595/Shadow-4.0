@@ -15,8 +15,6 @@ jobs:
       run: bash CompileJS.sh
     - name: build with gradle wrapper
       run: ./gradlew build
-    - name: zip javascript folder
-      run: zip -r javascript.zip javascript/*
     - name: upload artifact
       uses: actions/upload-artifact@v4
       with:
