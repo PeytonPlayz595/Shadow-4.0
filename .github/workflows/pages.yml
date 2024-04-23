@@ -1,4 +1,4 @@
-name: build and deploy to pages
+name: deploy to pages
 on: 
   push:
     branches: [$default-branch]
