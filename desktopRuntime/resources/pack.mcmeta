@@ -377,7 +377,8 @@
         }
     },
     "pack": {
-        "description": "The default look of Minecraft",
-        "pack_format": 1
-    }
+        "pack_format": 1,
+        "description": "The default look and feel of Minecraft
+"
+  }
 }

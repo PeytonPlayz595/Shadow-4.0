@@ -14,6 +14,8 @@ jobs:
         cache-disabled: true
     - name: compile javascript
       run: bash CompileJS.sh
+    - name: compile assets
+      run: bash CompileEPK.sh
     - name: make offline download
       run: bash MakeOfflineDownload.sh
     - name: upload web version 
@@ -25,6 +27,7 @@ jobs:
           javascript/index.html
           javascript/classes.js
           javascript/classes.js.map
+          javascript/assets.epk
           javascript/favicon.png
     - name: upload offline
       uses: actions/upload-artifact@v4
