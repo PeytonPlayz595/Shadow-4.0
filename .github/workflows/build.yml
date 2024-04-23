@@ -21,6 +21,7 @@ jobs:
       with:
         name: web
         path: |
+          javascript/lang
           javascript/index.html
           javascript/classes.js
           javascript/classes.js.map
