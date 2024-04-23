@@ -471,7 +471,8 @@ window.eaglercraftXOpts = {
     { addr: "wss://zentic.cc", name: "Zentic" },
     { addr: "wss://clever-teaching.com", name: "Clever Teaching" },
     { addr: "wss://ep.rufan.tech", name: "TimeLegacy"},
-    { addr: "wss://vanillamc.me", name: "VanillaMC Legacy" }
+    { addr: "wss://vanillamc.me", name: "VanillaMC Legacy" },
+    { addr: "wss://mc.firenetwork.lol", name: "FireNetwork" }
   ],
 	relays: [
 		{ addr: "wss://relay.deev.is/", comment: "lax1dude relay #1", primary: relayId == 0 },
