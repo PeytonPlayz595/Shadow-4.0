@@ -1,46 +1,46 @@
-name: Deploy static content to Pages
+name: build and deploy to pages
+on: 
+  push:
+    branches: [$default-branch]
+  workflow_dispatch:
 
-on: workflow_dispatch
-
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v4
+    - name: validate gradle wrapper
+      uses: gradle/actions/wrapper-validation@v3
+    - name: compile javascript
+      run: bash CompileJS.sh
+    - name: compile assets
+      run: bash CompileEPK.sh
+    - name: upload pages artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: |
+          javascript/lang
+          javascript/index.html
+          javascript/classes.js
+          javascript/classes.js.map
+          javascript/assets.epk
+          javascript/favicon.png
   deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+  
     runs-on: ubuntu-latest
     steps:
-      - name: checkout repository
-        uses: actions/checkout@v4
-      - name: validate gradle wrapper
-        uses: gradle/actions/wrapper-validation@v3
-      - name: compile javascript
-        run: bash CompileJS.sh
-      - name: compile assets
-        run: bash CompileEPK.sh
-      - name: setup pages
-        uses: actions/configure-pages@v5
-      - name: upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: |
-            javascript/lang
-            javascript/index.html
-            javascript/classes.js
-            javascript/classes.js.map
-            javascript/assets.epk
-            javascript/favicon.png
-      - name: Deploy to GitHub Pages
+      - name: deploy
         id: deployment
         uses: actions/deploy-pages@v4
