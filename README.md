@@ -1,6 +1,20 @@
 # Shadow-4.0
 
-# Running the Desktop Runtime
+**Go to Github actions for the latest builds**
+
+## Building the web/offline version
+
+I recommend that you fork this repository and build using Github Actions.
+
+Here is how you build it yourself:
+
+1. Clone this github repo (Either using git or manual download)
+2. cd into the directory of this repo
+3. Run `chmod +x ./gradlew`
+4. Run `./gradlew generateJavascript`
+5. If you want the offline download, run `bash ./MakeOfflineDownload.sh`
+
+## Running the Desktop Runtime
 
 **Note: Requires a physical display to run, will NOT run on codespaces, ANY online terminal without a graphical display, or ANY ssh without X11 forwarding (Pretty much self explanitory but for the people who didn't know)**
 
@@ -10,4 +24,5 @@
 
 1. Clone this GitHub repo (Either using git or manual download)
 2. cd into the directory of this repo
-3. Run `gradlew runclient` and wait for it to finish compiling
+3. Run `chmod +x ./gradlew`
+4. Run `./gradlew runclient` and wait for it to finish compiling
