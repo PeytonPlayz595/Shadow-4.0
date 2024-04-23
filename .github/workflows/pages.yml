@@ -21,7 +21,7 @@ jobs:
     - name: compile assets
       run: bash CompileEPK.sh
     - name: a step for a bad api
-      run: mkdir javascript/web; cp -r javascript/lang javascript/index.html javascript/classes.js javascript/classes.js.map javascript/assets.epk javascript/favicon.png javascript/web
+      run: mkdir javascript/web; cp -r javascript/lang javascript/index.html javascript/classes.js javascript/classes.js.map javascript/assets.epk javascript/favicon.png javascript/web; ls javascript; ls javascript/web
     - name: upload pages artifact
       uses: actions/upload-pages-artifact@v3
       with:
