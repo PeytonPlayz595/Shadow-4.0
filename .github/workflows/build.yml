@@ -35,4 +35,3 @@ jobs:
         name: offline
         path: |
           javascript/Shadow_Client_Offline.html
-          javascript/Shadow_Client_Offline_EnglishOnly.html
