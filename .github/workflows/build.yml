@@ -7,11 +7,8 @@ jobs:
     steps:
     - name: checkout repository
       uses: actions/checkout@v4
-    - name: setup gradle
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        validate-wrappers: true
-        cache-disabled: true
+    - name: validate gradle wrapper
+      uses: gradle/actions/wrapper-validation@v3
     - name: compile javascript
       run: bash CompileJS.sh
     - name: compile assets
