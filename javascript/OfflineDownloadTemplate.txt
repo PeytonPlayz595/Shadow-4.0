@@ -490,7 +490,6 @@ ${classes_js}
 </script>
 <script type="text/javascript">
 "use strict";
-(function(){
 	window.eaglercraftXOpts.assetsURI = ${assets_epk};
 
 	var launchInterval = -1;
@@ -512,10 +511,6 @@ ${classes_js}
 		launchCountdownProgressElement = document.getElementById("launchCountdownProgress");
 		launchInterval = setInterval(launchTick, 50);
 	});
-})();
-</script>
-<script type="text/javascript">
-"use strict";
 	function safeLaunch() {
 		window.noLoadMods = true;
 		clearInterval(launchInterval);
