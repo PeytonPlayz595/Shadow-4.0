@@ -564,18 +564,17 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		this.drawCenteredString(this.fontRendererObj, this.splashText, 0, -8, -256);
 		GlStateManager.popMatrix();
 
-		String s = EaglercraftVersion.getMainMenuStringA();
+		String s = EaglercraftVersion.mainMenuStringA;
 		if (this.mc.isDemo()) {
 			s += " Demo";
 		}
-		this.drawString(this.fontRendererObj, s, 2, this.height - 20, -1);
+		this.drawString(this.fontRendererObj, s, 2, this.height - 30, -1);
 		s = EaglercraftVersion.mainMenuStringB;
+		this.drawString(this.fontRendererObj, s, 2, this.height - 20, -1);
+		s = EaglercraftVersion.getMainMenuStringC();
 		this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
 
-		String s1 = EaglercraftVersion.mainMenuStringC;
-		this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2,
-				this.height - 20, -1);
-		s1 = EaglercraftVersion.mainMenuStringD;
+		String s1 = EaglercraftVersion.mainMenuStringD;
 		if (this.mc.isDemo()) {
 			s1 = "Copyright Mojang AB. Do not distribute!";
 		}

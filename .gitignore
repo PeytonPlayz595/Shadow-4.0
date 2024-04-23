@@ -14,3 +14,8 @@ desktopRuntime/options.txt
 desktopRuntime/_eagstorage*
 desktopRuntime/filesystem/*
 desktopRuntime/downloads/*
+
+#Dont commit builds because you want users to get them from github actions
+javascript/classes.js
+javascript/classes.js.map
+javascript/Shadow_Client.html

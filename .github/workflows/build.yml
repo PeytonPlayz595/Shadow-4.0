@@ -1,0 +1,28 @@
+name: build
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v4
+    - name: setup gradle
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        validate-wrappers: true
+        cache-disabled: true
+    - name: compile javascript
+      run: bash CompileJS.sh
+    - name: make offline download
+      run: bash MakeOfflineDownload.sh
+    - name: upload web version 
+      uses: actions/upload-artifact@v4
+      with:
+        name: Shadow_Client_Web
+        path: javascript/Shadow_Client.html
+    - name: upload offline
+      uses: actions/upload-artifact@v4
+      with:
+        name: Shadow_Client_Offline
+        path: javascript/Shadow_Client_Offline.html
