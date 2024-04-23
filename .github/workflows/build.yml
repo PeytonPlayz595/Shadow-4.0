@@ -19,10 +19,14 @@ jobs:
     - name: upload web version 
       uses: actions/upload-artifact@v4
       with:
-        name: Shadow_Client_Web
-        path: javascript/*
+        name: web
+        path: |
+          javascript/index.html
+          javascript/classes.js
+          javascript/classes.js.map
+          javascript/favicon.png
     - name: upload offline
       uses: actions/upload-artifact@v4
       with:
-        name: Shadow_Client_Offline
+        name: offline
         path: javascript/Shadow_Client_Offline.html
