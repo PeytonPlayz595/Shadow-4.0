@@ -19,7 +19,7 @@ jobs:
     - name: validate gradle wrapper
       uses: gradle/actions/wrapper-validation@v3
     - name: compile javascript
-      run: chmod +x ./gradlew; ./gradlew generateJavascript --no-daemon
+      run: chmod +x ./gradlew; ./gradlew generateJavascript
     - name: compile assets
       run: bash CompileEPK.sh
     - name: upload-pages-artifact is very bad
