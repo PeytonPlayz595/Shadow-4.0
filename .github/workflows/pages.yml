@@ -1,8 +1,5 @@
 name: deploy to pages
-on: 
-  push:
-    branches: [main]
-  workflow_dispatch:
+on: workflow_dispatch
 
 jobs:
   build:
@@ -40,3 +37,7 @@ jobs:
       - name: deploy
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: delete artifact
+        uses: geekyeggo/delete-artifact@v5
+        with:
+          name: github-pages
