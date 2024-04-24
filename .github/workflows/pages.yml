@@ -28,7 +28,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: github-pages
-        path: javascript/web
+        path: javascript/web/*
 
   deploy:
     needs: build
