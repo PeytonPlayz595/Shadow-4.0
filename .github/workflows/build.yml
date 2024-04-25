@@ -5,7 +5,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - run: cp --help
     - name: checkout repository
       uses: actions/checkout@v4
     - name: setup java
@@ -38,7 +37,7 @@ jobs:
         name: offline
         path: javascript/Shadow_Client_Offline.html
     - name: copy web files to _site/
-      run: mkdir _site/ && cp --recursive --target-directory _site/ |
+      run: mkdir _site/ && cp --recursive --target-directory=_site/ |
         javascript/lang/
         javascript/index.html
         javascript/classes.js
