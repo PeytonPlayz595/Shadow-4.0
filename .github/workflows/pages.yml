@@ -23,7 +23,7 @@ jobs:
     - name: compile assets
       run: bash CompileEPK.sh
     - name: upload-pages-artifact is very bad
-      run: mkdir _site/; cp -r javascript/lang/ javascript/index.html javascript/classes.js javascript/classes.js.map javascript/assets.epk javascript/_site/
+      run: mkdir _site/; cp -r javascript/lang/ javascript/index.html javascript/classes.js javascript/classes.js.map javascript/assets.epk _site/
     - name: upload pages artifact
       uses: actions/upload-pages-artifact@v3
 
