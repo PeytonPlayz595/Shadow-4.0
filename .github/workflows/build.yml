@@ -37,7 +37,12 @@ jobs:
         name: offline
         path: javascript/Shadow_Client_Offline.html
     - name: copy web files to _site/
-      run: mkdir _site/ && cp --recursive javascript/lang/ javascript/index.html javascript/classes.js javascript/classes.js.map javascript/assets.epk _site/
+      run: mkdir _site/ && cp --recursive --target-directory _site/ |
+        javascript/lang/
+        javascript/index.html
+        javascript/classes.js
+        javascript/classes.js.map
+        javascript/assets.epk _site/
     - name: upload github-pages artifact
       uses: actions/upload-pages-artifact@v3
 
