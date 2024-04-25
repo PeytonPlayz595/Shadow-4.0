@@ -65,8 +65,8 @@ public class EaglercraftVersion {
 	public static final String mainMenuStringE = projectForkName + " " + projectForkVersion;
 	public static final String mainMenuStringF = "Made by " + projectForkVendor;
 
-	public static final String mainMenuStringG = "";
-	public static final String mainMenuStringH = "";
+	public static final String mainMenuStringG = null;
+	public static final String mainMenuStringH = null;
 
 	public static final long demoWorldSeed = (long) "North Carolina".hashCode();
 
