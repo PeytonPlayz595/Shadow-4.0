@@ -50,6 +50,7 @@ jobs:
 
   deploy:
     needs: build
+    if: github.ref == 'refs/heads/main'
     concurrency:
       group: "pages"
     permissions:
@@ -61,13 +62,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: deploy
-      if: github.ref == 'refs/heads/main'
       uses: actions/deploy-pages@v4
-
-  remove-artifact:
-    needs: deploy
-    runs-on: ubuntu-latest
-    steps:
-    - uses: GeekyEggo/delete-artifact@v5
+    - name: delete github-pages artifact
+      uses: GeekyEggo/delete-artifact@v5
       with:
         name: github-pages
