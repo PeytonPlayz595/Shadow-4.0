@@ -5,7 +5,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - run: sleep 100000
     - name: checkout repository
       uses: actions/checkout@v4
     - name: setup java
