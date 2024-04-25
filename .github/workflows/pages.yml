@@ -2,7 +2,6 @@ name: deploy to pages
 on: 
   push:
     branches: [ main ]
-  workflow_dispatch:
 
 jobs:
   build:
@@ -14,16 +13,16 @@ jobs:
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
-        java-version: '11'
+        java-version: '21'
         cache: 'gradle'
     - name: validate gradle wrapper
       uses: gradle/actions/wrapper-validation@v3
     - name: compile javascript
-      run: chmod +x ./gradlew; ./gradlew generateJavascript
+      run: bash CompileJS.sh
     - name: compile assets
       run: bash CompileEPK.sh
     - name: upload-pages-artifact is very bad
-      run: mkdir _site/; cp -r javascript/lang/ javascript/index.html javascript/classes.js javascript/classes.js.map javascript/assets.epk _site/
+      run: mkdir _site/; cp --recursive javascript/lang/ javascript/index.html javascript/classes.js javascript/classes.js.map javascript/assets.epk _site/
     - name: upload pages artifact
       uses: actions/upload-pages-artifact@v3
 
@@ -44,7 +43,3 @@ jobs:
       - name: deploy
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: delete artifact
-        uses: geekyeggo/delete-artifact@v5
-        with:
-          name: github-pages
