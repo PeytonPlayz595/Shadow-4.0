@@ -58,6 +58,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+    - run: sleep 100000000
     - name: deploy
       if: github.ref == 'refs/heads/main'
       uses: actions/deploy-pages@v4
