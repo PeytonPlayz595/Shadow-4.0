@@ -9,15 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: checkout repository
-      uses: actions/checkout@main
+      uses: actions/checkout@v4
     - name: setup java
-      uses: actions/setup-java@main
+      uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
-        java-version: '17'
+        java-version: '11'
         cache: 'gradle'
     - name: validate gradle wrapper
-      uses: gradle/actions/wrapper-validation@main
+      uses: gradle/actions/wrapper-validation@v3
     - name: compile javascript
       run: chmod +x ./gradlew; ./gradlew generateJavascript
     - name: compile assets
@@ -25,10 +25,10 @@ jobs:
     - name: upload-pages-artifact is very bad
       run: mkdir javascript/web; cp -r javascript/lang javascript/index.html javascript/classes.js javascript/classes.js.map javascript/assets.epk javascript/web
     - name: upload pages artifact
-      uses: actions/upload-pages-artifact@main
+      uses: actions/upload-pages-artifact@v3
       with:
         name: github-pages
-        path: javascript/lang javascript/index.html javascript/classes.js javascript/classes.js.map javascript/assets.epk
+        path: "javascript/lang javascript/index.html javascript/classes.js javascript/classes.js.map javascript/assets.epk"
 
   deploy:
     needs: build
@@ -46,8 +46,8 @@ jobs:
     steps:
       - name: deploy
         id: deployment
-        uses: actions/deploy-pages@main
+        uses: actions/deploy-pages@v4
       - name: delete artifact
-        uses: geekyeggo/delete-artifact@main
+        uses: geekyeggo/delete-artifact@v5
         with:
           name: github-pages
