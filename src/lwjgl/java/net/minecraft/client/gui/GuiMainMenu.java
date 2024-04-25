@@ -98,12 +98,12 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	 * An array of all the paths to the panorama pictures.
 	 */
 	private static final ResourceLocation[] titlePanoramaPaths = new ResourceLocation[] {
-			new ResourceLocation("textures/gui/title/background/lunar_0.png"),
-			new ResourceLocation("textures/gui/title/background/lunar_1.png"),
-			new ResourceLocation("textures/gui/title/background/lunar_2.png"),
-			new ResourceLocation("textures/gui/title/background/lunar_3.png"),
-			new ResourceLocation("textures/gui/title/background/lunar_4.png"),
-			new ResourceLocation("textures/gui/title/background/lunar_5.png") };
+			new ResourceLocation("textures/gui/title/background/shadow_panorama_0.png"),
+			new ResourceLocation("textures/gui/title/background/shadow_panorama_1.png"),
+			new ResourceLocation("textures/gui/title/background/shadow_panorama_2.png"),
+			new ResourceLocation("textures/gui/title/background/shadow_panorama_3.png"),
+			new ResourceLocation("textures/gui/title/background/shadow_panorama_4.png"),
+			new ResourceLocation("textures/gui/title/background/shadow_panorama_5.png") };
 	private int field_92024_r;
 	private int field_92023_s;
 	private int field_92022_t;
