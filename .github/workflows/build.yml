@@ -5,13 +5,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - run: cp --help
     - name: checkout repository
       uses: actions/checkout@v4
     - name: setup java
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
-        java-version: '8'
+        java-version: '11'
         cache: 'gradle'
     - name: validate gradle wrapper
       uses: gradle/actions/wrapper-validation@v3
@@ -36,7 +37,6 @@ jobs:
       with:
         name: offline
         path: javascript/Shadow_Client_Offline.html
-    - run: cp --help
     - name: copy web files to _site/
       run: mkdir _site/ && cp --recursive --target-directory _site/ |
         javascript/lang/
