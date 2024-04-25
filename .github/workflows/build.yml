@@ -11,7 +11,7 @@ jobs:
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
-        java-version: '21'
+        java-version: '8'
         cache: 'gradle'
     - name: validate gradle wrapper
       uses: gradle/actions/wrapper-validation@v3
@@ -36,6 +36,7 @@ jobs:
       with:
         name: offline
         path: javascript/Shadow_Client_Offline.html
+    - run: cp --help
     - name: copy web files to _site/
       run: mkdir _site/ && cp --recursive --target-directory _site/ |
         javascript/lang/
