@@ -37,6 +37,7 @@ jobs:
         name: offline
         path: javascript/Shadow_Client_Offline.html
     - name: copy web files to _site/
+      if: github.ref == 'refs/heads/main'
       run: mkdir _site/ && cp --recursive --target-directory=_site/
         javascript/lang/
         javascript/index.html
@@ -44,11 +45,11 @@ jobs:
         javascript/classes.js.map
         javascript/assets.epk
     - name: upload github-pages artifact
+      if: github.ref == 'refs/heads/main'
       uses: actions/upload-pages-artifact@v3
 
   deploy:
     needs: build
-    if: github.ref == 'refs/heads/main'
     concurrency:
       group: "pages"
     permissions:
@@ -60,6 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: deploy
+      if: github.ref == 'refs/heads/main'
       uses: actions/deploy-pages@v4
 
   remove-artifact:
