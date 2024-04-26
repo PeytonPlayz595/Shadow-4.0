@@ -246,9 +246,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		}
 
 		int yPos = height - 20;
-		this.buttonList.add(new ImageButton(0, width / 2 - 35, yPos, "MINECRAFT SETTINGS", new ResourceLocation("textures/shadow/icons/settings.png")));
-		this.buttonList.add(new ImageButton(4, width / 2 - 15, yPos, "EDIT PROFILE", new ResourceLocation("textures/shadow/icons/edit_profile.png")));
-		this.buttonList.add(new ImageButton(5, width / 2 + 5, yPos, "LANGUAGE", new ResourceLocation("textures/shadow/icons/globe.png")));
+		this.buttonList.add(new ImageButton(0, width / 2 - 35, yPos, "MINECRAFT SETTINGS", new ResourceLocation("/eagler/shadow/settings.png")));
+		this.buttonList.add(new ImageButton(4, width / 2 - 15, yPos, "EDIT PROFILE", new ResourceLocation("/eagler/shadow/edit_profile.png")));
+		this.buttonList.add(new ImageButton(5, width / 2 + 5, yPos, "LANGUAGE", new ResourceLocation("/eagler/shadow/globe.png")));
 
 		if (isFork) {
 			this.openGLWarning1 = EaglercraftVersion.mainMenuStringE;
