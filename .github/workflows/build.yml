@@ -17,10 +17,8 @@ jobs:
       uses: gradle/actions/wrapper-validation@v3
     - name: compile javascript
       run: bash CompileJS.sh
-    - name: compile assets
+    - name: compile web assets
       run: bash CompileEPK.sh
-    - name: make offline download
-      run: bash MakeOfflineDownload.sh
     - name: upload web version 
       uses: actions/upload-artifact@v4
       with:
@@ -33,11 +31,6 @@ jobs:
           javascript/lang/
           javascript/assets.epk
           javascript/anvil.gif
-    - name: upload offline
-      uses: actions/upload-artifact@v4
-      with:
-        name: offline
-        path: javascript/Shadow_Client_Offline.html
     - name: copy web files to _site/
       if: github.ref == 'refs/heads/main'
       run: mkdir _site/ && cp --recursive --target-directory=_site/
@@ -51,6 +44,17 @@ jobs:
     - name: upload github-pages artifact
       if: github.ref == 'refs/heads/main'
       uses: actions/upload-pages-artifact@v3
+    - name: remove minecraft:sounds/music/game
+      run: rm --recursive desktopRuntime/resources/assets/minecraft/sounds/music/game
+    - name: compile offline assets
+      run: bash CompileEPK.sh
+    - name: make offline download
+      run: bash MakeOfflineDownload.sh
+    - name: upload offline
+      uses: actions/upload-artifact@v4
+      with:
+        name: offline
+        path: javascript/Shadow_Client_Offline.html
 
   deploy:
     needs: build
