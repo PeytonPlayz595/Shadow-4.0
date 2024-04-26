@@ -15,6 +15,10 @@
   §b- §bLoading §bscreen
   §b- §bPassword §bHiding
 
+ §bzumbiepig:
+
+  §b- §bBackported §btextures §bfrom §b1.18
+  §b- §bOther §bimprovements
 
 
  
