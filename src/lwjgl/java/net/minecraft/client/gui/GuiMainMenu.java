@@ -98,12 +98,12 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	 * An array of all the paths to the panorama pictures.
 	 */
 	private static final ResourceLocation[] titlePanoramaPaths = new ResourceLocation[] {
-			new ResourceLocation("textures/gui/title/background/shadow_panorama_0.png"),
-			new ResourceLocation("textures/gui/title/background/shadow_panorama_1.png"),
-			new ResourceLocation("textures/gui/title/background/shadow_panorama_2.png"),
-			new ResourceLocation("textures/gui/title/background/shadow_panorama_3.png"),
-			new ResourceLocation("textures/gui/title/background/shadow_panorama_4.png"),
-			new ResourceLocation("textures/gui/title/background/shadow_panorama_5.png") };
+			new ResourceLocation("shadow:panorama/panorama_0.png"),
+			new ResourceLocation("shadow:panorama/panorama_1.png"),
+			new ResourceLocation("shadow:panorama/panorama_2.png"),
+			new ResourceLocation("shadow:panorama/panorama_3.png"),
+			new ResourceLocation("shadow:panorama/panorama_4.png"),
+			new ResourceLocation("shadow:panorama/panorama_5.png") };
 	private int field_92024_r;
 	private int field_92023_s;
 	private int field_92022_t;
@@ -245,9 +245,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		}
 
 		int yPos = height - 20;
-		this.buttonList.add(new ImageButton(0, width / 2 - 35, yPos, "MINECRAFT SETTINGS", new ResourceLocation("textures/shadow/icons/settings.png")));
-		this.buttonList.add(new ImageButton(4, width / 2 - 15, yPos, "EDIT PROFILE", new ResourceLocation("textures/shadow/icons/edit_profile.png")));
-		this.buttonList.add(new ImageButton(5, width / 2 + 5, yPos, "LANGUAGE", new ResourceLocation("textures/shadow/icons/globe.png")));
+		this.buttonList.add(new ImageButton(0, width / 2 - 35, yPos, "MINECRAFT SETTINGS", new ResourceLocation("shadow:icons/settings.png")));
+		this.buttonList.add(new ImageButton(4, width / 2 - 15, yPos, "EDIT PROFILE", new ResourceLocation("shadow:icons/edit_profile.png")));
+		this.buttonList.add(new ImageButton(5, width / 2 + 5, yPos, "LANGUAGE", new ResourceLocation("shadow:icons/globe.png")));
 
 		if (isFork) {
 			this.openGLWarning1 = EaglercraftVersion.mainMenuStringE;
@@ -338,7 +338,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		
 
 		if(parGuiButton.id == 3) {
-			this.mc.displayGuiScreen(new GuiCredits(this, "/assets/eagler/CREDITS_SHADOW.txt"));
+			this.mc.displayGuiScreen(new GuiCredits(this, "/assets/shadow/credits/CREDITS.txt"));
 		}
 	}
 
