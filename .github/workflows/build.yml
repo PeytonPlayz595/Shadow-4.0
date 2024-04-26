@@ -11,7 +11,7 @@ jobs:
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
-        java-version: '11'
+        java-version: '21'
         cache: 'gradle'
     - name: validate gradle wrapper
       uses: gradle/actions/wrapper-validation@v3
