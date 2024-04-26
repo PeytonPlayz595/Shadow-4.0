@@ -26,10 +26,11 @@ jobs:
       with:
         name: web
         path: |
-          javascript/lang
           javascript/index.html
           javascript/classes.js
           javascript/classes.js.map
+          javascript/favicon.png
+          javascript/lang/
           javascript/assets.epk
           javascript/anvil.gif
     - name: upload offline
@@ -40,11 +41,13 @@ jobs:
     - name: copy web files to _site/
       if: github.ref == 'refs/heads/main'
       run: mkdir _site/ && cp --recursive --target-directory=_site/
-        javascript/lang/
         javascript/index.html
         javascript/classes.js
         javascript/classes.js.map
+        javascript/favicon.png
+        javascript/lang/
         javascript/assets.epk
+        javascript/anvil.gif
     - name: upload github-pages artifact
       if: github.ref == 'refs/heads/main'
       uses: actions/upload-pages-artifact@v3
