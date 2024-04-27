@@ -1,4 +1,4 @@
-name: build and deploy
+name: build
 on: [push, pull_request]
 
 jobs:
