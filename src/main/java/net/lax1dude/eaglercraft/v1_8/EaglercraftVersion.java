@@ -51,9 +51,9 @@ public class EaglercraftVersion {
 		int loadedmods = returntotalloadedmods();
 		if(!PlatformRuntime.isDebugRuntime()) {
 			if(loadedmods == 1) {
-				mainMenuStringC = loadedmods + " mod loaded";
+				String mainMenuStringC = loadedmods + " mod loaded";
 			} else {
-				mainMenuStringC = loadedmods + " mods loaded";
+				String mainMenuStringC = loadedmods + " mods loaded";
 			}
 		}
 		return mainMenuStringC;
