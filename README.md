@@ -1,6 +1,6 @@
 # Shadow-4.0
 
-**Go to [Github actions](actions) for the latest builds**
+**Go to [Github actions](./actions) for the latest builds**
 
 ## Building the web/offline version
 
