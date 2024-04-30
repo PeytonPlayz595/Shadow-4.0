@@ -1,6 +1,6 @@
 # Shadow-4.0
 
-**Go to [Github actions](https://github.com/PeytonPlayz585/Shadow-4.0/actions) for the latest builds**
+**Go to [Github actions](https://github.com/PeytonPlayz595/Shadow-4.0/actions) for the latest builds**
 
 ## Building the web/offline version
 
