@@ -28,6 +28,7 @@ jobs:
             javascript/index.html
             javascript/classes.js
             javascript/classes.js.map
+            javascript/favicon.ico
             javascript/assets.epk
       - name: copy web files to _site/
         if: github.ref == 'refs/heads/main'
@@ -36,6 +37,7 @@ jobs:
           javascript/index.html
           javascript/classes.js
           javascript/classes.js.map
+          javascript/favicon.ico
           javascript/assets.epk
       - name: upload github-pages artifact
         if: github.ref == 'refs/heads/main'
