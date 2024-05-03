@@ -1,6 +1,6 @@
 # Shadow-4.0
 
-**Go to [Github actions](https://github.com/PeytonPlayz595/Shadow-4.0/actions?query=branch:main+event:push) for the latest builds**
+**Click [here](https://github.com/PeytonPlayz595/Shadow-4.0/actions?query=branch:main+event:push) for the latest downloads**
 
 ## Building the web/offline version
 
