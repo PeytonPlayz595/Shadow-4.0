@@ -1,4 +1,4 @@
-# Shadow-4.0
+# Shadow Client 4.0
 
 **Click [here](https://github.com/PeytonPlayz595/Shadow-4.0/actions?query=branch%3Amain+event%3Apush) for the latest downloads**
 
