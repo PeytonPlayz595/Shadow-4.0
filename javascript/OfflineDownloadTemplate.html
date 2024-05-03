@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="EaglercraftX 1.8 test directory HTML page" />
+  <meta name="description" content="EaglercraftX 1.8 Offline" />
   <meta name="keywords" content="eaglercraft, eaglercraftx, minecraft, 1.8, 1.8.8" />
-  <title>Shadow Client</title>
+  <title>Shadow Client Offline</title>
   <meta property="og:locale" content="en-US" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="EaglercraftX 1.8" />
-  <meta property="og:description" content="test directory HTML page" />
+  <meta property="og:title" content="EaglercraftX 1.8 Offline" />
+  <meta property="og:description" content="this file is not a website, whoever uploaded it to this URL is a dumbass" />
   <script type="text/javascript">
     function initAPI(version) {
       var ModAPI = {};
@@ -476,63 +476,120 @@
       document.body.appendChild(img);
     }
   </script>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <script type="text/javascript" src="classes.js"></script>
   <script type="text/javascript">
     "use strict";
-    window.addEventListener("load", () => {
-      if (document.location.href.startsWith("file:")) {
-        alert(
-          "HTTP please, do not open this file locally, run a local HTTP server and load it via HTTP"
-        );
-      } else {
-        const relayId = Math.floor(Math.random() * 3);
-        window.eaglercraftXOpts = {
-          container: "game_frame",
-          assetsURI: "assets.epk",
-          servers: [
-            { addr: "wss://mcproxy.amogus.top", name: "EaglerProxy" },
-            { addr: "wss://mc.arch.lol", name: "ArchMC" },
-            { addr: "wss://mc.asspixel.net", name: "Asspixel" },
-            { addr: "wss://aeon-network.net", name: "Aeon Network" },
-            { addr: "wss://zentic.cc", name: "Zentic" },
-            { addr: "wss://clever-teaching.com", name: "Clever Teaching" },
-            { addr: "wss://ep.rufan.tech", name: "TimeLegacy" },
-            { addr: "wss://vanillamc.me", name: "VanillaMC Legacy" },
-            { addr: "wss://mc.firenetwork.lol", name: "FireNetwork" },
-          ],
-          relays: [
-            {
-              addr: "wss://relay.deev.is/",
-              comment: "lax1dude relay #1",
-              primary: relayId == 0,
-            },
-            {
-              addr: "wss://relay.lax1dude.net/",
-              comment: "lax1dude relay #2",
-              primary: relayId == 1,
-            },
-            {
-              addr: "wss://relay.shhnowisnottheti.me/",
-              comment: "ayunami relay #1",
-              primary: relayId == 2,
-            },
-          ],
-        };
+    const relayId = Math.floor(Math.random() * 3);
 
-        var q = window.location.search;
-        if (typeof q === "string" && q.startsWith("?")) {
-          q = new URLSearchParams(q);
-          var s = q.get("server");
-          if (s) window.eaglercraftXOpts.joinServer = s;
-        }
+    // %%%%%%%%% launch options %%%%%%%%%%%%
 
-        main();
-      }
-    });
+    window.eaglercraftXOpts = {
+      container: "game_frame",
+      servers: [
+        { addr: "wss://mcproxy.amogus.top", name: "EaglerProxy" },
+        { addr: "wss://mc.arch.lol", name: "ArchMC" },
+        { addr: "wss://mc.asspixel.net", name: "Asspixel" },
+        { addr: "wss://aeon-network.net", name: "Aeon Network" },
+        { addr: "wss://zentic.cc", name: "Zentic" },
+        { addr: "wss://clever-teaching.com", name: "Clever Teaching" },
+        { addr: "wss://ep.rufan.tech", name: "TimeLegacy" },
+        { addr: "wss://vanillamc.me", name: "VanillaMC Legacy" },
+        { addr: "wss://mc.firenetwork.lol", name: "FireNetwork" },
+      ],
+      relays: [
+        {
+          addr: "wss://relay.deev.is/",
+          comment: "lax1dude relay #1",
+          primary: relayId == 0,
+        },
+        {
+          addr: "wss://relay.lax1dude.net/",
+          comment: "lax1dude relay #2",
+          primary: relayId == 1,
+        },
+        {
+          addr: "wss://relay.shhnowisnottheti.me/",
+          comment: "ayunami relay #1",
+          primary: relayId == 2,
+        },
+      ],
+    };
+
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   </script>
+  <script type="text/javascript">
+    "use strict";
+    if (typeof window !== "undefined")
+      window.eaglercraftXClientScriptElement = document.currentScript;
+        ${classes_js}
+  </script>
+  <script type="text/javascript">
+    "use strict";
+    window.eaglercraftXOpts.assetsURI = ${assets_epk};
+
+    var launchInterval = -1;
+    var launchCounter = 1;
+    var launchCountdownNumberElement = null;
+    var launchCountdownProgressElement = null;
+
+    function launchTick() {
+      launchCountdownNumberElement.innerText =
+        "" + Math.floor(6.0 - launchCounter * 0.06);
+      launchCountdownProgressElement.style.width = "" + launchCounter + "%";
+      if (++launchCounter > 100) {
+        clearInterval(launchInterval);
+        setTimeout(() => {
+          document.getElementById("launch_countdown_screen").remove();
+          main();
+        }, 50);
+      }
+    }
+
+    window.addEventListener("load", () => {
+      launchCountdownNumberElement = document.getElementById(
+        "launchCountdownNumber"
+      );
+      launchCountdownProgressElement = document.getElementById(
+        "launchCountdownProgress"
+      );
+      launchInterval = setInterval(launchTick, 50);
+    });
+    function safeLaunch() {
+      window.noLoadMods = true;
+      clearInterval(launchInterval);
+      setTimeout(() => {
+        document.getElementById("launch_countdown_screen").remove();
+        main();
+      }, 50);
+    }
+    function skipCountdown() {
+      clearInterval(launchInterval);
+      setTimeout(() => {
+        document.getElementById("launch_countdown_screen").remove();
+        main();
+      }, 50);
+    }
+  </script>
+  <link rel="icon" type="image/x-icon"
+    href="data:image/x-icon;base64,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">
 </head>
 
-<body style="margin:0px;width:100vw;height:100vh;overflow:hidden;" id="game_frame"></body>
+<body style="margin:0px;width:100vw;height:100vh;overflow:hidden;" id="game_frame">
+  <div
+    style="margin:0px;width:100%;height:100%;font-family:sans-serif;display:flex;align-items:center;user-select:none;"
+    id="launch_countdown_screen">
+    <div style="margin:auto;text-align:center;">
+      <h1>Shadow Client <span style="color:#AA0000;">4.2.2</span></h1>
+      <h2>
+        Game will launch in <span id="launchCountdownNumber">5</span>...
+      </h2>
+      <div style="border:2px solid black;width:100%;height:15px;padding:1px;margin-bottom:20vh;">
+        <div id="launchCountdownProgress" style="background-color:#555555;width:0%;height:100%;"></div>
+      </div>
+      <a href="javascript:void(0)" onclick="skipCountdown()"><code>SKIP COUNTDOWN</code></a>
+      <br /><br />
+      <a href="javascript:void(0)" onclick="safeLaunch()"><code>[load without mods]</code></a>
+    </div>
+  </div>
+</body>
 
 </html>
