@@ -98,12 +98,12 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	 * An array of all the paths to the panorama pictures.
 	 */
 	private static final ResourceLocation[] titlePanoramaPaths = new ResourceLocation[] {
-			new ResourceLocation("textures/gui/title/background/lunar_0.png"),
-			new ResourceLocation("textures/gui/title/background/lunar_1.png"),
-			new ResourceLocation("textures/gui/title/background/lunar_2.png"),
-			new ResourceLocation("textures/gui/title/background/lunar_3.png"),
-			new ResourceLocation("textures/gui/title/background/lunar_4.png"),
-			new ResourceLocation("textures/gui/title/background/lunar_5.png") };
+			new ResourceLocation("shadow:panorama/panorama_0.png"),
+			new ResourceLocation("shadow:panorama/panorama_1.png"),
+			new ResourceLocation("shadow:panorama/panorama_2.png"),
+			new ResourceLocation("shadow:panorama/panorama_3.png"),
+			new ResourceLocation("shadow:panorama/panorama_4.png"),
+			new ResourceLocation("shadow:panorama/panorama_5.png") };
 	private int field_92024_r;
 	private int field_92023_s;
 	private int field_92022_t;
@@ -245,9 +245,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		}
 
 		int yPos = height - 20;
-		this.buttonList.add(new ImageButton(0, width / 2 - 35, yPos, "MINECRAFT SETTINGS", new ResourceLocation("textures/shadow/icons/settings.png")));
-		this.buttonList.add(new ImageButton(4, width / 2 - 15, yPos, "EDIT PROFILE", new ResourceLocation("textures/shadow/icons/edit_profile.png")));
-		this.buttonList.add(new ImageButton(5, width / 2 + 5, yPos, "LANGUAGE", new ResourceLocation("textures/shadow/icons/globe.png")));
+		this.buttonList.add(new ImageButton(0, width / 2 - 35, yPos, "MINECRAFT SETTINGS", new ResourceLocation("shadow:icons/settings.png")));
+		this.buttonList.add(new ImageButton(4, width / 2 - 15, yPos, "EDIT PROFILE", new ResourceLocation("shadow:icons/edit_profile.png")));
+		this.buttonList.add(new ImageButton(5, width / 2 + 5, yPos, "LANGUAGE", new ResourceLocation("shadow:icons/globe.png")));
 
 		if (isFork) {
 			this.openGLWarning1 = EaglercraftVersion.mainMenuStringE;
@@ -338,7 +338,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		
 
 		if(parGuiButton.id == 3) {
-			this.mc.displayGuiScreen(new GuiCredits(this, "/assets/eagler/CREDITS_SHADOW.txt"));
+			this.mc.displayGuiScreen(new GuiCredits(this, "/assets/shadow/credits/CREDITS.txt"));
 		}
 	}
 
@@ -558,25 +558,24 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		GlStateManager.scale(f1, f1, f1);
 		this.drawCenteredString(this.fontRendererObj, this.splashText, 0, -8, -256);
 		GlStateManager.popMatrix();
-
-		String s = EaglercraftVersion.getMainMenuStringA();
+		
+		String s = EaglercraftVersion.mainMenuStringA;
 		if (this.mc.isDemo()) {
 			s += " Demo";
 		}
-		this.drawString(this.fontRendererObj, s, 2, this.height - 20, -1);
+		this.drawString(this.fontRendererObj, s, 2, this.height - 30, -1);
 		s = EaglercraftVersion.mainMenuStringB;
+		this.drawString(this.fontRendererObj, s, 2, this.height - 20, -1);
+		s = EaglercraftVersion.getMainMenuStringC();
 		this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
 
-		String s1 = EaglercraftVersion.mainMenuStringC;
-		this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2,
-				this.height - 20, -1);
-		s1 = EaglercraftVersion.mainMenuStringD;
+		String s1 = EaglercraftVersion.mainMenuStringD;
 		if (this.mc.isDemo()) {
 			s1 = "Copyright Mojang AB. Do not distribute!";
 		}
 		this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2,
 				this.height - 10, -1);
-
+		
 		if (!this.mc.isDemo()) {
 			GlStateManager.pushMatrix();
 			GlStateManager.scale(0.75f, 0.75f, 0.75f);

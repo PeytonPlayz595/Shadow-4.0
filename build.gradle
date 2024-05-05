@@ -45,7 +45,7 @@ teavm.js {
     debugInformation = false
 }
 
-tasks.register('runclient', JavaExec) {
+tasks.register('runClient', JavaExec) {
     classpath = sourceSets.eagler.compileClasspath
     group = "ShadowClient"
     description = "Runs the client"
