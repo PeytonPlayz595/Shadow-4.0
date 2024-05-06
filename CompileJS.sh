@@ -1,3 +1,3 @@
 #!/bin/sh
-chmod +x gradlew
+chmod +x ./gradlew
 ./gradlew generateJavascript

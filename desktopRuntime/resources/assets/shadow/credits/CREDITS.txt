@@ -1,0 +1,47 @@
+§7§k Shadow Client Developers 
+§b Shadow Client Developers 
+§7§k Shadow Client Developers 
+
+§6PeytonPlayz585:
+§6- Creator of Shadow Client
+§6- Ported Optifine
+§6- Ported Credits GUI from Eagler 1.5.2
+§6- Ported Chunk Borders
+§6- Made the main menu
+§6- Made Toggle Sprint
+
+§4kone:
+§4- Loading screen
+§4- Password Hiding
+
+§dOtterDev:
+§d- Created EaglerForge
+
+§2zumbiepig:
+§2- Backported textures from 1.18
+§2- Other minor improvements
+
+
+
+§7§k~EaglercraftX Developers~
+§b EaglercraftX Developers
+§7§k~EaglercraftX Developers~
+
+§elax1dude:
+§e- Creator of Eaglercraft
+§e- Ported the Minecraft 1.8 source to TeaVM
+§e- Wrote HW accelerated OpenGL 1.3 emulator
+§e- Wrote the default shader pack
+§e- Made the integrated PBR resource pack
+§e- Wrote all desktop emulation code
+§e- Wrote EaglercraftXBungee
+§e- Wrote WebRTC Relay Server
+§e- Wrote the patch and build system
+
+§5ayunami2000:
+§5- Many bug fixes
+§5- WebRTC LAN worlds
+§5- Added resource packs
+§5- Added screen recording
+§5- Added seamless fullscreen
+§5- Created the replit

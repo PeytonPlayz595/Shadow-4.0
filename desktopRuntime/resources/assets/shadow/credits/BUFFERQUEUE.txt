@@ -1,0 +1,8 @@
+§b§k Experimental WorldRenderer Buffer Upload Queue 
+§b Experimental WorldRenderer Buffer Upload Queue 
+§b§k Experimental WorldRenderer Buffer Upload Queue 
+
+§bChanges:
+§b- Sets position and limit of the IntBuffer before calling buffer.get()
+§b- Replace division with BitSet operations (shifting)
+§b- Directly calculates the size of the IntBuffer, significantly reducing overhead
