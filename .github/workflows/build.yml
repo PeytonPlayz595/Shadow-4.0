@@ -1,0 +1,75 @@
+name: build
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: setup java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+          cache: "gradle"
+      - name: validate gradle wrapper
+        uses: gradle/actions/wrapper-validation@v3
+      - name: compile javascript
+        run: bash CompileJS.sh
+      - name: compile web assets
+        run: bash CompileEPK.sh
+      - name: upload web version
+        uses: actions/upload-artifact@v4
+        with:
+          name: web
+          path: |
+            javascript/lang/
+            javascript/index.html
+            javascript/classes.js
+            javascript/classes.js.map
+            javascript/favicon.ico
+            javascript/assets.epk
+      - name: copy web files to _site/
+        if: github.ref == 'refs/heads/main'
+        run: mkdir _site/ && cp --recursive --target-directory=_site/
+          javascript/lang/
+          javascript/index.html
+          javascript/classes.js
+          javascript/classes.js.map
+          javascript/favicon.ico
+          javascript/assets.epk
+      - name: upload github-pages artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+      - name: remove minecraft:sounds/music/game
+        run: rm --recursive desktopRuntime/resources/assets/minecraft/sounds/music/game
+      - name: compile offline assets
+        run: bash CompileEPK.sh
+      - name: make offline download
+        run: bash MakeOfflineDownload.sh
+      - name: upload offline
+        uses: actions/upload-artifact@v4
+        with:
+          name: offline
+          path: javascript/Shadow_Client_Offline.html
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    concurrency:
+      group: "pages"
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy
+        uses: actions/deploy-pages@v4
+      - name: delete github-pages artifact
+        uses: GeekyEggo/delete-artifact@v5
+        with:
+          name: github-pages
