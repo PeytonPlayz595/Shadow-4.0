@@ -1,0 +1,11 @@
+§b§k Experimental VisGraph 
+§b Experimental VisGraph 
+§b§k Experimental VisGraph 
+
+§bChanges:
+§b- Uses different BitSet operations for both opaque and visible blocks
+§b- Uses IntStack instead of LinkedList, increases performance on larger render distances
+§b- Keeps track of total number of transparent blocks
+§b- Stores precomputed visibility data and visibility state
+§b- Checks if visibility update is actually needed
+§b- Seperate functions for getting visible faces from a block position

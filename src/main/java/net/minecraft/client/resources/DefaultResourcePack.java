@@ -35,7 +35,7 @@ import net.minecraft.util.ResourceLocation;
  * 
  */
 public class DefaultResourcePack implements IResourcePack {
-	public static final Set<String> defaultResourceDomains = ImmutableSet.of("minecraft", "eagler");
+	public static final Set<String> defaultResourceDomains = ImmutableSet.of("minecraft", "eagler", "shadow");
 
 	public InputStream getInputStream(ResourceLocation parResourceLocation) throws IOException {
 		InputStream inputstream = this.getResourceStream(parResourceLocation);

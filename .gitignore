@@ -14,3 +14,10 @@ desktopRuntime/options.txt
 desktopRuntime/_eagstorage*
 desktopRuntime/filesystem/*
 desktopRuntime/downloads/*
+
+.DS_Store
+
+javascript/classes.js
+javascript/classes.js.map
+javascript/assets.epk
+javascript/Shadow_Client_Offline.html
