@@ -271,6 +271,7 @@ public class GameSettings extends ModData {
 	public boolean hidePassword = true;
 	public boolean enableFNAWSkins = true;
 	public boolean fullBright = false;
+	public boolean leftHand = false;
 	
 	public int voiceListenRadius = 16;
 	public float voiceListenVolume = 0.5f;
@@ -1082,6 +1083,10 @@ public class GameSettings extends ModData {
 		if(parOptions == GameSettings.Options.FULLBRIGHT) {
 			this.fullBright = !this.fullBright;
 		}
+		
+		if(parOptions == GameSettings.Options.LEFT_HAND) {
+			this.leftHand = !this.leftHand;
+		}
 
 		this.saveOptions();
 	}
@@ -1209,6 +1214,8 @@ public class GameSettings extends ModData {
 			return this.enableVsync;
 		case FULLBRIGHT:
 			return this.fullBright;
+		case LEFT_HAND:
+			return this.leftHand;
 		default:
 			return false;
 		}
@@ -1265,6 +1272,8 @@ public class GameSettings extends ModData {
 					: (parOptions == GameSettings.Options.AF_LEVEL ? (this.ofAfLevel == 1 ? s + Lang.getOff() : s + this.ofAfLevel)
 					: (parOptions == GameSettings.Options.AA_LEVEL ? s + this.getAntialiasingString()
 					: "yee")))))))))))))))));
+		} else if (parOptions == GameSettings.Options.LEFT_HAND) {
+			return this.leftHand ? s + "Left" : s + "Right";
 		} else if (parOptions.getEnumBoolean()) {
 			boolean flag = this.getOptionOrdinalValue(parOptions);
 			return flag ? s + I18n.format("options.on", new Object[0]) : s + I18n.format("options.off", new Object[0]);
@@ -2080,6 +2089,10 @@ public class GameSettings extends ModData {
 					if (astring[0].equals("fullbright") && astring.length >= 2) {
 						fullBright = Boolean.valueOf(astring[1]).booleanValue();
 					}
+					
+					if (astring[0].equals("leftHand") && astring.length >= 2) {
+						leftHand = Boolean.valueOf(astring[1]).booleanValue();
+					}
 
 					for (SoundCategory soundcategory : SoundCategory._VALUES) {
 						if (astring[0].equals("soundCategory_" + soundcategory.getCategoryName())) {
@@ -2275,6 +2288,7 @@ public class GameSettings extends ModData {
 			printwriter.println("voicePTTKey:" + this.voicePTTKey);
 			printwriter.println("enableFNAWSkins:" + this.enableFNAWSkins);
 			printwriter.println("fullbright:" + this.fullBright);
+			printwriter.println("leftHand:" + this.leftHand);
 
 			for (KeyBinding keybinding : this.keyBindings) {
 				printwriter.println("key_" + keybinding.getKeyDescription() + ":" + keybinding.getKeyCode());
@@ -2487,7 +2501,8 @@ public class GameSettings extends ModData {
 		HIDE_PASSWORD("Hide Password", false, false),
 		FNAW_SKINS("options.skinCustomisation.enableFNAWSkins", false, true),
 		EAGLER_VSYNC("options.vsync", false, true),
-		FULLBRIGHT("Fullbright", false, true);
+		FULLBRIGHT("Fullbright", false, true),
+		LEFT_HAND("Main Hand", false, true);
 
 		private final boolean enumFloat;
 		private final boolean enumBoolean;

@@ -173,6 +173,10 @@ public class ItemRenderer {
 	}
 
 	private void renderItemMap(AbstractClientPlayer clientPlayer, float parFloat1, float parFloat2, float parFloat3) {
+		if(this.mc.gameSettings.leftHand) {
+			GlStateManager.cullFace(GL_BACK);
+			GlStateManager.scale(-1, 1, 1);
+		}
 		float f = -0.4F * MathHelper.sin(MathHelper.sqrt_float(parFloat3) * 3.1415927F);
 		float f1 = 0.2F * MathHelper.sin(MathHelper.sqrt_float(parFloat3) * 3.1415927F * 2.0F);
 		float f2 = -0.2F * MathHelper.sin(parFloat3 * 3.1415927F);
@@ -267,6 +271,12 @@ public class ItemRenderer {
 	 * item in first person.
 	 */
 	private void transformFirstPersonItem(float equipProgress, float swingProgress) {
+		if(this.mc.gameSettings.leftHand && ((this.itemToRender.getItem() == Items.compass) || (this.itemToRender.getItem() == Items.clock))){
+			GlStateManager.cullFace(GL_BACK);
+			GlStateManager.translate(0.05, -0.63, -1.35);
+			GlStateManager.rotate(-50, 1, 0, 0);
+			GlStateManager.scale(1, 1, -1);
+		}
 		GlStateManager.translate(0.56F, -0.52F, -0.71999997F);
 		GlStateManager.translate(0.0F, equipProgress * -0.6F, 0.0F);
 		GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
@@ -314,8 +324,15 @@ public class ItemRenderer {
 	 * person mode. Args: partialTickTime
 	 */
 	public void renderItemInFirstPerson(float partialTicks) {
-		float f = 1.0F
-				- (this.prevEquippedProgress + (this.equippedProgress - this.prevEquippedProgress) * partialTicks);
+		if(this.mc.gameSettings.leftHand) {
+			GlStateManager.scale(-1, 1, 1);
+	    	if(itemToRender != null) {
+	    		GlStateManager.cullFace(GL_FRONT);
+	    	} else {
+	    		GlStateManager.cullFace(GL_BACK);
+	    	}
+		}
+		float f = 1.0F - (this.prevEquippedProgress + (this.equippedProgress - this.prevEquippedProgress) * partialTicks);
 		EntityPlayerSP entityplayersp = this.mc.thePlayer;
 		float f1 = entityplayersp.getSwingProgress(partialTicks);
 		float f2 = entityplayersp.prevRotationPitch
