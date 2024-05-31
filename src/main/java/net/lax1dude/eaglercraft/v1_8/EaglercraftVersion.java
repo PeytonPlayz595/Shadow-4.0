@@ -35,7 +35,7 @@ public class EaglercraftVersion {
 	public static final boolean enableUpdateService = false;
 
 	public static final String updateBundlePackageName = "net.lax1dude.eaglercraft.v1_8.client";
-	public static final int updateBundlePackageVersionInt = 27;
+	public static final int updateBundlePackageVersionInt = 29;
 
 	public static final String updateLatestLocalStorageKey = "latestUpdate_" + updateBundlePackageName;
 

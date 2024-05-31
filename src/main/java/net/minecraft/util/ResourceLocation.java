@@ -28,6 +28,11 @@ public class ResourceLocation {
 	public String resourceName;
 
 	public Object cachedPointer = null;
+	public int cachedPointerType = 0;
+
+	public static final int CACHED_POINTER_NONE = 0;
+	public static final int CACHED_POINTER_TEXTURE = 1;
+	public static final int CACHED_POINTER_EAGLER_MESH = 2;
 
 	protected ResourceLocation(int parInt1, String... resourceName) {
 		this.resourceName = resourceName[0];

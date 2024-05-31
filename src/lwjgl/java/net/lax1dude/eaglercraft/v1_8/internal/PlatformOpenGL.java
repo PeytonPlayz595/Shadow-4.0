@@ -8,6 +8,7 @@ import net.lax1dude.eaglercraft.v1_8.internal.buffer.IntBuffer;
 import static org.lwjgl.opengles.GLES30.*;
 
 import org.lwjgl.opengles.GLES31;
+import org.lwjgl.opengles.GLESCapabilities;
 
 /**
  * Copyright (c) 2022-2023 lax1dude, ayunami2000. All Rights Reserved.
@@ -25,6 +26,12 @@ import org.lwjgl.opengles.GLES31;
  * 
  */
 public class PlatformOpenGL {
+	
+	private static boolean hasLinearHDR32FSupport = false;
+
+	static void setCurrentContext(GLESCapabilities caps) {
+		hasLinearHDR32FSupport = caps.GL_OES_texture_float_linear;
+	}
 
 	public static final void _wglEnable(int glEnum) {
 		glEnable(glEnum);
@@ -266,6 +273,12 @@ public class PlatformOpenGL {
 	}
 
 	public static final void _wglTexImage2Du16(int target, int level, int internalFormat, int width, int height,
+			int border, int format, int type, ByteBuffer data) {
+		nglTexImage2D(target, level, internalFormat, width, height, border, format, type,
+				data == null ? 0l : EaglerLWJGLAllocator.getAddress(data));
+	}
+	
+	public static final void _wglTexImage2Df32(int target, int level, int internalFormat, int width, int height,
 			int border, int format, int type, ByteBuffer data) {
 		nglTexImage2D(target, level, internalFormat, width, height, border, format, type,
 				data == null ? 0l : EaglerLWJGLAllocator.getAddress(data));
@@ -531,6 +544,10 @@ public class PlatformOpenGL {
 	
 	public static int _wglGetTexLevelParameteri(int glTexture2d, int i, int glTextureWidth) {
 		return GLES31.glGetTexLevelParameteri(glTexture2d, i, glTextureWidth);
+	}
+	
+	public static final boolean checkLinearHDR32FSupport() {
+		return hasLinearHDR32FSupport;
 	}
 
 }

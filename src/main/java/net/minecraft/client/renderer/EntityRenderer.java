@@ -39,6 +39,7 @@ import net.lax1dude.eaglercraft.v1_8.opengl.ext.deferred.ShadersRenderPassFuture
 import net.lax1dude.eaglercraft.v1_8.opengl.ext.deferred.gui.GuiShaderConfig;
 import net.lax1dude.eaglercraft.v1_8.opengl.ext.deferred.texture.EmissiveItems;
 import net.lax1dude.eaglercraft.v1_8.vector.Vector4f;
+import net.lax1dude.eaglercraft.v1_8.voice.VoiceTagRenderer;
 import net.lax1dude.eaglercraft.v1_8.vector.Matrix4f;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -182,6 +183,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	private boolean initialized = false;
 	private DebugChunkRenderer chunkRenderer;
 	private float clipDistance = 128.0F;
+	
+	public float currentProjMatrixFOV = 0.0f;
 
 	public EntityRenderer(Minecraft mcIn, IResourceManager resourceManagerIn) {
 		this.useShader = false;
@@ -650,9 +653,9 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 		float farPlane = this.farPlaneDistance * 2.0f * MathHelper.SQRT_2;
 		if(this.mc.gameSettings.renderDistanceChunks >= 2) {
-			GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance);
+			GlStateManager.gluPerspective(currentProjMatrixFOV = this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance);
 		} else {
-			GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, farPlane);
+			GlStateManager.gluPerspective(currentProjMatrixFOV = this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, farPlane);
 		}
 		DeferredStateManager.setGBufferNearFarPlanes(0.05f, farPlane);
 		GlStateManager.matrixMode(GL_MODELVIEW);
@@ -1081,6 +1084,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 					});
 					throw new ReportedException(crashreport);
 				}
+				
+				this.mc.voiceOverlay.drawOverlay();
 			}
 
 		}
@@ -1158,6 +1163,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		if (fxaa) {
 			EffectPipelineFXAA.begin(this.mc.displayWidth, this.mc.displayHeight);
 		}
+		
+		VoiceTagRenderer.clearTagsDrawnSet();
 
 		GlStateManager.enableDepth();
 		GlStateManager.enableAlpha();
@@ -1221,19 +1228,20 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			this.mc.mcProfiler.endStartSection("sky");
 			GlStateManager.matrixMode(GL_PROJECTION);
 			GlStateManager.loadIdentity();
+			float vigg = this.getFOVModifier(partialTicks, true);
 			if(this.mc.gameSettings.renderDistanceChunks >= 2) {
-				GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance);
+				GlStateManager.gluPerspective(vigg, (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance);
 			} else {
-				GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.farPlaneDistance * 4.0F);
+				GlStateManager.gluPerspective(vigg, (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.farPlaneDistance * 4.0F);
 			}
 			GlStateManager.matrixMode(GL_MODELVIEW);
 			renderglobal.renderSky(partialTicks, pass);
 			GlStateManager.matrixMode(GL_PROJECTION);
 			GlStateManager.loadIdentity();
 			if(this.mc.gameSettings.renderDistanceChunks >= 2) {
-				GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance);
+				GlStateManager.gluPerspective(vigg, (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.clipDistance);
 			} else {
-				GlStateManager.gluPerspective(this.getFOVModifier(partialTicks, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.farPlaneDistance * MathHelper.SQRT_2);
+				GlStateManager.gluPerspective(vigg, (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, this.farPlaneDistance * MathHelper.SQRT_2);
 			}
 			GlStateManager.matrixMode(GL_MODELVIEW);
 		} else {

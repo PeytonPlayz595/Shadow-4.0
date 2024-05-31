@@ -49,7 +49,7 @@ public class GuiVideoSettings extends GuiScreen {
 			GameSettings.Options.AO_LEVEL, 
 			GameSettings.Options.VIEW_BOBBING, 
 			GameSettings.Options.GUI_SCALE, 
-			GameSettings.Options.USE_VBO, 
+			GameSettings.Options.EAGLER_VSYNC, 
 			GameSettings.Options.GAMMA, 
 			GameSettings.Options.BLOCK_ALTERNATIVES,
 			GameSettings.Options.FOG_FANCY, 
@@ -182,6 +182,7 @@ public class GuiVideoSettings extends GuiScreen {
 			int j = scaledresolution.getScaledWidth();
 			int k = scaledresolution.getScaledHeight();
 			this.setWorldAndResolution(this.mc, j, k);
+			this.mc.voiceOverlay.setResolution(j, k);
 		}
 
 	}

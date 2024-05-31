@@ -123,5 +123,10 @@ public class DesktopClientConfigAdapter implements IClientConfigAdapter {
 	public boolean isEnableSignatureBadge() {
 		return false;
 	}
+	
+	@Override
+	public boolean isAllowVoiceClient() {
+		return false;
+	}
 
 }

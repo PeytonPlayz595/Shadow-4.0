@@ -45,6 +45,7 @@ import net.lax1dude.eaglercraft.v1_8.log4j.LogManager;
 import net.lax1dude.eaglercraft.v1_8.log4j.Logger;
 import net.lax1dude.eaglercraft.v1_8.minecraft.EaglerFolderResourcePack;
 import net.lax1dude.eaglercraft.v1_8.minecraft.EaglerFontRenderer;
+import net.lax1dude.eaglercraft.v1_8.opengl.EaglerMeshLoader;
 import net.lax1dude.eaglercraft.v1_8.opengl.EaglercraftGPU;
 import net.lax1dude.eaglercraft.v1_8.opengl.GlStateManager;
 import net.lax1dude.eaglercraft.v1_8.opengl.ImageData;
@@ -73,6 +74,8 @@ import net.lax1dude.eaglercraft.v1_8.sp.gui.GuiScreenSingleplayerConnecting;
 import net.lax1dude.eaglercraft.v1_8.sp.internal.ClientPlatformSingleplayer;
 import net.lax1dude.eaglercraft.v1_8.sp.lan.LANServerController;
 import net.lax1dude.eaglercraft.v1_8.update.RelayUpdateChecker;
+import net.lax1dude.eaglercraft.v1_8.voice.GuiVoiceOverlay;
+import net.lax1dude.eaglercraft.v1_8.voice.VoiceClientController;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -315,6 +318,8 @@ public class Minecraft extends ModData implements IThreadListener {
 	public ModAPI modapi;
 
 	public SkullCommand eagskullCommand;
+	
+	public GuiVoiceOverlay voiceOverlay;
 
 	public Minecraft(GameConfiguration gameConfig) {
 		theMinecraft = this;
@@ -431,6 +436,7 @@ public class Minecraft extends ModData implements IThreadListener {
 		this.mcResourceManager.registerReloadListener(new MetalsLUT());
 		this.mcResourceManager.registerReloadListener(new EmissiveItems());
 		this.mcResourceManager.registerReloadListener(new BlockVertexIDs());
+		this.mcResourceManager.registerReloadListener(new EaglerMeshLoader());
 		AchievementList.openInventory.setStatStringFormatter(new IStatStringFormat() {
 			public String formatString(String parString1) {
 				try {
@@ -481,6 +487,9 @@ public class Minecraft extends ModData implements IThreadListener {
 		this.checkGLError("Post startup");
 		this.ingameGUI = new GuiIngame(this);
 		this.eagskullCommand = new SkullCommand(this);
+		this.voiceOverlay = new GuiVoiceOverlay(this);
+		ScaledResolution voiceRes = new ScaledResolution(this);
+		this.voiceOverlay.setResolution(voiceRes.getScaledWidth(), voiceRes.getScaledHeight());
 
 		ServerList.initServerList(this);
 		EaglerProfile.read();
@@ -888,6 +897,7 @@ public class Minecraft extends ModData implements IThreadListener {
 
 	public void updateDisplay() {
 		this.mcProfiler.startSection("display_update");
+		Display.setVSync(this.gameSettings.enableVsync);
 		Display.update();
 		this.mcProfiler.endSection();
 		this.checkWindowResize();
@@ -1234,12 +1244,14 @@ public class Minecraft extends ModData implements IThreadListener {
 	private void resize(int width, int height) {
 		this.displayWidth = Math.max(1, width);
 		this.displayHeight = Math.max(1, height);
+		ScaledResolution scaledresolution = new ScaledResolution(this);
 		if (this.currentScreen != null) {
-			ScaledResolution scaledresolution = new ScaledResolution(this);
 			this.currentScreen.onResize(this, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight());
 		}
 
 		this.loadingScreen = new LoadingScreenRenderer(this);
+		
+		this.voiceOverlay.setResolution(scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight());
 	}
 
 	public MusicTicker func_181535_r() {
@@ -1278,6 +1290,9 @@ public class Minecraft extends ModData implements IThreadListener {
 		if (!this.isGamePaused) {
 			this.ingameGUI.updateTick();
 		}
+		
+		this.mcProfiler.endStartSection("eaglerVoice");
+		VoiceClientController.tickVoiceClient(this);
 
 		this.mcProfiler.endSection();
 		this.entityRenderer.getMouseOver(1.0F);
@@ -1794,6 +1809,7 @@ public class Minecraft extends ModData implements IThreadListener {
 	 */
 	public void launchIntegratedServer(String folderName, String worldName, WorldSettings worldSettingsIn) {
 		this.loadWorld((WorldClient) null);
+		Minecraft.getMinecraft().getRenderManager().setEnableFNAWSkins(this.gameSettings.enableFNAWSkins);
 		session.reset();
 		SingleplayerServerController.launchEaglercraftServer(folderName, gameSettings.difficulty.getDifficultyId(),
 				Math.max(gameSettings.renderDistanceChunks, 2), worldSettingsIn);
@@ -2337,5 +2353,13 @@ public class Minecraft extends ModData implements IThreadListener {
 
 	public void clearTitles() {
 		ingameGUI.displayTitle(null, null, -1, -1, -1);
+	}
+	
+	public boolean getEnableFNAWSkins() {
+		boolean ret = this.gameSettings.enableFNAWSkins;
+		if (this.thePlayer != null) {
+			ret &= this.thePlayer.sendQueue.currentFNAWSkinAllowedState;
+		}
+		return ret;
 	}
 }
