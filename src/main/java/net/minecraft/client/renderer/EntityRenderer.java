@@ -864,7 +864,12 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 						f10 = 1.0F;
 					}
 
-					float f16 = this.mc.gameSettings.gammaSetting;
+					float f16;
+					if(this.mc.gameSettings.fullBright) {
+						f16 = 100F;
+					} else {
+						f16 = this.mc.gameSettings.gammaSetting;
+					}
 					float f17 = 1.0F - f8;
 					float f13 = 1.0F - f9;
 					float f14 = 1.0F - f10;

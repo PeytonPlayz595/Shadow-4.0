@@ -267,6 +267,7 @@ public class GameSettings {
 	public boolean ofSmoothBiomes = true;
 	public boolean ofCustomColors = true;
 	public boolean hidePassword = true;
+	public boolean fullBright = false;
 	
 	public boolean enableFNAWSkins = true;
 	public int voiceListenRadius = 16;
@@ -913,6 +914,10 @@ public class GameSettings {
 		if (parOptions == GameSettings.Options.EAGLER_VSYNC) {
 			this.enableVsync = !this.enableVsync;
 		}
+		
+		if(parOptions == GameSettings.Options.FULLBRIGHT) {
+			this.fullBright = !this.fullBright;
+		}
 
 		this.saveOptions();
 	}
@@ -1040,6 +1045,8 @@ public class GameSettings {
 			return this.enableFNAWSkins;
 		case EAGLER_VSYNC:
 			return this.enableVsync;
+		case FULLBRIGHT:
+			return this.fullBright;
 		default:
 			return false;
 		}
@@ -1318,7 +1325,9 @@ public class GameSettings {
     	} else if (parOptions == GameSettings.Options.CUSTOM_COLORS) {
         	return this.ofCustomColors ? s + Lang.getOn() : s + Lang.getOff();
     	} else if (parOptions == GameSettings.Options.HIDE_PASSWORD) {
-			return hidePassword ? s + "ON" : s + "OFF";	
+			return this.hidePassword ? s + Lang.getOn() : s + Lang.getOff();	
+		} else if (parOptions == GameSettings.Options.FULLBRIGHT) {
+			return this.fullBright ? s + Lang.getOn() : s + Lang.getOff();
 		} else {
     		return s;
     	}
@@ -1905,6 +1914,10 @@ public class GameSettings {
 					if (astring[0].equals("voicePTTKey")) {
 						voicePTTKey = Integer.parseInt(astring[1]);
 					}
+					
+					if (astring[0].equals("fullbright") && astring.length >= 2) {
+						fullBright = Boolean.valueOf(astring[1]).booleanValue();
+					}
 
 					for (SoundCategory soundcategory : SoundCategory._VALUES) {
 						if (astring[0].equals("soundCategory_" + soundcategory.getCategoryName())) {
@@ -2099,6 +2112,7 @@ public class GameSettings {
 			printwriter.println("voiceSpeakVolume:" + this.voiceSpeakVolume);
 			printwriter.println("voicePTTKey:" + this.voicePTTKey);
 			printwriter.println("enableFNAWSkins:" + this.enableFNAWSkins);
+			printwriter.println("fullbright:" + this.fullBright);
 
 			for (KeyBinding keybinding : this.keyBindings) {
 				printwriter.println("key_" + keybinding.getKeyDescription() + ":" + keybinding.getKeyCode());
@@ -2310,7 +2324,8 @@ public class GameSettings {
         CUSTOM_COLORS("Custom Colors", false, false),
         HIDE_PASSWORD("Hide Password", false, false),
         FNAW_SKINS("options.skinCustomisation.enableFNAWSkins", false, true),
-		EAGLER_VSYNC("options.vsync", false, true);
+		EAGLER_VSYNC("options.vsync", false, true),
+		FULLBRIGHT("Fullbright", false, true);
 
 		private final boolean enumFloat;
 		private final boolean enumBoolean;
