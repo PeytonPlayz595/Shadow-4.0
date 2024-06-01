@@ -53,6 +53,12 @@ public class ServerPlatformSingleplayer {
 			} else if(s.equals("smoothWorld:false")) {
 				MinecraftServer.smoothWorld = false;
 				return;
+			} else if(s.contains("fullbright:true")) {
+				MinecraftServer.isFullBright = true;
+				return;
+			} else if(s.contains("fullbright:false")) {
+				MinecraftServer.isFullBright = false;
+				return;
 			} else if(s.contains("ofTrees")) {
 				String[] value = s.split(":");
 				int i = Integer.parseInt(value[1]);

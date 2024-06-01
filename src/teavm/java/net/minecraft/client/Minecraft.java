@@ -1261,6 +1261,7 @@ public class Minecraft extends ModData implements IThreadListener {
 	/**+
 	 * Runs the current tick.
 	 */
+	public boolean packetsSent = false;
 	public void runTick() throws IOException {
 		Minecraft.getMinecraft().modapi.onFrame();
 		if (this.rightClickDelayTimer > 0) {
@@ -1693,20 +1694,24 @@ public class Minecraft extends ModData implements IThreadListener {
 							this.fixWorldTime();
 						}
 						
-						if(Config.isWeatherEnabled()) {
-							ClientPlatformSingleplayer.sendPacket(new IPCPacketData("iFuckingHateWebworkers", "weather:true".getBytes()));
-						} else {
-							ClientPlatformSingleplayer.sendPacket(new IPCPacketData("iFuckingHateWebworkers", "weather:false".getBytes()));
-						}
+						if(!packetsSent) {
+							if(Config.isWeatherEnabled()) {
+								ClientPlatformSingleplayer.sendPacket(new IPCPacketData("iFuckingHateWebworkers", "weather:true".getBytes()));
+							} else {
+								ClientPlatformSingleplayer.sendPacket(new IPCPacketData("iFuckingHateWebworkers", "weather:false".getBytes()));
+							}
 						
-						if(Config.isSmoothWorld()) {
-							ClientPlatformSingleplayer.sendPacket(new IPCPacketData("iFuckingHateWebworkers", "smoothWorld:true".getBytes()));
-						} else {
-							ClientPlatformSingleplayer.sendPacket(new IPCPacketData("iFuckingHateWebworkers", "smoothWorld:false".getBytes()));
-						}
+							if(Config.isSmoothWorld()) {
+								ClientPlatformSingleplayer.sendPacket(new IPCPacketData("iFuckingHateWebworkers", "smoothWorld:true".getBytes()));
+							} else {
+								ClientPlatformSingleplayer.sendPacket(new IPCPacketData("iFuckingHateWebworkers", "smoothWorld:false".getBytes()));
+							}
 						
-						ClientPlatformSingleplayer.sendPacket(new IPCPacketData("iFuckingHateWebworkers", new String("ofTrees:" + gameSettings.ofTrees).getBytes()));
-						ClientPlatformSingleplayer.sendPacket(new IPCPacketData("iFuckingHateWebworkers", new String("graphics:" + gameSettings.fancyGraphics).getBytes()));
+							ClientPlatformSingleplayer.sendPacket(new IPCPacketData("iFuckingHateWebworkers", new String("ofTrees:" + gameSettings.ofTrees).getBytes()));
+							ClientPlatformSingleplayer.sendPacket(new IPCPacketData("iFuckingHateWebworkers", new String("graphics:" + gameSettings.fancyGraphics).getBytes()));
+							ClientPlatformSingleplayer.sendPacket(new IPCPacketData("iFuckingHateWebworkers", new String("fullbright:" + gameSettings.fullBright).getBytes()));
+							packetsSent = true;
+						}
 						
 						if (Config.waterOpacityChanged) {
 				            Config.waterOpacityChanged = false;
@@ -1842,6 +1847,7 @@ public class Minecraft extends ModData implements IThreadListener {
 
 			this.guiAchievement.clearAchievements();
 			this.entityRenderer.getMapItemRenderer().clearLoadedMaps();
+			packetsSent = false;
 		}
 
 		this.renderViewEntity = null;

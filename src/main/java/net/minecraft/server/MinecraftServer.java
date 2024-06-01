@@ -1066,5 +1066,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	public static boolean weather = true;
 	public static boolean smoothWorld = false;
 	public static boolean fancyGraphics = false;
+	public static boolean isFullBright = false;
 	public static int trees = 0;
 }

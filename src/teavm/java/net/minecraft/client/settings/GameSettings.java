@@ -496,6 +496,8 @@ public class GameSettings extends ModData {
 	 * value), this will set the float value.
 	 */
 	public void setOptionFloatValue(GameSettings.Options parOptions, float parFloat1) {
+		Minecraft.getMinecraft().packetsSent = false;
+		
 		if (parOptions == GameSettings.Options.SENSITIVITY) {
 			this.mouseSensitivity = parFloat1;
 		}
@@ -615,6 +617,8 @@ public class GameSettings extends ModData {
 	 * through the list i.e. render distances.
 	 */
 	public void setOptionValue(GameSettings.Options parOptions, int parInt1) {
+		Minecraft.getMinecraft().packetsSent = false;
+		
 		if (parOptions == GameSettings.Options.INVERT_MOUSE) {
 			this.invertMouse = !this.invertMouse;
 		}

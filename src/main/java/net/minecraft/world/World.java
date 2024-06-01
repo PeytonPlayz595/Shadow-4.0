@@ -27,6 +27,7 @@ import net.minecraft.block.BlockSnow;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
@@ -606,6 +607,16 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public int getLightFromNeighborsFor(EnumSkyBlock type, BlockPos pos) {
+		if(MinecraftServer.getServer() != null) {
+			if(MinecraftServer.isFullBright) {
+				return 15;
+			}
+		} else {
+			if(Minecraft.getMinecraft().gameSettings.fullBright) {
+				return 15;
+			}
+		}
+		
 		if (this.provider.getHasNoSky() && type == EnumSkyBlock.SKY) {
 			return Chunk.getNoSkyLightValue();
 		} else {
@@ -2342,6 +2353,16 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public boolean checkLightFor(EnumSkyBlock lightType, BlockPos pos) {
+		if(MinecraftServer.getServer() != null) {
+			if(MinecraftServer.isFullBright) {
+				return true;
+			}
+		} else {
+			if(Minecraft.getMinecraft().gameSettings.fullBright) {
+				return true;
+			}
+		}
+		
 		if (!this.isAreaLoaded(pos, 17, false)) {
 			return false;
 		} else {
