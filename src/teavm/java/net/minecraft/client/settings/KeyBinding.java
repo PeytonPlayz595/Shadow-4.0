@@ -38,8 +38,8 @@ public class KeyBinding extends ModData implements Comparable<KeyBinding> {
 	private final String keyDescription;
 	private final int keyCodeDefault;
 	private final String keyCategory;
-	private int keyCode;
-	private boolean pressed;
+	public int keyCode;
+	public boolean pressed;
 	private int pressTime;
 
 	public static void onTick(int keyCode) {

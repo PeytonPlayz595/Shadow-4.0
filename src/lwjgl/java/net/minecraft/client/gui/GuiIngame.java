@@ -5,6 +5,7 @@ import static net.lax1dude.eaglercraft.v1_8.opengl.RealOpenGLEnums.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import net.PeytonPlayz585.shadow.ArmorGui;
 import net.PeytonPlayz585.shadow.Config;
 import net.PeytonPlayz585.shadow.CustomColors;
 import net.lax1dude.eaglercraft.v1_8.EaglercraftRandom;
@@ -77,7 +78,7 @@ public class GuiIngame extends Gui {
 	private static final ResourceLocation pumpkinBlurTexPath = new ResourceLocation("textures/misc/pumpkinblur.png");
 	private final EaglercraftRandom rand = new EaglercraftRandom();
 	private final Minecraft mc;
-	private final RenderItem itemRenderer;
+	public final RenderItem itemRenderer;
 	private final GuiNewChat persistantChatGUI;
 	private int updateCounter;
 	/**+
@@ -312,6 +313,8 @@ public class GuiIngame extends Gui {
 			this.overlayPlayerList.updatePlayerList(true);
 			this.overlayPlayerList.renderPlayerlist(i, scoreboard, scoreobjective1);
 		}
+		
+		ArmorGui.draw();
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.disableLighting();

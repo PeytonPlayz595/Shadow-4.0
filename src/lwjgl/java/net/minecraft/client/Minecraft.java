@@ -2338,4 +2338,8 @@ public class Minecraft implements IThreadListener {
 		}
 		return ret;
 	}
+
+	public float getPartialTicks() {
+		return this.timer.renderPartialTicks;
+	}
 }

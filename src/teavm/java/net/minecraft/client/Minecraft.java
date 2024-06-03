@@ -2368,4 +2368,8 @@ public class Minecraft extends ModData implements IThreadListener {
 		}
 		return ret;
 	}
+	
+	public float getPartialTicks() {
+		return this.timer.renderPartialTicks;
+	}
 }

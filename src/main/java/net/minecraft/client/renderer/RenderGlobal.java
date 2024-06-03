@@ -506,7 +506,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 	public void renderEntities(Entity renderViewEntity, ICamera camera, float partialTicks) {
 		boolean b = true;
-		if(entityCantBeSeen(renderViewEntity)) {
+		if(this.mc.gameSettings.entityCulling && entityCantBeSeen(renderViewEntity)) {
 			return;
 		}
 		if (this.renderEntitiesStartupCounter > 0) {
@@ -2293,7 +2293,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 	private EntityFX spawnEntityFX(int p_174974_1_, boolean ignoreRange, double p_174974_3_, double p_174974_5_, double p_174974_7_, double p_174974_9_, double p_174974_11_, double p_174974_13_, int... p_174974_15_) {
         if (this.mc != null && this.mc.getRenderViewEntity() != null && this.mc.effectRenderer != null) {
-        	if(isBehindPlayer(new BlockPos(p_174974_3_, p_174974_5_, p_174974_7_))) {
+        	if(this.mc.gameSettings.particleCulling && isBehindPlayer(new BlockPos(p_174974_3_, p_174974_5_, p_174974_7_))) {
         		return null;
         	}
         	

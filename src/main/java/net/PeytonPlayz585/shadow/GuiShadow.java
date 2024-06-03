@@ -9,7 +9,7 @@ import net.minecraft.client.settings.GameSettings;
 
 public class GuiShadow extends GuiScreen {
 	
-	private static GameSettings.Options[] enumOptions = new GameSettings.Options[] {GameSettings.Options.TOGGLE_SPRINT, GameSettings.Options.CHUNK_BORDERS, GameSettings.Options.HIDE_PASSWORD, GameSettings.Options.FULLBRIGHT, GameSettings.Options.LEFT_HAND};
+	private static GameSettings.Options[] enumOptions = new GameSettings.Options[] {GameSettings.Options.TOGGLE_SPRINT, GameSettings.Options.CHUNK_BORDERS, GameSettings.Options.HIDE_PASSWORD, GameSettings.Options.FULLBRIGHT, GameSettings.Options.LEFT_HAND, GameSettings.Options.ENTITY_CULLING, GameSettings.Options.PARTICLE_CULLING, GameSettings.Options.ARMOR_GUI, GameSettings.Options.CPS, GameSettings.Options.POTION_GUI};
 	
 	private GuiScreen parentScreen;
 	protected String title;

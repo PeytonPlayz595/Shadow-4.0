@@ -272,6 +272,12 @@ public class GameSettings extends ModData {
 	public boolean enableFNAWSkins = true;
 	public boolean fullBright = false;
 	public boolean leftHand = false;
+	public boolean entityCulling = true;
+	public boolean particleCulling = true;
+	public boolean armorgui = false;
+	public boolean cps = false;
+	public boolean keyStrokes = false;
+	public boolean potionGUI = false;
 	
 	public int voiceListenRadius = 16;
 	public float voiceListenVolume = 0.5f;
@@ -1091,6 +1097,30 @@ public class GameSettings extends ModData {
 		if(parOptions == GameSettings.Options.LEFT_HAND) {
 			this.leftHand = !this.leftHand;
 		}
+		
+		if(parOptions == GameSettings.Options.ENTITY_CULLING) {
+			this.entityCulling = !this.entityCulling;
+		}
+		
+		if(parOptions == GameSettings.Options.PARTICLE_CULLING) {
+			this.particleCulling = !this.particleCulling;
+		}
+		
+		if(parOptions == GameSettings.Options.ARMOR_GUI) {
+			this.armorgui = !this.armorgui; 
+		}
+		
+		if(parOptions == GameSettings.Options.CPS) {
+			this.cps = !this.cps;
+		}
+		
+		if(parOptions == GameSettings.Options.KEYSTROKES) {
+			this.keyStrokes = !this.keyStrokes;
+		}
+		
+		if(parOptions == GameSettings.Options.POTION_GUI) {
+			this.potionGUI = !this.potionGUI;
+		}
 
 		this.saveOptions();
 	}
@@ -1220,6 +1250,18 @@ public class GameSettings extends ModData {
 			return this.fullBright;
 		case LEFT_HAND:
 			return this.leftHand;
+		case ENTITY_CULLING:
+			return this.entityCulling;
+		case PARTICLE_CULLING:
+			return this.particleCulling;
+		case ARMOR_GUI:
+			return this.armorgui;
+		case CPS:
+			return this.cps;
+		case POTION_GUI:
+			return this.potionGUI;
+		case KEYSTROKES:
+			return this.keyStrokes;
 		default:
 			return false;
 		}
@@ -2097,6 +2139,30 @@ public class GameSettings extends ModData {
 					if (astring[0].equals("leftHand") && astring.length >= 2) {
 						leftHand = Boolean.valueOf(astring[1]).booleanValue();
 					}
+					
+					if(astring[0].equals("particleCulling") && astring.length >= 2) {
+						particleCulling = Boolean.valueOf(astring[1]).booleanValue();
+					}
+					
+					if(astring[0].equals("entityCulling") && astring.length >= 2) {
+						entityCulling = Boolean.valueOf(astring[1]).booleanValue();
+					}
+					
+					if(astring[0].equals("armorgui") && astring.length >= 2) {
+						armorgui = Boolean.valueOf(astring[1]).booleanValue();
+					}
+					
+					if(astring[0].equals("cps") && astring.length >= 2) {
+						cps = Boolean.valueOf(astring[1]).booleanValue();
+					}
+
+					if(astring[0].equals("keyStrokes") && astring.length >= 2) {
+						keyStrokes = Boolean.valueOf(astring[1]).booleanValue();
+					}
+					
+					if(astring[0].equals("potionGUI") && astring.length >= 2) {
+						potionGUI = Boolean.valueOf(astring[1]).booleanValue();
+					}
 
 					for (SoundCategory soundcategory : SoundCategory._VALUES) {
 						if (astring[0].equals("soundCategory_" + soundcategory.getCategoryName())) {
@@ -2293,6 +2359,12 @@ public class GameSettings extends ModData {
 			printwriter.println("enableFNAWSkins:" + this.enableFNAWSkins);
 			printwriter.println("fullbright:" + this.fullBright);
 			printwriter.println("leftHand:" + this.leftHand);
+			printwriter.println("entityCulling:" + this.entityCulling);
+			printwriter.println("particleCulling:" + this.particleCulling);
+			printwriter.println("armorgui:" + this.armorgui);
+			printwriter.println("cps:" + this.cps);
+			printwriter.println("keyStrokes:" + this.keyStrokes);
+			printwriter.println("potionGUI:" + this.potionGUI);
 
 			for (KeyBinding keybinding : this.keyBindings) {
 				printwriter.println("key_" + keybinding.getKeyDescription() + ":" + keybinding.getKeyCode());
@@ -2506,7 +2578,13 @@ public class GameSettings extends ModData {
 		FNAW_SKINS("options.skinCustomisation.enableFNAWSkins", false, true),
 		EAGLER_VSYNC("options.vsync", false, true),
 		FULLBRIGHT("Fullbright", false, true),
-		LEFT_HAND("Main Hand", false, true);
+		LEFT_HAND("Main Hand", false, true),
+		ENTITY_CULLING("Entity Culling", false, true),
+		PARTICLE_CULLING("Particle Culling", false, true),
+		ARMOR_GUI("Armor GUI", false, true),
+		CPS("CPS", false, true),
+		KEYSTROKES("Keystrokes", false, true),
+		POTION_GUI("Potion Effects GUI", false, true);
 
 		private final boolean enumFloat;
 		private final boolean enumBoolean;

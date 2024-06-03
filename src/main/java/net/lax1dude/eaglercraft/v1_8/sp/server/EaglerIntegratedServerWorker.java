@@ -64,22 +64,21 @@ public class EaglerIntegratedServerWorker {
 		List<IPCPacketData> pktList = ServerPlatformSingleplayer.recieveAllPacket();
 		if(pktList != null) {
 			IPCPacketData packetData;
-			for(int i = 0, l = pktList.size(); i < l; ++i) {
-				packetData = pktList.get(i);
-				if(packetData.channel.equals(SingleplayerServerController.IPC_CHANNEL)) {
+			for(IPCPacketData pkt : pktList) {
+				if(pkt.channel.equals(SingleplayerServerController.IPC_CHANNEL)) {
 					IPCPacketBase ipc;
 					try {
-						ipc = IPCPacketManager.IPCDeserialize(packetData.contents);
+						ipc = IPCPacketManager.IPCDeserialize(pkt.contents);
 					}catch(IOException ex) {
 						throw new RuntimeException("Failed to deserialize IPC packet", ex);
 					}
 					handleIPCPacket(ipc);
 				}else {
-					IntegratedServerPlayerNetworkManager netHandler = openChannels.get(packetData.channel);
+					IntegratedServerPlayerNetworkManager netHandler = openChannels.get(pkt.channel);
 					if(netHandler != null) {
-						netHandler.addRecievedPacket(packetData.contents);
+						netHandler.addRecievedPacket(pkt.contents);
 					}else {
-						logger.error("Recieved packet on channel that does not exist: \"{}\"", packetData.channel);
+						logger.error("Recieved packet on channel that does not exist: \"{}\"", pkt.channel);
 					}
 				}
 			}
@@ -88,8 +87,8 @@ public class EaglerIntegratedServerWorker {
 
 	public static void tick() {
 		List<IntegratedServerPlayerNetworkManager> ocs = new ArrayList<>(openChannels.values());
-		for(int i = 0, l = ocs.size(); i < l; ++i) {
-			ocs.get(i).tick();
+		for(IntegratedServerPlayerNetworkManager netHandler : ocs) {
+			netHandler.tick();
 		}
 	}
 
