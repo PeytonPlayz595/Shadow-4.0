@@ -29,6 +29,7 @@ jobs:
         with:
           path: javascript/
       - name: Commit changes
+        if: github.ref == 'refs/heads/main' # this is a temporary fix, and wont work on other branches; find a way to trigger on push and not pull request
         uses: stefanzweifel/git-auto-commit-action@v5
 
   deploy:
