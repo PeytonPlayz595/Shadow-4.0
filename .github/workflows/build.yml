@@ -4,8 +4,6 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -17,20 +15,42 @@ jobs:
           cache: "gradle"
       - name: Validate Gradle wrapper
         uses: gradle/actions/wrapper-validation@v3
-      - name: Compile code to javascript
+      - name: Compile javascript
         run: ./gradlew generateJavaScript
-      - name: Compile assets
+      - name: Compile assets.epk
         run: bash ./CompileEPK.sh
-      - name: Zip web files
-        run: zip -r web_files.zip javascript/*
+      - name: Upload web files
+        uses: actions/upload-artifact@v4
+        with:
+          name: web
+          path: |
+            javascript/lang/
+            javascript/index.html
+            javascript/classes.js
+            javascript/classes.js.map
+            javascript/favicon.ico
+            javascript/assets.epk
+      - name: Make offline download
+        run: bash MakeOfflineDownload.sh
+      - name: Upload offline download
+        uses: actions/upload-artifact@v4
+        with:
+          name: offline
+          path: |
+            javascript/Shadow_Client_en_US.html
+            javascript/Shadow_Client_International.html
+      - name: Copy web files to _site/
+        if: github.ref == 'refs/heads/main'
+        run: mkdir --parents _site/ && cp --recursive --target-directory=_site/
+          javascript/lang/
+          javascript/index.html
+          javascript/classes.js
+          javascript/classes.js.map
+          javascript/favicon.ico
+          javascript/assets.epk
       - name: Upload github-pages artifact
         if: github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
-        with:
-          path: javascript/
-      - name: Commit changes
-        if: github.ref == 'refs/heads/main' # this is a temporary fix, and wont work on other branches; find a way to trigger on push and not pull request
-        uses: stefanzweifel/git-auto-commit-action@v5
 
   deploy:
     needs: build
@@ -47,3 +67,7 @@ jobs:
     steps:
       - name: Deploy to github pages
         uses: actions/deploy-pages@v4
+      - name: Delete github-pages artifact
+        uses: GeekyEggo/delete-artifact@v5
+        with:
+          name: github-pages
