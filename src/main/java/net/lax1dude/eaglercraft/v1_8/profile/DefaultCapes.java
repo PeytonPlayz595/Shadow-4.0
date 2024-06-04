@@ -20,28 +20,29 @@ import net.minecraft.util.ResourceLocation;
 public enum DefaultCapes {
 
 	NO_CAPE(0, "No Cape", null),
-	MINECON_2011(1, "Minecon 2011", new ResourceLocation("eagler:capes/01.minecon_2011.png")),
-	MINECON_2012(2, "Minecon 2012", new ResourceLocation("eagler:capes/02.minecon_2012.png")),
-	MINECON_2013(3, "Minecon 2013", new ResourceLocation("eagler:capes/03.minecon_2013.png")),
-	MINECON_2015(4, "Minecon 2015", new ResourceLocation("eagler:capes/04.minecon_2015.png")),
-	MINECON_2016(5, "Minecon 2016", new ResourceLocation("eagler:capes/05.minecon_2016.png")),
-	MICROSOFT_ACCOUNT(6, "Microsoft Account", new ResourceLocation("eagler:capes/06.microsoft_account.png")),
-	MAPMAKER(7, "Realms Mapmaker", new ResourceLocation("eagler:capes/07.mapmaker.png")),
-	MOJANG_OLD(8, "Mojang Old", new ResourceLocation("eagler:capes/08.mojang_old.png")),
-	MOJANG_NEW(9, "Mojang New", new ResourceLocation("eagler:capes/09.mojang_new.png")),
-	JIRA_MOD(10, "Jira Moderator", new ResourceLocation("eagler:capes/10.jira_mod.png")),
-	MOJANG_VERY_OLD(11, "Mojang Very Old", new ResourceLocation("eagler:capes/11.mojang_very_old.png")),
-	SCROLLS(12, "Scrolls", new ResourceLocation("eagler:capes/12.scrolls.png")),
-	COBALT(13, "Cobalt", new ResourceLocation("eagler:capes/13.cobalt.png")),
-	TRANSLATOR(14, "Lang Translator", new ResourceLocation("eagler:capes/14.translator.png")),
-	MILLIONTH_ACCOUNT(15, "Millionth Player", new ResourceLocation("eagler:capes/15.millionth_account.png")),
-	PRISMARINE(16, "Prismarine", new ResourceLocation("eagler:capes/16.prismarine.png")),
-	SNOWMAN(17, "Snowman", new ResourceLocation("eagler:capes/17.snowman.png")),
-	SPADE(18, "Spade", new ResourceLocation("eagler:capes/18.spade.png")),
-	BIRTHDAY(19, "Birthday", new ResourceLocation("eagler:capes/19.birthday.png")),
-	DB(20, "dB", new ResourceLocation("eagler:capes/20.db.png"));
+	OPTIFINE(1, "Optifine", new ResourceLocation("eagler:capes/optifine.png")),
+	MINECON_2011(2, "Minecon 2011", new ResourceLocation("eagler:capes/01.minecon_2011.png")),
+	MINECON_2012(3, "Minecon 2012", new ResourceLocation("eagler:capes/02.minecon_2012.png")),
+	MINECON_2013(4, "Minecon 2013", new ResourceLocation("eagler:capes/03.minecon_2013.png")),
+	MINECON_2015(5, "Minecon 2015", new ResourceLocation("eagler:capes/04.minecon_2015.png")),
+	MINECON_2016(6, "Minecon 2016", new ResourceLocation("eagler:capes/05.minecon_2016.png")),
+	MICROSOFT_ACCOUNT(7, "Microsoft Account", new ResourceLocation("eagler:capes/06.microsoft_account.png")),
+	MAPMAKER(8, "Realms Mapmaker", new ResourceLocation("eagler:capes/07.mapmaker.png")),
+	MOJANG_OLD(9, "Mojang Old", new ResourceLocation("eagler:capes/08.mojang_old.png")),
+	MOJANG_NEW(10, "Mojang New", new ResourceLocation("eagler:capes/09.mojang_new.png")),
+	JIRA_MOD(11, "Jira Moderator", new ResourceLocation("eagler:capes/10.jira_mod.png")),
+	MOJANG_VERY_OLD(12, "Mojang Very Old", new ResourceLocation("eagler:capes/11.mojang_very_old.png")),
+	SCROLLS(13, "Scrolls", new ResourceLocation("eagler:capes/12.scrolls.png")),
+	COBALT(14, "Cobalt", new ResourceLocation("eagler:capes/13.cobalt.png")),
+	TRANSLATOR(15, "Lang Translator", new ResourceLocation("eagler:capes/14.translator.png")),
+	MILLIONTH_ACCOUNT(16, "Millionth Player", new ResourceLocation("eagler:capes/15.millionth_account.png")),
+	PRISMARINE(17, "Prismarine", new ResourceLocation("eagler:capes/16.prismarine.png")),
+	SNOWMAN(18, "Snowman", new ResourceLocation("eagler:capes/17.snowman.png")),
+	SPADE(19, "Spade", new ResourceLocation("eagler:capes/18.spade.png")),
+	BIRTHDAY(20, "Birthday", new ResourceLocation("eagler:capes/19.birthday.png")),
+	DB(21, "dB", new ResourceLocation("eagler:capes/20.db.png"));
 	
-	public static final DefaultCapes[] defaultCapesMap = new DefaultCapes[21];
+	public static final DefaultCapes[] defaultCapesMap = new DefaultCapes[22];
 	
 	public final int id;
 	public final String name;
