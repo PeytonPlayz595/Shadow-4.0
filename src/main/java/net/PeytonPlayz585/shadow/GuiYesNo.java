@@ -83,10 +83,10 @@ public class GuiYesNo extends GuiScreen {
 	protected void actionPerformed(GuiButton parGuiButton) {
 		if(parGuiButton.id == 210) {
 			if(parentScreen instanceof GuiYesNoCallbackVisGraph) {
-				this.mc.displayGuiScreen(new GuiCredits(this, "/assets/eagler/CREDITS_VISGRAPH.txt"));
+				this.mc.displayGuiScreen(new GuiCredits(this, "/assets/shadow/credits/visgraph.txt"));
 			} else {
 				System.out.println("yee");
-				this.mc.displayGuiScreen(new GuiCredits(this, "/assets/eagler/CREDITS_BUFFERQUEUE.txt"));
+				this.mc.displayGuiScreen(new GuiCredits(this, "/assets/shadow/credits/bufferqueue.txt"));
 			}
 			return;
 		}
