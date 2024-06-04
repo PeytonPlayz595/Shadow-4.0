@@ -94,7 +94,7 @@ public class GameSettings {
 	public boolean viewBobbing = true;
 	public boolean anaglyph;
 	public boolean fboEnable = true;
-	public int limitFramerate = 260;
+	public int limitFramerate = 120;
 	/**+
 	 * Clouds flag
 	 */
@@ -298,6 +298,7 @@ public class GameSettings {
 		this.language = EagRuntime.getConfiguration().getDefaultLocale();
 		this.forceUnicodeFont = false;
 		this.mc = mcIn;
+		this.limitFramerate = (int)GameSettings.Options.FRAMERATE_LIMIT.getValueMax();
 		GameSettings.Options.RENDER_DISTANCE.setValueMax(18.0F);
 
 		this.renderDistanceChunks = 4;
@@ -354,6 +355,12 @@ public class GameSettings {
 
 		if (parOptions == GameSettings.Options.FRAMERATE_LIMIT) {
 			this.limitFramerate = (int) parFloat1;
+			this.enableVsync = false;
+			
+			 if (this.limitFramerate <= 0) {
+				 this.limitFramerate = (int)GameSettings.Options.FRAMERATE_LIMIT.getValueMax();
+				 this.enableVsync = true;
+			 }
 		}
 
 		if (parOptions == GameSettings.Options.CHAT_OPACITY) {
@@ -921,10 +928,6 @@ public class GameSettings {
 			this.enableFNAWSkins = !this.enableFNAWSkins;
 			this.mc.getRenderManager().setEnableFNAWSkins(this.mc.getEnableFNAWSkins());
 		}
-
-		if (parOptions == GameSettings.Options.EAGLER_VSYNC) {
-			this.enableVsync = !this.enableVsync;
-		}
 		
 		if(parOptions == GameSettings.Options.FULLBRIGHT) {
 			this.fullBright = !this.fullBright;
@@ -971,7 +974,7 @@ public class GameSettings {
 				: (parOptions == GameSettings.Options.CHAT_HEIGHT_UNFOCUSED ? this.chatHeightUnfocused
 				: (parOptions == GameSettings.Options.CHAT_SCALE ? this.chatScale
 				: (parOptions == GameSettings.Options.CHAT_WIDTH ? this.chatWidth
-				: (parOptions == GameSettings.Options.FRAMERATE_LIMIT ? (float) this.limitFramerate
+				: (parOptions == GameSettings.Options.FRAMERATE_LIMIT ? ((float)this.limitFramerate == GameSettings.Options.FRAMERATE_LIMIT.getValueMax() && this.enableVsync ? 0.0F : (float)this.limitFramerate)
 				: (parOptions == GameSettings.Options.MIPMAP_LEVELS ? (float) this.mipmapLevels
 				: (parOptions == GameSettings.Options.RENDER_DISTANCE ? (float) this.renderDistanceChunks
 				: (parOptions == GameSettings.Options.AO_LEVEL ? this.ofAoLevel
@@ -1082,8 +1085,6 @@ public class GameSettings {
 			return hidePassword;
 		case FNAW_SKINS:
 			return this.enableFNAWSkins;
-		case EAGLER_VSYNC:
-			return this.enableVsync;
 		case FULLBRIGHT:
 			return this.fullBright;
 		case LEFT_HAND:
@@ -1137,7 +1138,7 @@ public class GameSettings {
 			float f = parOptions.normalizeValue(f1);
 			return parOptions == GameSettings.Options.SENSITIVITY ? (f == 0.0F ? s + I18n.format("options.sensitivity.min", new Object[0]) : (f == 1.0F ? s + I18n.format("options.sensitivity.max", new Object[0]) : s + (int) (f * 200.0F) + "%"))
 					: (parOptions == GameSettings.Options.FOV ? (f1 == 70.0F ? s + I18n.format("options.fov.min", new Object[0]) : (f1 == 110.0F ? s + I18n.format("options.fov.max", new Object[0]) : s + (int) f1))
-					: (parOptions == GameSettings.Options.FRAMERATE_LIMIT ? (f1 == parOptions.valueMax ? s + I18n.format("options.framerateLimit.max", new Object[0]) : s + (int) f1 + " fps")
+					: (parOptions == GameSettings.Options.FRAMERATE_LIMIT ? (f1 == 0.0f ? s + "VSync" : f1 == parOptions.valueMax ? s + I18n.format("options.framerateLimit.max", new Object[0]) : s + (int)f1 + " fps")
 					: (parOptions == GameSettings.Options.RENDER_CLOUDS ? (f1 == parOptions.valueMin ? s + I18n.format("options.cloudHeight.min", new Object[0]) : s + ((int) f1 + 128))
 					: (parOptions == GameSettings.Options.GAMMA ? (f == 0.0F ? s + I18n.format("options.gamma.min", new Object[0]) : (f == 1.0F ? s + I18n.format("options.gamma.max", new Object[0]) : s + "+" + (int) (f * 100.0F) + "%"))
 					: (parOptions == GameSettings.Options.SATURATION ? s + (int) (f * 400.0F) + "%"
@@ -1454,6 +1455,12 @@ public class GameSettings {
 
 					if (astring[0].equals("maxFps")) {
 						this.limitFramerate = Integer.parseInt(astring[1]);
+						this.enableVsync = false;
+						
+						if (this.limitFramerate <= 0) {
+                            this.limitFramerate = (int)GameSettings.Options.FRAMERATE_LIMIT.getValueMax();
+                            this.enableVsync = true;
+                        }
 					}
 
 					if (astring[0].equals("fboEnable")) {
@@ -1558,7 +1565,7 @@ public class GameSettings {
 					}
 
 					if (astring[0].equals("enableVsyncEag")) {
-						this.enableVsync = astring[1].equals("true");
+						//this.enableVsync = astring[1].equals("true");
 					}
 
 					if (astring[0].equals("hideServerAddress")) {
@@ -2099,7 +2106,7 @@ public class GameSettings {
 			printwriter.println("chatLinksPrompt:" + this.chatLinksPrompt);
 			printwriter.println("chatOpacity:" + this.chatOpacity);
 			printwriter.println("snooperEnabled:" + this.snooperEnabled);
-			printwriter.println("enableVsyncEag:" + this.enableVsync);
+			//printwriter.println("enableVsyncEag:" + this.enableVsync);
 			printwriter.println("hideServerAddress:" + this.hideServerAddress);
 			printwriter.println("advancedItemTooltips:" + this.advancedItemTooltips);
 			printwriter.println("pauseOnLostFocus:" + this.pauseOnLostFocus);
@@ -2308,7 +2315,7 @@ public class GameSettings {
 		RENDER_DISTANCE("options.renderDistance", true, false, 1.0F, 16.0F, 1.0F),
 		VIEW_BOBBING("options.viewBobbing", false, true), 
 		ANAGLYPH("options.anaglyph", false, true),
-		FRAMERATE_LIMIT("options.framerateLimit", true, false, 10.0F, 260.0F, 10.0F),
+		FRAMERATE_LIMIT("options.framerateLimit", true, false, 0.0F, 260.0F, 5.0F),
 		FBO_ENABLE("options.fboEnable", false, true), 
 		RENDER_CLOUDS("options.renderClouds", false, false),
 		GRAPHICS("options.graphics", false, false), 
@@ -2412,7 +2419,6 @@ public class GameSettings {
         CUSTOM_COLORS("Custom Colors", false, false),
         HIDE_PASSWORD("Hide Password", false, false),
         FNAW_SKINS("options.skinCustomisation.enableFNAWSkins", false, true),
-		EAGLER_VSYNC("options.vsync", false, true),
 		FULLBRIGHT("Fullbright", false, true),
 		LEFT_HAND("Main Hand", false, true),
 		ENTITY_CULLING("Entity Culling", false, true),
