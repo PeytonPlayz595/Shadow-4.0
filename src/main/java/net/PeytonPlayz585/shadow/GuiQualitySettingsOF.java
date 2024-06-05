@@ -12,7 +12,8 @@ public class GuiQualitySettingsOF extends GuiScreen {
     protected String title;
     private GameSettings settings;
     private static GameSettings.Options[] enumOptions = new GameSettings.Options[] {GameSettings.Options.MIPMAP_LEVELS, GameSettings.Options.MIPMAP_TYPE, GameSettings.Options.AF_LEVEL, GameSettings.Options.FXAA, GameSettings.Options.CLEAR_WATER, GameSettings.Options.RANDOM_MOBS, GameSettings.Options.BETTER_GRASS, GameSettings.Options.BETTER_SNOW, GameSettings.Options.CUSTOM_FONTS, GameSettings.Options.CUSTOM_COLORS, GameSettings.Options.SWAMP_COLORS, GameSettings.Options.SMOOTH_BIOMES, /*GameSettings.Options.CONNECTED_TEXTURES, GameSettings.Options.NATURAL_TEXTURES,*/ GameSettings.Options.CUSTOM_SKY, GameSettings.Options.CUSTOM_ITEMS, GameSettings.Options.DYNAMIC_LIGHTS};
-
+    private TooltipManager tooltipManager = new TooltipManager(this);
+    
     public GuiQualitySettingsOF(GuiScreen p_i53_1_, GameSettings p_i53_2_) {
         this.prevScreen = p_i53_1_;
         this.settings = p_i53_2_;
@@ -70,5 +71,6 @@ public class GuiQualitySettingsOF extends GuiScreen {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
+        this.tooltipManager.drawTooltips(mouseX, mouseY, this.buttonList);
     }
 }

@@ -23,5 +23,14 @@ public class Lang {
 	public static String getDefault() {
 		return I18n.format("generator.default", new Object[0]);
 	}
+	
+	public static String get(String p_get_0_) {
+        return I18n.format(p_get_0_, new Object[0]);
+    }
+
+    public static String get(String p_get_0_, String p_get_1_) {
+        String s = I18n.format(p_get_0_, new Object[0]);
+        return s != null && !s.equals(p_get_0_) ? s : p_get_1_;
+    }
 
 }
