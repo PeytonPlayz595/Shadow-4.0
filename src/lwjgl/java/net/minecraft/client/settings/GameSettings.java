@@ -2389,7 +2389,7 @@ public class GameSettings {
         ANIMATED_TEXTURES("Textures Animated", false, false),
         CLOUD_HEIGHT("Cloud Height", true, false),
         TREES("Trees", false, false),
-        RAIN("Rain", false, false),
+        RAIN("Rain & Snow", false, false),
         SKY("Sky", false, false),
         STARS("Stars", false, false),
         SUN_MOON("Sun & Moon", false, false),
