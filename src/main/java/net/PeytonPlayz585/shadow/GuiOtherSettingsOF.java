@@ -13,7 +13,8 @@ public class GuiOtherSettingsOF extends GuiScreen implements GuiYesNoCallback {
     protected String title;
     private GameSettings settings;
     private static GameSettings.Options[] enumOptions = new GameSettings.Options[] {GameSettings.Options.LAGOMETER, GameSettings.Options.PROFILER, GameSettings.Options.WEATHER, GameSettings.Options.TIME, GameSettings.Options.FULLSCREEN, GameSettings.Options.FNAW_SKINS, GameSettings.Options.HUD_FPS, GameSettings.Options.AUTOSAVE_TICKS, GameSettings.Options.ANAGLYPH, GameSettings.Options.HUD_COORDS, GameSettings.Options.HUD_PLAYER, GameSettings.Options.HUD_STATS, GameSettings.Options.HUD_WORLD, GameSettings.Options.HUD_24H};
-
+    private TooltipManager tooltipManager = new TooltipManager(this);
+    
     public GuiOtherSettingsOF(GuiScreen p_i51_1_, GameSettings p_i51_2_) {
         this.prevScreen = p_i51_1_;
         this.settings = p_i51_2_;
@@ -77,5 +78,6 @@ public class GuiOtherSettingsOF extends GuiScreen implements GuiYesNoCallback {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
+        this.tooltipManager.drawTooltips(mouseX, mouseY, this.buttonList);
     }
 }
