@@ -11,6 +11,7 @@ public class GuiDetailSettingsOF extends GuiScreen {
     protected String title;
     private GameSettings settings;
     private static GameSettings.Options[] enumOptions = new GameSettings.Options[] {GameSettings.Options.RENDER_CLOUDS, GameSettings.Options.CLOUD_HEIGHT, GameSettings.Options.TREES, GameSettings.Options.RAIN, GameSettings.Options.SKY, GameSettings.Options.STARS, GameSettings.Options.SUN_MOON, GameSettings.Options.SHOW_CAPES, GameSettings.Options.TRANSLUCENT_BLOCKS, GameSettings.Options.HELD_ITEM_TOOLTIPS, GameSettings.Options.DROPPED_ITEMS, GameSettings.Options.ENTITY_SHADOWS, GameSettings.Options.VIGNETTE, GameSettings.Options.DYNAMIC_FOV};
+    private TooltipManager tooltipManager = new TooltipManager(this);
 
     public GuiDetailSettingsOF(GuiScreen p_i47_1_, GameSettings p_i47_2_) {
         this.prevScreen = p_i47_1_;
@@ -64,5 +65,6 @@ public class GuiDetailSettingsOF extends GuiScreen {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
+        this.tooltipManager.drawTooltips(mouseX, mouseY, this.buttonList);
     }
 }
