@@ -11,7 +11,8 @@ public class GuiPerformanceSettingsOF extends GuiScreen {
     protected String title;
     private GameSettings settings;
     private static GameSettings.Options[] enumOptions = new GameSettings.Options[] {GameSettings.Options.SMOOTH_FPS, GameSettings.Options.SMOOTH_WORLD, GameSettings.Options.FAST_MATH, GameSettings.Options.CHUNK_UPDATES, GameSettings.Options.CHUNK_FIX};
-
+    private TooltipManager tooltipManager = new TooltipManager(this);
+    
     public GuiPerformanceSettingsOF(GuiScreen p_i52_1_, GameSettings p_i52_2_) {
         this.prevScreen = p_i52_1_;
         this.settings = p_i52_2_;
@@ -64,5 +65,6 @@ public class GuiPerformanceSettingsOF extends GuiScreen {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
+        this.tooltipManager.drawTooltips(mouseX, mouseY, this.buttonList);
     }
 }

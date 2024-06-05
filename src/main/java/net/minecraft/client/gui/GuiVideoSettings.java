@@ -11,6 +11,7 @@ import net.PeytonPlayz585.shadow.GuiOtherSettingsOF;
 import net.PeytonPlayz585.shadow.GuiPerformanceSettingsOF;
 import net.PeytonPlayz585.shadow.GuiQualitySettingsOF;
 import net.PeytonPlayz585.shadow.GuiShaders;
+import net.PeytonPlayz585.shadow.TooltipManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 
@@ -38,6 +39,8 @@ public class GuiVideoSettings extends GuiScreen {
 	private GuiScreen parentGuiScreen;
 	protected String screenTitle = "Video Settings";
 	private GameSettings guiGameSettings;
+	private TooltipManager tooltipManager = new TooltipManager(this);
+	
 	/**+
 	 * An array of all of GameSettings.Options's video options.
 	 */
@@ -211,5 +214,18 @@ public class GuiVideoSettings extends GuiScreen {
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRendererObj, this.screenTitle, this.width / 2, 5, 16777215);
 		super.drawScreen(i, j, f);
+		this.tooltipManager.drawTooltips(i, j, this.buttonList);
 	}
+	
+	public static int getButtonWidth(GuiButton p_getButtonWidth_0_) {
+        return p_getButtonWidth_0_.width;
+    }
+
+    public static int getButtonHeight(GuiButton p_getButtonHeight_0_) {
+        return p_getButtonHeight_0_.height;
+    }
+
+    public static void drawGradientRect(GuiScreen p_drawGradientRect_0_, int p_drawGradientRect_1_, int p_drawGradientRect_2_, int p_drawGradientRect_3_, int p_drawGradientRect_4_, int p_drawGradientRect_5_, int p_drawGradientRect_6_) {
+        p_drawGradientRect_0_.drawGradientRect(p_drawGradientRect_1_, p_drawGradientRect_2_, p_drawGradientRect_3_, p_drawGradientRect_4_, p_drawGradientRect_5_, p_drawGradientRect_6_);
+    }
 }
