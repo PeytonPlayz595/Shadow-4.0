@@ -41,12 +41,10 @@ public class DynamicLights {
   public static void entityAdded(Entity p_entityAdded_0_, RenderGlobal p_entityAdded_1_) {}
 
   public static void entityRemoved(Entity p_entityRemoved_0_, RenderGlobal p_entityRemoved_1_) {
-    synchronized(mapDynamicLights) {
-      DynamicLight dynamiclight = (DynamicLight) mapDynamicLights.remove(IntegerCache.func_181756_a(p_entityRemoved_0_.getEntityId()));
+    DynamicLight dynamiclight = (DynamicLight) mapDynamicLights.remove(IntegerCache.func_181756_a(p_entityRemoved_0_.getEntityId()));
 
-      if (dynamiclight != null) {
-        dynamiclight.updateLitChunks(p_entityRemoved_1_);
-      }
+    if (dynamiclight != null) {
+      dynamiclight.updateLitChunks(p_entityRemoved_1_);
     }
   }
 
@@ -56,13 +54,11 @@ public class DynamicLights {
     if (i >= timeUpdateMs + 50L) {
       timeUpdateMs = i;
 
-      synchronized(mapDynamicLights) {
-        updateMapDynamicLights(p_update_0_);
+      updateMapDynamicLights(p_update_0_);
 
-        if (mapDynamicLights.size() > 0) {
-          for (DynamicLight dynamiclight: mapDynamicLights.values()) {
-            dynamiclight.update(p_update_0_);
-          }
+      if (mapDynamicLights.size() > 0) {
+        for (DynamicLight dynamiclight: mapDynamicLights.values()) {
+          dynamiclight.update(p_update_0_);
         }
       }
     }
@@ -124,32 +120,30 @@ public class DynamicLights {
   public static double getLightLevel(BlockPos p_getLightLevel_0_) {
     double d0 = 0.0D;
 
-    synchronized(mapDynamicLights) {
-      for (DynamicLight dynamiclight: mapDynamicLights.values()) {
-        int i = dynamiclight.getLastLightLevel();
+    for (DynamicLight dynamiclight: mapDynamicLights.values()) {
+      int i = dynamiclight.getLastLightLevel();
 
-        if (i > 0) {
-          double d1 = dynamiclight.getLastPosX();
-          double d2 = dynamiclight.getLastPosY();
-          double d3 = dynamiclight.getLastPosZ();
-          double d4 = (double) p_getLightLevel_0_.getX() - d1;
-          double d5 = (double) p_getLightLevel_0_.getY() - d2;
-          double d6 = (double) p_getLightLevel_0_.getZ() - d3;
-          double d7 = d4 * d4 + d5 * d5 + d6 * d6;
+      if (i > 0) {
+        double d1 = dynamiclight.getLastPosX();
+        double d2 = dynamiclight.getLastPosY();
+        double d3 = dynamiclight.getLastPosZ();
+        double d4 = (double) p_getLightLevel_0_.getX() - d1;
+        double d5 = (double) p_getLightLevel_0_.getY() - d2;
+        double d6 = (double) p_getLightLevel_0_.getZ() - d3;
+        double d7 = d4 * d4 + d5 * d5 + d6 * d6;
 
-          if (dynamiclight.isUnderwater() && !Config.isClearWater()) {
-            i = Config.limit(i - 2, 0, 15);
-            d7 *= 2.0D;
-          }
+        if (dynamiclight.isUnderwater() && !Config.isClearWater()) {
+          i = Config.limit(i - 2, 0, 15);
+          d7 *= 2.0D;
+        }
 
-          if (d7 <= 56.25D) {
-            double d8 = Math.sqrt(d7);
-            double d9 = 1.0D - d8 / 7.5D;
-            double d10 = d9 * (double) i;
+        if (d7 <= 56.25D) {
+          double d8 = Math.sqrt(d7);
+          double d9 = 1.0D - d8 / 7.5D;
+          double d10 = d9 * (double) i;
 
-            if (d10 > d0) {
-              d0 = d10;
-            }
+          if (d10 > d0) {
+            d0 = d10;
           }
         }
       }
@@ -230,28 +224,22 @@ public class DynamicLights {
   }
 
   public static void removeLights(RenderGlobal p_removeLights_0_) {
-    synchronized(mapDynamicLights) {
-      Collection < DynamicLight > collection = mapDynamicLights.values();
-      Iterator iterator = collection.iterator();
+    Collection < DynamicLight > collection = mapDynamicLights.values();
+    Iterator iterator = collection.iterator();
 
-      while (iterator.hasNext()) {
-        DynamicLight dynamiclight = (DynamicLight) iterator.next();
-        iterator.remove();
-        dynamiclight.updateLitChunks(p_removeLights_0_);
-      }
+    while (iterator.hasNext()) {
+      DynamicLight dynamiclight = (DynamicLight) iterator.next();
+      iterator.remove();
+      dynamiclight.updateLitChunks(p_removeLights_0_);
     }
   }
 
   public static void clear() {
-    synchronized(mapDynamicLights) {
-      mapDynamicLights.clear();
-    }
+    mapDynamicLights.clear();
   }
 
   public static int getCount() {
-    synchronized(mapDynamicLights) {
-      return mapDynamicLights.size();
-    }
+    return mapDynamicLights.size();
   }
 
   public static ItemStack getItemStack(EntityItem p_getItemStack_0_) {

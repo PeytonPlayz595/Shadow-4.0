@@ -50,6 +50,10 @@ public class DynamicLight {
     double d3 = d0 - this.lastPosY;
     double d4 = d1 - this.lastPosZ;
     double d5 = 0.1D;
+    
+    int i = MathHelper.floor_double(d6);
+    int i1 = MathHelper.floor_double(d0);
+    int i2 = MathHelper.floor_double(d1);
 
     if (Math.abs(d2) > d5 || Math.abs(d3) > d5 || Math.abs(d4) > d5 || this.lastLightLevel != j) {
       this.lastPosX = d6;
@@ -60,7 +64,7 @@ public class DynamicLight {
       World world = p_update_1_.getWorld();
 
       if (world != null) {
-        this.blockPosMutable.func_181079_c(MathHelper.floor_double(d6), MathHelper.floor_double(d0), MathHelper.floor_double(d1));
+        this.blockPosMutable.func_181079_c(i, i1, i2);
         IBlockState iblockstate = world.getBlockState(this.blockPosMutable);
         Block block = iblockstate.getBlock();
         this.underwater = block == Blocks.water;
@@ -69,9 +73,9 @@ public class DynamicLight {
       Set < BlockPos > set = new HashSet();
 
       if (j > 0) {
-        EnumFacing enumfacing2 = (MathHelper.floor_double(d6) & 15) >= 8 ? EnumFacing.EAST : EnumFacing.WEST;
-        EnumFacing enumfacing = (MathHelper.floor_double(d0) & 15) >= 8 ? EnumFacing.UP : EnumFacing.DOWN;
-        EnumFacing enumfacing1 = (MathHelper.floor_double(d1) & 15) >= 8 ? EnumFacing.SOUTH : EnumFacing.NORTH;
+        EnumFacing enumfacing2 = (i & 15) >= 8 ? EnumFacing.EAST : EnumFacing.WEST;
+        EnumFacing enumfacing = (i1 & 15) >= 8 ? EnumFacing.UP : EnumFacing.DOWN;
+        EnumFacing enumfacing1 = (i2 & 15) >= 8 ? EnumFacing.SOUTH : EnumFacing.NORTH;
         BlockPos blockpos = new BlockPos(d6, d0, d1);
         RenderChunk renderchunk = p_update_1_.getRenderChunk(blockpos);
         RenderChunk renderchunk1 = p_update_1_.getRenderChunk(renderchunk, enumfacing2);
