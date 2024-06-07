@@ -35,7 +35,7 @@ public class EaglercraftVersion {
 	public static final boolean enableUpdateService = false;
 
 	public static final String updateBundlePackageName = "net.lax1dude.eaglercraft.v1_8.client";
-	public static final int updateBundlePackageVersionInt = 29;
+	public static final int updateBundlePackageVersionInt = 32;
 
 	public static final String updateLatestLocalStorageKey = "latestUpdate_" + updateBundlePackageName;
 
@@ -61,6 +61,8 @@ public class EaglercraftVersion {
 	public static final boolean mainMenuEnableGithubButton = true;
 
 	public static final boolean forceDemoMode = false;
+	
+	public static final String localStorageNamespace = "_eaglercraftX";
 	
 	public static String getMainMenuStringA() {
 		int loadedmods = returntotalloadedmods();

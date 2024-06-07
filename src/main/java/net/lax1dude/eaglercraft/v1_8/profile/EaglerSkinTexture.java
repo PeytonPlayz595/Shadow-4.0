@@ -69,7 +69,7 @@ public class EaglerSkinTexture implements ITextureObject {
 	public void loadTexture(IResourceManager var1) throws IOException {
 		if(textureId == -1) {
 			textureId = GlStateManager.generateTexture();
-			TextureUtil.uploadTextureImageAllocate(textureId, new ImageData(width, height, pixels, true), false, false);
+			TextureUtil.uploadTextureImageSub(textureId, new ImageData(width, height, pixels, true), 0, 0, false, false);
 		}
 	}
 

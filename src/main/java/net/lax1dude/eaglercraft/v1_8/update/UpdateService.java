@@ -94,7 +94,7 @@ public class UpdateService {
 				}
 			}
 		}
-		byte[] latestUpdate = PlatformApplication.getLocalStorage(EaglercraftVersion.updateLatestLocalStorageKey);
+		byte[] latestUpdate = PlatformApplication.getLocalStorage(EaglercraftVersion.updateLatestLocalStorageKey, false);
 		if(latestUpdate != null) {
 			addCertificateToSet(latestUpdate, false);
 		}

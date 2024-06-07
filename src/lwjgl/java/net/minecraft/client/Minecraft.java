@@ -23,6 +23,7 @@ import net.PeytonPlayz585.shadow.ClearWater;
 import net.PeytonPlayz585.shadow.Config;
 import net.lax1dude.eaglercraft.v1_8.Display;
 import net.lax1dude.eaglercraft.v1_8.EagRuntime;
+import net.lax1dude.eaglercraft.v1_8.EagUtils;
 import net.lax1dude.eaglercraft.v1_8.EaglerXBungeeVersion;
 import net.lax1dude.eaglercraft.v1_8.HString;
 import net.lax1dude.eaglercraft.v1_8.IOUtils;
@@ -789,7 +790,17 @@ public class Minecraft implements IThreadListener {
 		long l = System.nanoTime();
 		this.mcProfiler.startSection("tick");
 
-		for (int j = 0; j < this.timer.elapsedTicks; ++j) {
+		if (this.timer.elapsedTicks > 1) {
+			long watchdog = System.currentTimeMillis();
+			for (int j = 0; j < this.timer.elapsedTicks; ++j) {
+				this.runTick();
+				long millis = System.currentTimeMillis();
+				if (millis - watchdog > 50l) {
+					watchdog = millis;
+					EagUtils.sleep(0l);
+				}
+			}
+		} else if (this.timer.elapsedTicks == 1) {
 			this.runTick();
 		}
 
@@ -877,7 +888,9 @@ public class Minecraft implements IThreadListener {
 
 	public void updateDisplay() {
 		this.mcProfiler.startSection("display_update");
-		Display.setVSync(this.gameSettings.enableVsync);
+		if (Display.isVSyncSupported()) {
+			Display.setVSync(this.gameSettings.enableVsync);
+		}
 		Display.update();
 		this.mcProfiler.endSection();
 		this.checkWindowResize();

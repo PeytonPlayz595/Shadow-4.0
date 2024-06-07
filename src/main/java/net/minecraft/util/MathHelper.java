@@ -1,7 +1,5 @@
 package net.minecraft.util;
 
-import org.apache.commons.math3.util.FastMath;
-
 import net.lax1dude.eaglercraft.v1_8.EaglercraftRandom;
 import net.lax1dude.eaglercraft.v1_8.EaglercraftUUID;
 
@@ -43,9 +41,6 @@ public class MathHelper {
 	 * sin looked up in a table
 	 */
 	public static float sin(float parFloat1) {
-		if(fastMath) {
-			return (float) FastMath.sin(parFloat1);
-		}
 		return fastMath ? SIN_TABLE_FAST[(int)(parFloat1 * 651.8986F) & 4095] : SIN_TABLE[(int)(parFloat1 * 10430.378F) & 65535];
 	}
 
@@ -53,23 +48,14 @@ public class MathHelper {
 	 * cos looked up in the sin table with the appropriate offset
 	 */
 	public static float cos(float value) {
-		if(fastMath) {
-			return (float) FastMath.cos(value);
-		}
 		return fastMath ? SIN_TABLE_FAST[(int)((value + ((float)Math.PI / 2F)) * 651.8986F) & 4095] : SIN_TABLE[(int)(value * 10430.378F + 16384.0F) & 65535];
 	}
 
 	public static float sqrt_float(float value) {
-		if(fastMath) {
-			return (float) FastMath.sqrt(value);
-		}
 		return (float) Math.sqrt((double) value);
 	}
 
 	public static float sqrt_double(double value) {
-		if(fastMath) {
-			return (float) FastMath.sqrt(value);
-		}
 		return (float) Math.sqrt(value);
 	}
 
@@ -78,9 +64,6 @@ public class MathHelper {
 	 * argument
 	 */
 	public static int floor_float(float value) {
-		if(fastMath) {
-			return (int) FastMath.floor(value);
-		}
 		int i = (int) value;
 		return value < (float) i ? i - 1 : i;
 	}
@@ -98,9 +81,6 @@ public class MathHelper {
 	 * argument
 	 */
 	public static int floor_double(double value) {
-		if(fastMath) {
-			return (int) FastMath.floor(value);
-		}
 		int i = (int) value;
 		return value < (double) i ? i - 1 : i;
 	}
@@ -109,9 +89,6 @@ public class MathHelper {
 	 * Long version of floor_double
 	 */
 	public static long floor_double_long(double value) {
-		if(fastMath) {
-			return (long) FastMath.floor(value);
-		}
 		long i = (long) value;
 		return value < (double) i ? i - 1L : i;
 	}
@@ -121,9 +98,6 @@ public class MathHelper {
 	}
 
 	public static float abs(float value) {
-		if(fastMath) {
-			return (float) FastMath.abs(value);
-		}
 		return value >= 0.0F ? value : -value;
 	}
 
@@ -131,9 +105,6 @@ public class MathHelper {
 	 * Returns the unsigned value of an int.
 	 */
 	public static int abs_int(int value) {
-		if(fastMath) {
-			return (int) FastMath.abs(value);
-		}
 		return value >= 0 ? value : -value;
 	}
 

@@ -220,6 +220,10 @@ public class PlatformInput {
 	public static void setVSync(boolean enable) {
 		vsync = enable;
 	}
+	
+	public static boolean isVSyncSupported() {
+		return true;
+	}
 
 	public static void update() {
 		glfwPollEvents();

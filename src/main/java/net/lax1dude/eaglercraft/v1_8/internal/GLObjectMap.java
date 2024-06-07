@@ -67,4 +67,8 @@ public class GLObjectMap<T> {
 		values = new Object[size];
 		System.arraycopy(oldValues, 0, values, 0, oldSize);
 	}
+	
+	public void set(int obj, T val) {
+		values[obj] = val;
+	}
 }
