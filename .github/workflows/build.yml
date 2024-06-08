@@ -19,6 +19,8 @@ jobs:
         run: ./gradlew generateJavaScript
       - name: Compile assets.epk
         run: bash ./CompileEPK.sh
+      - name: Make offline download
+        run: bash MakeOfflineDownload.sh
       - name: Upload web files
         uses: actions/upload-artifact@v4
         with:
@@ -30,8 +32,6 @@ jobs:
             javascript/classes.js.map
             javascript/favicon.ico
             javascript/assets.epk
-      - name: Make offline download
-        run: bash MakeOfflineDownload.sh
       - name: Upload offline download
         uses: actions/upload-artifact@v4
         with:
