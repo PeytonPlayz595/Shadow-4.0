@@ -70,6 +70,9 @@ public class WorldInfo {
 	private int borderWarningDistance = 5;
 	private int borderWarningTime = 15;
 	private GameRules theGameRules = new GameRules();
+	
+	public static final int eaglerVersionCurrent = 1;
+	private int eaglerVersion = eaglerVersionCurrent;
 
 	protected WorldInfo() {
 	}
@@ -186,6 +189,8 @@ public class WorldInfo {
 		if (nbt.hasKey("BorderWarningTime", 99)) {
 			this.borderWarningTime = nbt.getInteger("BorderWarningTime");
 		}
+		
+		this.eaglerVersion = nbt.getInteger("eaglerVersionSerial");
 
 	}
 
@@ -296,6 +301,7 @@ public class WorldInfo {
 		nbt.setDouble("BorderSizeLerpTarget", this.borderSizeLerpTarget);
 		nbt.setDouble("BorderWarningBlocks", (double) this.borderWarningDistance);
 		nbt.setDouble("BorderWarningTime", (double) this.borderWarningTime);
+		nbt.setInteger("eaglerVersionSerial", this.eaglerVersion);
 		if (this.difficulty != null) {
 			nbt.setByte("Difficulty", (byte) this.difficulty.getDifficultyId());
 		}
@@ -710,6 +716,18 @@ public class WorldInfo {
 
 	public void setDifficultyLocked(boolean flag) {
 		this.difficultyLocked = flag;
+	}public int getEaglerVersion() {
+		return this.eaglerVersion;
+	}
+
+	public boolean isOldEaglercraftRandom() {
+		return this.eaglerVersion == 0;
+	}
+
+	public static void initEaglerVersion(NBTTagCompound compound) {
+		if (!compound.hasKey("eaglerVersionSerial", 99)) {
+			compound.setInteger("eaglerVersionSerial", eaglerVersionCurrent);
+		}
 	}
 
 	/**+

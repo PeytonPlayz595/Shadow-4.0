@@ -38,6 +38,7 @@ import net.lax1dude.eaglercraft.v1_8.opengl.ext.deferred.NameTagRenderer;
 import net.lax1dude.eaglercraft.v1_8.opengl.ext.deferred.ShadersRenderPassFuture;
 import net.lax1dude.eaglercraft.v1_8.opengl.ext.deferred.gui.GuiShaderConfig;
 import net.lax1dude.eaglercraft.v1_8.opengl.ext.deferred.texture.EmissiveItems;
+import net.lax1dude.eaglercraft.v1_8.opengl.ext.dynamiclights.DynamicLightsStateManager;
 import net.lax1dude.eaglercraft.v1_8.vector.Vector4f;
 import net.lax1dude.eaglercraft.v1_8.voice.VoiceTagRenderer;
 import net.lax1dude.eaglercraft.v1_8.vector.Matrix4f;
@@ -711,6 +712,9 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	 */
 	private void renderHand(float partialTicks, int xOffset) {
 		if (!this.debugView) {
+			if (DynamicLightsStateManager.isInDynamicLightsPass()) {
+				DynamicLightsStateManager.reportForwardRenderObjectPosition2(0.0f, 0.0f, 0.0f);
+			}
 			GlStateManager.matrixMode(GL_PROJECTION);
 			GlStateManager.loadIdentity();
 			float f = 0.07F;
@@ -917,7 +921,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 				GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
 				this.mc.getTextureManager().bindTexture(this.locationLightMap);
-				if (mc.gameSettings.fancyGraphics || mc.gameSettings.ambientOcclusion > 0) {
+				if (mc.gameSettings.fancyGraphics || mc.gameSettings.ambientOcclusion > 0
+						|| DynamicLightsStateManager.isDynamicLightsRender()) {
 					EaglercraftGPU.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 					EaglercraftGPU.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 				} else {
@@ -1175,14 +1180,27 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		GlStateManager.enableAlpha();
 		GlStateManager.alphaFunc(GL_GREATER, 0.5F);
 		this.mc.mcProfiler.startSection("center");
+		boolean dlights = DynamicLightsStateManager.isDynamicLightsRender();
+		if (dlights) {
+			updateDynamicLightListEagler(partialTicks);
+		}
 		if (this.mc.gameSettings.anaglyph && !this.mc.gameSettings.shaders) {
-			anaglyphField = 0;
-			GlStateManager.colorMask(false, true, true, false);
-			this.renderWorldPass(0, partialTicks, finishTimeNano);
-			anaglyphField = 1;
-			GlStateManager.colorMask(true, false, false, false);
-			this.renderWorldPass(1, partialTicks, finishTimeNano);
-			GlStateManager.colorMask(true, true, true, false);
+			if (dlights) {
+				GlStateManager.enableExtensionPipeline();
+			}
+			try {
+				anaglyphField = 0;
+				GlStateManager.colorMask(false, true, true, false);
+				this.renderWorldPass(0, partialTicks, finishTimeNano);
+				anaglyphField = 1;
+				GlStateManager.colorMask(true, false, false, false);
+				this.renderWorldPass(1, partialTicks, finishTimeNano);
+				GlStateManager.colorMask(true, true, true, false);
+			} finally {
+				if (dlights) {
+					GlStateManager.disableExtensionPipeline();
+				}
+			}
 		} else {
 			if (this.mc.gameSettings.shaders) {
 				try {
@@ -1198,7 +1216,16 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				mc.effectRenderer.acceleratedParticleRenderer = EffectRenderer.vanillaAcceleratedParticleRenderer;
 			} else {
 				mc.effectRenderer.acceleratedParticleRenderer = EffectRenderer.vanillaAcceleratedParticleRenderer;
-				this.renderWorldPass(2, partialTicks, finishTimeNano);
+				if (dlights) {
+					GlStateManager.enableExtensionPipeline();
+				}
+				try {
+					this.renderWorldPass(2, partialTicks, finishTimeNano);
+				} finally {
+					if (dlights) {
+						GlStateManager.disableExtensionPipeline();
+					}
+				}
 			}
 		}
 
@@ -1220,6 +1247,10 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		GlStateManager.clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		this.mc.mcProfiler.endStartSection("camera");
 		this.setupCameraTransform(partialTicks, pass);
+		boolean isDynamicLights = DynamicLightsStateManager.isDynamicLightsRender();
+		if (isDynamicLights) {
+			DynamicLightsStateManager.setupInverseViewMatrix();
+		}
 		ActiveRenderInfo.updateRenderInfo(this.mc.thePlayer, this.mc.gameSettings.thirdPersonView == 2);
 		this.mc.mcProfiler.endStartSection("culling");
 		Frustum frustum = new Frustum();
@@ -1227,6 +1258,9 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double) partialTicks;
 		double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) partialTicks;
 		double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) partialTicks;
+		TileEntityRendererDispatcher.staticPlayerX = d0; // hack, needed for some eagler stuff
+		TileEntityRendererDispatcher.staticPlayerY = d1;
+		TileEntityRendererDispatcher.staticPlayerZ = d2;
 		frustum.setPosition(d0, d1, d2);
 		if ((Config.isSkyEnabled() || Config.isSunMoonEnabled() || Config.isStarsEnabled()) && this.mc.gameSettings.renderDistanceChunks >= 2){
 			this.setupFog(-1, partialTicks);
@@ -1320,8 +1354,14 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				EntityPlayer entityplayer = (EntityPlayer) entity;
 				GlStateManager.disableAlpha();
 				this.mc.mcProfiler.endStartSection("outline");
+				if (isDynamicLights) {
+					GlStateManager.disableExtensionPipeline();
+				}
 				renderglobal.drawSelectionBox(entityplayer, this.mc.objectMouseOver, 0, partialTicks);
 				GlStateManager.enableAlpha();
+				if (isDynamicLights) {
+					GlStateManager.enableExtensionPipeline();
+				}
 			}
 		}
 
@@ -1330,9 +1370,15 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		if (flag && this.mc.objectMouseOver != null && !entity.isInsideOfMaterial(Material.water)) {
 			EntityPlayer entityplayer1 = (EntityPlayer) entity;
 			GlStateManager.disableAlpha();
+			if (isDynamicLights) {
+				GlStateManager.disableExtensionPipeline();
+			}
 			this.mc.mcProfiler.endStartSection("outline");
 			renderglobal.drawSelectionBox(entityplayer1, this.mc.objectMouseOver, 0, partialTicks);
 			GlStateManager.enableAlpha();
+			if (isDynamicLights) {
+				GlStateManager.enableExtensionPipeline();
+			}
 		}
 
 		this.mc.mcProfiler.endStartSection("destroyProgress");
@@ -1350,7 +1396,14 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			RenderHelper.disableStandardItemLighting();
 			this.setupFog(0, partialTicks);
 			this.mc.mcProfiler.endStartSection("particles");
+			if (isDynamicLights) {
+				DynamicLightsStateManager.bindAcceleratedEffectRenderer(effectrenderer);
+				DynamicLightsStateManager.reportForwardRenderObjectPosition2(0.0f, 0.0f, 0.0f);
+			}
 			effectrenderer.renderParticles(entity, partialTicks, 2);
+			if (isDynamicLights) {
+				effectrenderer.acceleratedParticleRenderer = null;
+			}
 			this.disableLightmap();
 		}
 
@@ -1388,6 +1441,20 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			this.renderWorldDirections(partialTicks);
 		}
 
+	}
+	
+	private void updateDynamicLightListEagler(float partialTicks) {
+		DynamicLightsStateManager.clearRenderList();
+		Entity entity = this.mc.getRenderViewEntity();
+		double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double) partialTicks;
+		double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) partialTicks;
+		double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) partialTicks;
+		AxisAlignedBB entityAABB = new AxisAlignedBB(d0 - 48.0, d1 - 32.0, d2 - 48.0, d0 + 48.0, d1 + 32.0, d2 + 48.0);
+		List<Entity> entities = this.mc.theWorld.getEntitiesWithinAABB(Entity.class, entityAABB);
+		for (int i = 0, l = entities.size(); i < l; ++i) {
+			entities.get(i).renderDynamicLightsEaglerSimple(partialTicks);
+		}
+		DynamicLightsStateManager.commitLightSourceBuckets(d0, d1, d2);
 	}
 
 	private void renderCloudsCheck(RenderGlobal renderGlobalIn, float partialTicks, int pass) {
@@ -1515,6 +1582,9 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				GlStateManager.enableBlend();
 				GlStateManager.tryBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 				GlStateManager.alphaFunc(GL_GREATER, 0.1F);
+				if (DynamicLightsStateManager.isInDynamicLightsPass()) {
+					DynamicLightsStateManager.reportForwardRenderObjectPosition2(0.0f, 0.0f, 0.0f);
+				}
 			} else {
 				GlStateManager.enableAlpha();
 				DeferredStateManager.setHDRTranslucentPassBlendFunc();

@@ -283,6 +283,8 @@ public class GameSettings extends ModData {
 	public float voiceListenVolume = 0.5f;
 	public float voiceSpeakVolume = 0.5f;
 	public int voicePTTKey = 47; // V
+	
+	public boolean enableDynamicLights = false;
 
 	public GameSettings(Minecraft mcIn) {
 		this.keyBindings = (KeyBinding[]) ArrayUtils.addAll(new KeyBinding[] { this.keyBindAttack, this.keyBindUseItem,
@@ -2476,7 +2478,7 @@ public class GameSettings extends ModData {
 		FOV("options.fov", true, false, 30.0F, 110.0F, 1.0F), 
 		GAMMA("options.gamma", true, false),
 		SATURATION("options.saturation", true, false),
-		RENDER_DISTANCE("options.renderDistance", true, false, 1.0F, 16.0F, 1.0F),
+		RENDER_DISTANCE("options.renderDistance", true, false, 1.0F, 18.0F, 1.0F),
 		VIEW_BOBBING("options.viewBobbing", false, true), 
 		ANAGLYPH("options.anaglyph", false, true),
 		FRAMERATE_LIMIT("options.framerateLimit", true, false, 0.0F, 260.0F, 5.0F),

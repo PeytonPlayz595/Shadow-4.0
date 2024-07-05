@@ -45,6 +45,14 @@ public abstract class MapGenStructure extends MapGenBase {
 	protected Map<Long, StructureStart> structureMap = Maps.newHashMap();
 
 	public abstract String getStructureName();
+	
+	public MapGenStructure() {
+		super();
+	}
+
+	public MapGenStructure(boolean scramble) {
+		super(scramble);
+	}
 
 	/**+
 	 * Recursively called by generate()

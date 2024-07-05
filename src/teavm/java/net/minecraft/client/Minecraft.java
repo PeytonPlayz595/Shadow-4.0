@@ -16,6 +16,7 @@ import java.util.concurrent.Callable;
 
 import net.PeytonPlayz585.shadow.ClearWater;
 import net.PeytonPlayz585.shadow.Config;
+import net.PeytonPlayz585.shadow.input.Controller;
 import net.eaglerforge.EaglerForge;
 import net.eaglerforge.api.BaseData;
 import net.eaglerforge.api.ModAPI;
@@ -771,7 +772,18 @@ public class Minecraft extends ModData implements IThreadListener {
 			}
 
 			this.mcSoundHandler.unloadSounds();
-			SingleplayerServerController.shutdownEaglercraftServer();
+			if (SingleplayerServerController.isWorldRunning()) {
+				SingleplayerServerController.shutdownEaglercraftServer();
+				while (SingleplayerServerController.getStatusState() == IntegratedServerState.WORLD_UNLOADING) {
+					EagUtils.sleep(50l);
+					SingleplayerServerController.runTick();
+				}
+			}
+			if (SingleplayerServerController.isIntegratedServerWorkerAlive()
+					&& SingleplayerServerController.canKillWorker()) {
+				SingleplayerServerController.killWorker();
+				EagUtils.sleep(50l);
+			}
 		} finally {
 			EagRuntime.destroy();
 			if (!this.hasCrashed) {
@@ -1277,6 +1289,9 @@ public class Minecraft extends ModData implements IThreadListener {
 	public boolean packetsSent = false;
 	public void runTick() throws IOException {
 		Minecraft.getMinecraft().modapi.onFrame();
+		
+		Controller.tick();
+		
 		if (this.rightClickDelayTimer > 0) {
 			--this.rightClickDelayTimer;
 		}
@@ -1379,6 +1394,14 @@ public class Minecraft extends ModData implements IThreadListener {
 
 		if (this.currentScreen == null || this.currentScreen.allowUserInput) {
 			this.mcProfiler.endStartSection("mouse");
+			
+			if(Controller.itemChangeRight()) {
+				this.thePlayer.inventory.changeCurrentItem(-1);
+			}
+			
+			if(Controller.itemChangeLeft()) {
+				this.thePlayer.inventory.changeCurrentItem(1);
+			}
 
 			while (Mouse.next()) {
 				int i = Mouse.getEventButton();
@@ -1549,7 +1572,7 @@ public class Minecraft extends ModData implements IThreadListener {
 							this.gameSettings.field_181657_aC = GuiScreen.isAltKeyDown();
 						}
 
-						if (this.gameSettings.keyBindTogglePerspective.isPressed()) {
+						if (this.gameSettings.keyBindTogglePerspective.isPressed() || Controller.togglePerspective()) {
 							++this.gameSettings.thirdPersonView;
 							if (this.gameSettings.thirdPersonView > 2) {
 								this.gameSettings.thirdPersonView = 0;
@@ -1564,7 +1587,7 @@ public class Minecraft extends ModData implements IThreadListener {
 							this.renderGlobal.setDisplayListEntitiesDirty();
 						}
 
-						if (this.gameSettings.keyBindSmoothCamera.isPressed()) {
+						if (this.gameSettings.keyBindSmoothCamera.isPressed() || Controller.smoothCamera()) {
 							this.gameSettings.smoothCamera = !this.gameSettings.smoothCamera;
 						}
 					}
@@ -1604,8 +1627,26 @@ public class Minecraft extends ModData implements IThreadListener {
 					this.displayGuiScreen(new GuiInventory(this.thePlayer));
 				}
 			}
+			
+			while(Controller.inventory()) {
+				Controller.tick();
+				if (this.playerController.isRidingHorse()) {
+					this.thePlayer.sendHorseInventory();
+				} else {
+					this.getNetHandler().addToSendQueue(
+							new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
+					this.displayGuiScreen(new GuiInventory(this.thePlayer));
+				}
+			}
 
 			while (this.gameSettings.keyBindDrop.isPressed()) {
+				if (!this.thePlayer.isSpectator()) {
+					this.thePlayer.dropOneItem(GuiScreen.isCtrlKeyDown());
+				}
+			}
+			
+			while (Controller.dropItem()) {
+				Controller.tick();
 				if (!this.thePlayer.isSpectator()) {
 					this.thePlayer.dropOneItem(GuiScreen.isCtrlKeyDown());
 				}
@@ -1620,11 +1661,21 @@ public class Minecraft extends ModData implements IThreadListener {
 			}
 
 			if (this.thePlayer.isUsingItem()) {
-				if (!this.gameSettings.keyBindUseItem.isKeyDown()) {
+				if (!this.gameSettings.keyBindUseItem.isKeyDown() && !Controller.isButtonDown(6)) {
 					this.playerController.onStoppedUsingItem(this.thePlayer);
+				}
+				
+				while (Controller.isButtonPressed(7)) {
+					Controller.tick();
+					;
 				}
 
 				while (this.gameSettings.keyBindAttack.isPressed()) {
+					;
+				}
+			
+				while (Controller.isButtonPressed(6)) {
+					Controller.tick();
 					;
 				}
 
@@ -1636,8 +1687,19 @@ public class Minecraft extends ModData implements IThreadListener {
 					;
 				}
 			} else {
+				
+				while (Controller.isButtonPressed(7)) {
+					this.clickMouse();
+					Controller.tick();
+				}
+				
 				while (this.gameSettings.keyBindAttack.isPressed()) {
 					this.clickMouse();
+				}
+				
+				while (Controller.isButtonPressed(6)) {
+					this.rightClickMouse();
+					Controller.tick();
 				}
 
 				while (this.gameSettings.keyBindUseItem.isPressed()) {
@@ -1649,13 +1711,13 @@ public class Minecraft extends ModData implements IThreadListener {
 				}
 			}
 
-			if (this.gameSettings.keyBindUseItem.isKeyDown() && this.rightClickDelayTimer == 0
+			if ((this.gameSettings.keyBindUseItem.isKeyDown() || Controller.isButtonDown(6)) && this.rightClickDelayTimer == 0
 					&& !this.thePlayer.isUsingItem()) {
 				this.rightClickMouse();
 			}
 
 			this.sendClickBlockToController(
-					this.currentScreen == null && this.gameSettings.keyBindAttack.isKeyDown() && this.inGameHasFocus);
+					this.currentScreen == null && (this.gameSettings.keyBindAttack.isKeyDown() || Controller.isButtonDown(7)) && this.inGameHasFocus);
 		}
 
 		if (this.theWorld != null) {

@@ -286,4 +286,8 @@ public class EntityXPOrb extends Entity {
 					mag * 0.3f, mag, mag * 0.2f, false);
 		}
 	}
+	
+	protected float getEaglerDynamicLightsValueSimple(float partialTicks) {
+		return 0.25f;
+	}
 }

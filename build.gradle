@@ -36,7 +36,7 @@ teavm.js {
     optimization = org.teavm.gradle.api.OptimizationLevel.BALANCED
     outOfProcess = false
     fastGlobalAnalysis = false
-    processMemory = 512
+    processMemory = 2048
     entryPointName = 'main'
     mainClass = 'net.lax1dude.eaglercraft.v1_8.internal.teavm.MainClass'
     outputDir = file("javascript")

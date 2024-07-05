@@ -334,4 +334,8 @@ public abstract class EntityFireball extends Entity {
 	public int getBrightnessForRender(float var1) {
 		return 15728880;
 	}
+	
+	protected float getEaglerDynamicLightsValueSimple(float partialTicks) {
+		return 1.0f;
+	}
 }

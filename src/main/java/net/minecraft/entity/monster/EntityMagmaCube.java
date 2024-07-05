@@ -171,4 +171,8 @@ public class EntityMagmaCube extends EntitySlime {
 	protected boolean makesSoundOnLand() {
 		return true;
 	}
+	
+	protected float getEaglerDynamicLightsValueSimple(float partialTicks) {
+		return 1.0f;
+	}
 }

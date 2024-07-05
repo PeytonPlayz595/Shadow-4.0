@@ -1,5 +1,6 @@
 package net.minecraft.client.entity;
 
+import net.PeytonPlayz585.shadow.input.Controller;
 import net.eaglerforge.api.BaseData;
 import net.eaglerforge.api.ModAPI;
 import net.eaglerforge.api.ModData;
@@ -863,7 +864,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 		boolean flag3 = (float) this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
 		if (this.onGround && !flag1 && !flag2 && this.movementInput.moveForward >= f && !this.isSprinting() && flag3 && !this.isUsingItem() && !this.isPotionActive(Potion.blindness)) {
 			if(!Minecraft.getMinecraft().gameSettings.toggleSprint) {
-				if (this.sprintToggleTimer <= 0 && !this.mc.gameSettings.keyBindSprint.isKeyDown()) {
+				if (this.sprintToggleTimer <= 0 && !this.mc.gameSettings.keyBindSprint.isKeyDown() && !Controller.isButtonDown(10)) {
 					this.sprintToggleTimer = 7;
 				} else {
 					this.setSprinting(true);
@@ -878,7 +879,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 		}
 
 		if(!Minecraft.getMinecraft().gameSettings.toggleSprint) {
-			if (!this.isSprinting() && this.movementInput.moveForward >= f && flag3 && !this.isUsingItem() && !this.isPotionActive(Potion.blindness) && this.mc.gameSettings.keyBindSprint.isKeyDown()) {
+			if (!this.isSprinting() && this.movementInput.moveForward >= f && flag3 && !this.isUsingItem() && !this.isPotionActive(Potion.blindness) && (this.mc.gameSettings.keyBindSprint.isKeyDown() || Controller.isButtonDown(10))) {
 				this.setSprinting(true);
 			}
 		} else {
@@ -950,7 +951,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 			this.sendPlayerAbilities();
 		}
 		
-		if(Minecraft.getMinecraft().gameSettings.keyBindSprint.isPressed() && Minecraft.getMinecraft().gameSettings.toggleSprint) {
+		if((Minecraft.getMinecraft().gameSettings.keyBindSprint.isPressed() || Controller.isButtonPressed(10)) && Minecraft.getMinecraft().gameSettings.toggleSprint) {
 			Minecraft.getMinecraft().gameSettings.toggleSprintEnabled = !Minecraft.getMinecraft().gameSettings.toggleSprintEnabled;
 		}
 	}

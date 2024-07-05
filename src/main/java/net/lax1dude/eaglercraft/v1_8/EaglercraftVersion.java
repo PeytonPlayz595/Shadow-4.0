@@ -14,7 +14,7 @@ public class EaglercraftVersion {
 	/// Customize these to fit your fork:
 
 	public static final String projectForkName = "Shadow Client";
-	public static final String projectForkVersion = "4.2";
+	public static final String projectForkVersion = "4.5";
 	public static final String projectForkVendor = "PeytonPlayz585";
 
 	public static final String projectForkURL = "https://gitlab.com/lax1dude/eaglercraftx-1.8";
@@ -35,7 +35,7 @@ public class EaglercraftVersion {
 	public static final boolean enableUpdateService = false;
 
 	public static final String updateBundlePackageName = "net.lax1dude.eaglercraft.v1_8.client";
-	public static final int updateBundlePackageVersionInt = 32;
+	public static final int updateBundlePackageVersionInt = 34;
 
 	public static final String updateLatestLocalStorageKey = "latestUpdate_" + updateBundlePackageName;
 

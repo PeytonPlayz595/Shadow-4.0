@@ -1910,5 +1910,18 @@ public abstract class EntityLivingBase extends Entity {
 			Minecraft.getMinecraft().entityRenderer.renderHeldItemLight(this, 1.0f);
 		}
 	}
+	
+	protected float getEaglerDynamicLightsValueSimple(float partialTicks) {
+		float f = super.getEaglerDynamicLightsValueSimple(partialTicks);
+		ItemStack itm = this.getHeldItem();
+		if (itm != null && itm.stackSize > 0) {
+			Item item = itm.getItem();
+			if (item != null) {
+				float f2 = item.getHeldItemBrightnessEagler();
+				f = Math.min(f + f2 * 0.5f, 1.0f) + f2 * 0.5f;
+			}
+		}
+		return f;
+	}
 
 }

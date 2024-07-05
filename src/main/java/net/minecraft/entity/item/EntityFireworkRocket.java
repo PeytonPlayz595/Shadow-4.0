@@ -207,4 +207,8 @@ public class EntityFireworkRocket extends Entity {
 	public boolean canAttackWithItem() {
 		return false;
 	}
+	
+	protected float getEaglerDynamicLightsValueSimple(float partialTicks) {
+		return 1.0f;
+	}
 }

@@ -290,4 +290,8 @@ public class EntityBlaze extends EntityMob {
 		DynamicLightManager.renderDynamicLight("entity_" + getEntityId() + "_blaze", entityX, entityY + 0.75, entityZ,
 				mag, 0.487f * mag, 0.1411f * mag, false);
 	}
+	
+	protected float getEaglerDynamicLightsValueSimple(float partialTicks) {
+		return 1.0f;
+	}
 }

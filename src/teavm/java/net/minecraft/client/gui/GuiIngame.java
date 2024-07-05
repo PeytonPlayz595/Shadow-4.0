@@ -8,6 +8,7 @@ import java.util.Collection;
 import net.PeytonPlayz585.shadow.ArmorGui;
 import net.PeytonPlayz585.shadow.Config;
 import net.PeytonPlayz585.shadow.CustomColors;
+import net.PeytonPlayz585.shadow.input.Controller;
 import net.eaglerforge.api.ModAPI;
 import net.eaglerforge.api.ModData;
 import net.lax1dude.eaglercraft.v1_8.EaglercraftRandom;
@@ -308,7 +309,7 @@ public class GuiIngame extends Gui {
 		this.mc.mcProfiler.endSection();
 		GlStateManager.popMatrix();
 		scoreobjective1 = scoreboard.getObjectiveInDisplaySlot(0);
-		if (!this.mc.gameSettings.keyBindPlayerList.isKeyDown() || this.mc.isIntegratedServerRunning()
+		if ((!this.mc.gameSettings.keyBindPlayerList.isKeyDown() && !Controller.playerList()) || this.mc.isIntegratedServerRunning()
 				&& this.mc.thePlayer.sendQueue.getPlayerInfoMap().size() <= 1 && scoreobjective1 == null) {
 			this.overlayPlayerList.updatePlayerList(false);
 		} else {
