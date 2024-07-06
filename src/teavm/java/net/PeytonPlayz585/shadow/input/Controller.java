@@ -71,11 +71,11 @@ public class Controller {
 	}
 	
 	public static boolean jump() {
-		return isButtonPressed(1) || isButtonDown(1);
+		return isButtonPressed(0) || isButtonDown(0);
 	}
 	
 	public static boolean crouch() {
-		return isButtonPressed(0) || isButtonDown(0) || isButtonPressed(11) || isButtonDown(11);
+		return isButtonPressed(1) || isButtonDown(1) || isButtonPressed(11) || isButtonDown(11);
 	}
 	
 	public static boolean sprint() {
