@@ -1,6 +1,7 @@
 package net.minecraft.util;
 
 import net.PeytonPlayz585.shadow.input.Controller;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 
 /**+
@@ -49,8 +50,8 @@ public class MovementInputFromOptions extends MovementInput {
 			--this.moveStrafe;
 		}
 
-		this.jump = this.gameSettings.keyBindJump.isKeyDown() || Controller.jump();
-		this.sneak = this.gameSettings.keyBindSneak.isKeyDown() || Controller.crouch();
+		this.jump = this.gameSettings.keyBindJump.isKeyDown() || (Controller.jump() && Minecraft.getMinecraft().currentScreen == null);
+		this.sneak = this.gameSettings.keyBindSneak.isKeyDown() || (Controller.crouch() && Minecraft.getMinecraft().currentScreen == null);
 		if (this.sneak) {
 			this.moveStrafe = (float) ((double) this.moveStrafe * 0.3D);
 			this.moveForward = (float) ((double) this.moveForward * 0.3D);
