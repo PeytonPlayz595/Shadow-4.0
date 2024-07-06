@@ -1292,6 +1292,16 @@ public class Minecraft extends ModData implements IThreadListener {
 		
 		Controller.tick();
 		
+		if(this.currentScreen != null) {
+			if(Controller.cursor == null) {
+				Controller.addCursor(0, 0);
+			}
+		} else {
+			if(Controller.cursor != null) {
+				Controller.removeCursor();
+			}
+		}
+		
 		if (this.rightClickDelayTimer > 0) {
 			--this.rightClickDelayTimer;
 		}

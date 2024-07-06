@@ -6,7 +6,12 @@ import java.util.List;
 import org.teavm.jso.browser.Navigator;
 import org.teavm.jso.browser.Window;
 import org.teavm.jso.dom.events.EventListener;
+import org.teavm.jso.dom.html.HTMLBodyElement;
+import org.teavm.jso.dom.html.HTMLImageElement;
 import org.teavm.jso.gamepad.GamepadEvent;
+
+import net.lax1dude.eaglercraft.v1_8.Display;
+
 import org.teavm.jso.gamepad.Gamepad;
 
 public class Controller {
@@ -27,6 +32,8 @@ public class Controller {
 	
 	private static int activeController = -1;
 	private static ButtonState[] states = new ButtonState[30];
+	
+	public static HTMLImageElement cursor;
 	
 	public static final int getDX() {
 		if(dx < 0.0) {
@@ -134,6 +141,38 @@ public class Controller {
 		 */
 		dy = -axes[3] * multiplier;
 		
+		if(cursor != null) {
+			double dx1;
+			double dy1 = dy;
+			
+			if(dx1 < 0.0) {
+				if(dx1 < -cameraThreshold) {
+					dx1 = dx;
+				}
+			} else if(dx > 0.0) {
+				if(dx > cameraThreshold) {
+					dx1 = dx;
+				}
+			} else {
+				dx1 = 0;
+			}
+			
+			if(dy1 < 0.0) {
+				if(dy1 < -cameraThreshold) {
+					dy1 = dy;
+				}
+			} else if(dy1 > 0.0) {
+				if(dy1 > cameraThreshold) {
+					dy1 = dy;
+				}
+			} else {
+				dy1 = 0;
+			}
+			
+			
+			updateCursor((int)dx1, (int)dy1);
+		}
+		
 		forward = axes[1] < -threshold;
 		backwards = axes[1] > threshold;
 		left = axes[0] < -threshold;
@@ -167,6 +206,38 @@ public class Controller {
 			updateAxes(gamePad);
 			updateButtons(gamePad, index);
 		}
+	}
+	
+	public static void addCursor(int x, int y) {
+		cursor = (HTMLImageElement) Window.current().getDocument().createElement("img");
+		cursor.setAttribute("id", "cursor");
+		cursor.setSrc(cursorSrc);
+		cursor.setAttribute("draggable", "false");
+		cursor.getStyle().setProperty("left", "0px");
+		cursor.getStyle().setProperty("top", "0px");
+		cursor.getStyle().setProperty("width", "auto");
+		cursor.getStyle().setProperty("height", "auto");
+        
+        HTMLBodyElement body = (HTMLBodyElement) Window.current().getDocument().getBody();
+        body.appendChild(cursor);
+	}
+	
+	public static void removeCursor() {
+    	if (cursor != null) {
+    		cursor.getParentNode().removeChild(cursor);
+        }
+		cursor = null;
+	}
+	
+	private static void updateCursor(int dx, int dy) {
+		int dx1 = cursor.getAbsoluteLeft() + dx;
+		int dy1 = cursor.getAbsoluteTop() + dy;
+		
+		int x = Math.min(Math.max(dx1, 0), Display.getWidth() - cursor.getWidth());
+		int y = Math.min(Math.max(dy1, 0), Display.getHeight() - cursor.getHeight());
+		
+		cursor.getStyle().setProperty("left", dx1 + "px");
+		cursor.getStyle().setProperty("top", dy1 + "px");
 	}
 	
 	private static Gamepad getGamepad(int index) {
@@ -205,4 +276,6 @@ public class Controller {
 		
 		resetButtonStates();
 	}
+	
+	private static String cursorSrc = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAWCAYAAAAmaHdCAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV/TiiIVBzOIOGSoThbELxylikWwUNoKrTqYXPoFTRqSFBdHwbXg4Mdi1cHFWVcHV0EQ/ABxc3NSdJES/5cUWsR4cNyPd/ced+8AoVFhmhUaBzTdNlPxmJTNrUrdrwhDRAjTiMrMMhLpxQx8x9c9Any9i/Is/3N/jj41bzEgIBHPMcO0iTeIZzZtg/M+schKskp8Tjxm0gWJH7muePzGueiywDNFM5OaJxaJpWIHKx3MSqZGPEUcUTWd8oWsxyrnLc5apcZa9+QvDOf1lTTXaQ4jjiUkkIQEBTWUUYGNKK06KRZStB/z8Q+5/iS5FHKVwcixgCo0yK4f/A9+d2sVJie8pHAM6HpxnI8RoHsXaNYd5/vYcZonQPAZuNLb/moDmP0kvd7WIkdA/zZwcd3WlD3gcgcYfDJkU3alIE2hUADez+ibcsDALdC75vXW2sfpA5ChrpZvgINDYLRI2es+7+7p7O3fM63+fgDbd3LRJJH9vQAAAAZiS0dEAJ0AnQCdq6CchAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAeJJREFUOMvdlL9rFEEUx7+Zd0x3tWSQEEEIXBUCueawELQQERULxdZObMXGVrh/wuqqtEKapEihFtlA7kT8EUjpjhHhjsO9c3dv3jwLM+vmbr1TsPILC7Ps7me+b7/vDWGOSJumovonRfWWovqR8LcYfyvSRoJIG/ndewr/QP87hLRpkjY7VT+StJHTZ82FiURRt0iknI6ISBR1pQQzfxTr9JqZhbSRV6/3f4GC9WBzHoSZZTKZCGkjo9FI9vZeCmmzA9JGYnsisT0JIKlSAKRpKqSNDIdD6ff7QtqIArALAGb5HFwWX60q0XsP7z2YGcyM/tcPYGY454p0nq6sbuzaz18AAE8eP5qNUCnUajWMx2NkWVYACgjnNgKwtbK6sQ0At25eq5yRwWBw5v4MBAA4t88BNA4OerK5ub5U/jBcQUmSIE1TOOdw2H0LAO+XStE+AHDbZfF17z2UUjO7J0lSrJkZF9da7emO7QBo7EeH8N4vBJyWchfAVgHh3OYAnrUu3dhm5p/uiCob0jmH3pt3APCdc9ubnp0OgEYUdUFExY5pmhYOQjr37j9sA3gxM4DBzeUrd9rlGJ1zBTD0SigFAGoVbjsAPs4DeO8BgDi3vUoI5zYnbY6Xz69fWHCMHIXFD7PBln0/6ZSqAAAAAElFTkSuQmCC";
 }
