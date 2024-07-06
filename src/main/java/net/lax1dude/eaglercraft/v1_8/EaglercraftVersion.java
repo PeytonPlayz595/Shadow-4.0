@@ -13,18 +13,22 @@ public class EaglercraftVersion {
 	
 	/// Customize these to fit your fork:
 
-	public static final String projectForkName = "Shadow Client";
-	public static final String projectForkVersion = "4.5";
-	public static final String projectForkVendor = "PeytonPlayz585";
+	//Client name (Shadow)
+	public static final String projectForkName = new String(new byte[] {83, 104, 97, 100, 111, 119 });
+	//Build version (number + snapshot/official)
+	public static final String projectForkVersion = new String(new byte[] {52, 46, 53, 32, 115, 110, 97, 112, 115, 104, 111, 116, 45, 50, 52, 119, 50, 55, 97 });
+	//Author name (PeytonPlayz585)
+	public static final String projectForkVendor = new String(new byte[] {80, 101, 121, 116, 111, 110, 80, 108, 97, 121, 122, 53, 56, 53 });
 
 	public static final String projectForkURL = "https://gitlab.com/lax1dude/eaglercraftx-1.8";
 
 	//////////////////////////////////////////////////////////////////////
 	
-	public static final String projectOriginName = "Shadow";
+	//Client name (Shadow)
+	public static final String projectOriginName = new String(new byte[] {83, 104, 97, 100, 111, 119 });
 	public static final String projectOriginAuthor = "lax1dude";
 	public static final String projectOriginRevision = projectForkVersion;
-	public static final String projectOriginVersion = "(Singleplayer)";
+	public static final String projectOriginVersion = "(u34)";
 	
 	public static final String projectOriginURL = "https://gitlab.com/lax1dude/eaglercraftx-1.8"; // rest in peace
 	
@@ -53,8 +57,8 @@ public class EaglercraftVersion {
 	public static final String mainMenuStringE = projectForkName + " " + projectForkVersion;
 	public static final String mainMenuStringF = "Made by " + projectForkVendor;
 
-	public static final String mainMenuStringG = "Shadow Client " + projectForkVersion;
-	public static final String mainMenuStringH = "Singleplayer + Optifine";
+	public static final String mainMenuStringG = projectForkVersion;
+	public static final String mainMenuStringH = new String(new byte[] {83, 105, 110, 103, 108, 101, 112, 108, 97, 121, 101, 114, 32, 43, 32, 79, 112, 116, 105, 102, 105, 110, 101 });
 
 	public static final long demoWorldSeed = (long) "North Carolina".hashCode();
 
