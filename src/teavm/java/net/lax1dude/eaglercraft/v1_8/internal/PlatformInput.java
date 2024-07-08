@@ -21,6 +21,7 @@ import org.teavm.jso.dom.html.HTMLElement;
 import org.teavm.jso.webgl.WebGLFramebuffer;
 import org.teavm.jso.webgl.WebGLRenderbuffer;
 
+import net.PeytonPlayz585.shadow.input.Controller;
 import net.lax1dude.eaglercraft.v1_8.EagUtils;
 import net.lax1dude.eaglercraft.v1_8.internal.teavm.EarlyLoadScreen;
 import net.lax1dude.eaglercraft.v1_8.internal.teavm.WebGL2RenderingContext;
@@ -503,10 +504,16 @@ public class PlatformInput {
 	}
 
 	public static int mouseGetX() {
+		if(Controller.cursor != null) {
+			return Controller.cursor.getOffsetLeft();
+		}
 		return mouseX;
 	}
 
 	public static int mouseGetY() {
+		if(Controller.cursor != null) {
+			return canvas.getClientHeight() - Controller.cursor.getOffsetTop();
+		}
 		return mouseY;
 	}
 

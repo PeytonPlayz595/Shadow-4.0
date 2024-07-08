@@ -40,7 +40,7 @@ public class GuiButton extends Gui {
 	public int id;
 	public boolean enabled;
 	public boolean visible;
-	protected boolean hovered;
+	public boolean hovered;
 	public float fontScale = 1.0f;
 
 	public GuiButton(int buttonId, int x, int y, String buttonText) {

@@ -11,7 +11,9 @@ import org.teavm.jso.dom.html.HTMLImageElement;
 import org.teavm.jso.gamepad.GamepadEvent;
 
 import net.lax1dude.eaglercraft.v1_8.Display;
+import net.lax1dude.eaglercraft.v1_8.Mouse;
 import net.lax1dude.eaglercraft.v1_8.internal.PlatformRuntime;
+import net.minecraft.client.Minecraft;
 
 import org.teavm.jso.gamepad.Gamepad;
 
@@ -27,8 +29,8 @@ public class Controller {
 	private static boolean left = false;
 	private static boolean right = false;
 	
-	private static double threshold = 0.3;
 	//Fixes 'slight' issues of stick drift people have been complaining about
+	private static double threshold = 0.3;
 	private static double cameraThreshold = 4.0;
 	private static double cursorThreshold = 0.4;
 	
@@ -188,6 +190,10 @@ public class Controller {
 			Gamepad gamePad = getGamepad(index);
 			updateAxes(gamePad);
 			updateButtons(gamePad, index);
+		}
+		
+		if(cursor != null && isButtonPressed(0) || isButtonDown(0)) {
+			Minecraft.getMinecraft().currentScreen.controllerClicked(Mouse.getX(), Mouse.getY());
 		}
 	}
 	
