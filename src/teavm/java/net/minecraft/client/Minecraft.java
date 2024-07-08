@@ -1,6 +1,6 @@
 package net.minecraft.client;
 
-import static net.eaglerforge.EaglerForge.removeanvil;
+import net.eaglerforge.EaglerForge;
 import static net.lax1dude.eaglercraft.v1_8.opengl.RealOpenGLEnums.*;
 
 import static net.lax1dude.eaglercraft.v1_8.internal.PlatformOpenGL._wglBindFramebuffer;
@@ -393,7 +393,6 @@ public class Minecraft extends ModData implements IThreadListener {
 	 * settings, etcetera.
 	 */
 	private void startGame() throws IOException {
-		EaglerForge.init();
 		this.modapi = new ModAPI(theMinecraft);
 		this.gameSettings = new GameSettings(this);
 		Config.initDisplay();
@@ -506,10 +505,12 @@ public class Minecraft extends ModData implements IThreadListener {
 
 		this.displayGuiScreen(new GuiScreenEditProfile(mainMenu));
 
-		removeanvil();
+		EaglerForge.removeanvil();
 		this.renderEngine.deleteTexture(this.mojangLogo);
 		this.mojangLogo = null;
 		this.loadingScreen = new LoadingScreenRenderer(this);
+		
+		EaglerForge.log.info("Loading mods!");
 		
 		//(EaglerForge bug)
 		modapi.onFrame(); //Mods were loaded before onFrame is called
@@ -670,6 +671,13 @@ public class Minecraft extends ModData implements IThreadListener {
 		GlStateManager.enableAlpha();
 		GlStateManager.alphaFunc(GL_GREATER, 0.1F);
 		this.updateDisplay();
+		
+		try {
+			Thread.sleep(1l);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		EaglerForge.displayanvil();
 	}
 
 	public void func_181536_a(int parInt1, int parInt2, int parInt3, int parInt4, int parInt5, int parInt6, int parInt7,

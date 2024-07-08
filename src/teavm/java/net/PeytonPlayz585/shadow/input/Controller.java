@@ -33,7 +33,7 @@ public class Controller {
 	private static double cursorThreshold = 0.4;
 	
 	private static int activeController = -1;
-	private static ButtonState[] states = new ButtonState[30];
+	private static ButtonState[] button = new ButtonState[30];
 	
 	public static HTMLImageElement cursor;
 	
@@ -92,39 +92,39 @@ public class Controller {
 	}
 	
 	public static boolean itemChangeLeft() {
-		return states[4] == ButtonState.PRESSED;
+		return button[4] == ButtonState.PRESSED;
 	}
 	
 	public static boolean itemChangeRight() {
-		return states[5] == ButtonState.PRESSED;
+		return button[5] == ButtonState.PRESSED;
 	}
 	
 	public static boolean inventory() {
-		return states[2] == ButtonState.PRESSED || states[3] == ButtonState.PRESSED;
+		return button[2] == ButtonState.PRESSED || button[3] == ButtonState.PRESSED;
 	}
 	
 	public static boolean togglePerspective() {
-		return states[12] == ButtonState.PRESSED;
+		return button[12] == ButtonState.PRESSED;
 	}
 	
 	public static boolean playerList() {
-		return states[15] == ButtonState.HELD;
+		return button[15] == ButtonState.HELD;
 	}
 	
 	public static boolean smoothCamera() {
-		return states[14] == ButtonState.PRESSED;
+		return button[14] == ButtonState.PRESSED;
 	}
 	
 	public static boolean dropItem() {
-		return states[13] == ButtonState.PRESSED;
+		return button[13] == ButtonState.PRESSED;
 	}
 	
 	public static boolean isButtonPressed(int i) {
-		return states[i] == ButtonState.PRESSED;
+		return button[i] == ButtonState.PRESSED;
 	}
 	
 	public static boolean isButtonDown(int i) {
-		return states[i] == ButtonState.HELD;
+		return button[i] == ButtonState.HELD;
 	}
 
 	private static void updateAxes(Gamepad gamePad) {
@@ -170,15 +170,15 @@ public class Controller {
 					resetButtonStates();
 				}
 				
-				if(states[i] == ButtonState.PRESSED) {
-					states[i] = ButtonState.HELD;
+				if(button[i] == ButtonState.PRESSED) {
+					button[i] = ButtonState.HELD;
 				} else {
-					if(!(states[i] == ButtonState.HELD)) {
-						states[i] = ButtonState.PRESSED;
+					if(!(button[i] == ButtonState.HELD)) {
+						button[i] = ButtonState.PRESSED;
 					}
 				}
 			} else if(!gamePad.getButtons()[i].isPressed() && index == activeController) {
-				states[i] = ButtonState.DEFAULT;
+				button[i] = ButtonState.DEFAULT;
 			}
 		}
 	}
@@ -232,8 +232,8 @@ public class Controller {
 	}
 	
 	private static void resetButtonStates() {
-		for(int i = 0; i < states.length; i++) {
-			states[i] = ButtonState.DEFAULT;
+		for(int i = 0; i < button.length; i++) {
+			button[i] = ButtonState.DEFAULT;
 		}
 	}
 	

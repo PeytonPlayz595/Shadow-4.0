@@ -164,7 +164,7 @@ public class CustomItemProperties {
                     int j = Config.parseInt(s, -1);
 
                     if (j >= 0) {
-                        set.add(new Integer(j));
+                        set.add(Integer.valueOf(j));
                     } else {
                         if (s.contains("-")) {
                             String[] astring1 = Config.tokenize(s, "-");
@@ -183,7 +183,7 @@ public class CustomItemProperties {
                                             continue label45;
                                         }
 
-                                        set.add(new Integer(k1));
+                                        set.add(Integer.valueOf(k1));
                                         ++k1;
                                     }
                                 }
@@ -200,7 +200,7 @@ public class CustomItemProperties {
                             if (i2 <= 0) {
                                 Config.warn("Item not found: " + s);
                             } else {
-                                set.add(new Integer(i2));
+                                set.add(Integer.valueOf(i2));
                             }
                         }
                     }
