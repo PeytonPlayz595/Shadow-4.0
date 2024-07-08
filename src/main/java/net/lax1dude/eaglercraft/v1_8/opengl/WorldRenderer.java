@@ -202,8 +202,9 @@ public class WorldRenderer {
 	 * SLOW AND STUPID COMPANION FUNCTION TO 'func_181672_a'
 	 */
 	public void setVertexState(WorldRenderer.State state) {
-		this.grow(state.getRawBuffer().length);
-		PlatformBufferFunctions.put(this.intBuffer, 0, state.getRawBuffer());
+		int[] rawBuffer = state.getRawBuffer();
+		this.grow(rawBuffer.length);
+		PlatformBufferFunctions.put(this.intBuffer, 0, rawBuffer);
 		this.vertexCount = state.getVertexCount();
 		this.vertexFormat = state.getVertexFormat();
 	}

@@ -16,7 +16,7 @@ public class EaglercraftVersion {
 	//Client name (Shadow)
 	public static final String projectForkName = new String(new byte[] {83, 104, 97, 100, 111, 119 });
 	//Build version (number + snapshot/official)
-	public static final String projectForkVersion = new String(new byte[] {52, 46, 53, 32, 115, 110, 97, 112, 115, 104, 111, 116, 45, 50, 52, 119, 50, 55, 97 });
+	public static final String projectForkVersion = new String(new byte[] {52, 46, 53, 32, 115, 110, 97, 112, 115, 104, 111, 116, 45, 50, 52, 119, 50, 56, 97 });
 	//Author name (PeytonPlayz585)
 	public static final String projectForkVendor = new String(new byte[] {80, 101, 121, 116, 111, 110, 80, 108, 97, 121, 122, 53, 56, 53 });
 
