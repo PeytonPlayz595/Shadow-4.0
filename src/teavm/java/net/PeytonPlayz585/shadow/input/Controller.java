@@ -38,6 +38,7 @@ public class Controller {
 	private static ButtonState[] button = new ButtonState[30];
 	
 	public static HTMLImageElement cursor;
+	public static boolean isActive = false;
 	
 	public static final int getDX() {
 		if(dx < 0.0) {
@@ -158,6 +159,10 @@ public class Controller {
 			}
 		}
 		
+		if(getDX() > 0 || getDY() > 0 || getDX() < 0 || getDY() < 0) {
+			isActive = true;
+		}
+		
 		forward = axes[1] < -threshold;
 		backwards = axes[1] > threshold;
 		left = axes[0] < -threshold;
@@ -174,9 +179,11 @@ public class Controller {
 				
 				if(button[i] == ButtonState.PRESSED) {
 					button[i] = ButtonState.HELD;
+					isActive = true;
 				} else {
 					if(!(button[i] == ButtonState.HELD)) {
 						button[i] = ButtonState.PRESSED;
+						isActive = true;
 					}
 				}
 			} else if(!gamePad.getButtons()[i].isPressed() && index == activeController) {
@@ -252,6 +259,7 @@ public class Controller {
 			@Override
 			public void handleEvent(GamepadEvent arg0) {
 				connectedControllers.add(arg0.getGamepad().getIndex());
+				isActive = true;
 				System.out.println("Controller connected!");
 			}
 		});
@@ -263,6 +271,7 @@ public class Controller {
 				if(connectedControllers.contains(index)) {
 					connectedControllers.remove(index);
 					resetButtonStates();
+					isActive = false;
 					System.out.println("Controller disconnected!");
 				}
 			}

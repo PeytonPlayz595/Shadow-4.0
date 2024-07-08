@@ -129,6 +129,7 @@ public class PlatformInput {
 				int b = evt.getButton();
 				buttonStates[b == 1 ? 2 : (b == 2 ? 1 : b)] = true;
 				mouseEvents.add(evt);
+				Controller.isActive = false;
 			}
 		});
 		canvas.addEventListener("mouseup", mouseup = new EventListener<MouseEvent>() {
@@ -139,6 +140,7 @@ public class PlatformInput {
 				int b = evt.getButton();
 				buttonStates[b == 1 ? 2 : (b == 2 ? 1 : b)] = false;
 				mouseEvents.add(evt);
+				Controller.isActive = false;
 			}
 		});
 		canvas.addEventListener("mousemove", mousemove = new EventListener<MouseEvent>() {
@@ -153,18 +155,21 @@ public class PlatformInput {
 				if(hasBeenActive()) {
 					mouseEvents.add(evt);
 				}
+				Controller.isActive = false;
 			}
 		});
 		canvas.addEventListener("mouseenter", mouseenter = new EventListener<MouseEvent>() {
 			@Override
 			public void handleEvent(MouseEvent evt) {
 				isMouseOverWindow = true;
+				Controller.isActive = false;
 			}
 		});
 		canvas.addEventListener("mouseleave", mouseleave = new EventListener<MouseEvent>() {
 			@Override
 			public void handleEvent(MouseEvent evt) {
 				isMouseOverWindow = false;
+				Controller.isActive = false;
 			}
 		});
 		win.addEventListener("keydown", keydown = new EventListener<KeyboardEvent>() {
@@ -180,6 +185,7 @@ public class PlatformInput {
 				int ww = processFunctionKeys(w);
 				keyStates[KeyboardConstants.getEaglerKeyFromBrowser(ww, ww == w ? evt.getLocation() : 0)] = true;
 				keyEvents.add(evt);
+				Controller.isActive = false;
 			}
 		});
 		win.addEventListener("keyup", keyup = new EventListener<KeyboardEvent>() {
@@ -198,6 +204,7 @@ public class PlatformInput {
 					}
 				}
 				keyEvents.add(evt);
+				Controller.isActive = false;
 			}
 		});
 		win.addEventListener("keypress", keypress = new EventListener<KeyboardEvent>() {
@@ -205,6 +212,7 @@ public class PlatformInput {
 			public void handleEvent(KeyboardEvent evt) {
 				evt.preventDefault();
 				evt.stopPropagation();
+				Controller.isActive = false;
 				if(enableRepeatEvents && evt.isRepeat()) keyEvents.add(evt);
 			}
 		});
@@ -215,6 +223,7 @@ public class PlatformInput {
 				evt.stopPropagation();
 				mouseEvents.add(evt);
 				mouseDWheel += evt.getDeltaY();
+				Controller.isActive = false;
 			}
 		});
 		win.addEventListener("blur", new EventListener<WheelEvent>() {
@@ -227,12 +236,14 @@ public class PlatformInput {
 				for(int i = 0; i < keyStates.length; ++i) {
 					keyStates[i] = false;
 				}
+				Controller.isActive = false;
 			}
 		});
 		win.addEventListener("focus", new EventListener<WheelEvent>() {
 			@Override
 			public void handleEvent(WheelEvent evt) {
 				isWindowFocused = true;
+				Controller.isActive = false;
 			}
 		});
 		win.getDocument().addEventListener("pointerlockchange", pointerlock = new EventListener<WheelEvent>() {
@@ -252,6 +263,7 @@ public class PlatformInput {
 				}, 60);
 				mouseDX = 0.0D;
 				mouseDY = 0.0D;
+				Controller.isActive = false;
 			}
 		});
 		
