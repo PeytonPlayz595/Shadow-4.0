@@ -11,6 +11,7 @@ import org.teavm.jso.dom.html.HTMLImageElement;
 import org.teavm.jso.gamepad.GamepadEvent;
 
 import net.lax1dude.eaglercraft.v1_8.Display;
+import net.lax1dude.eaglercraft.v1_8.internal.PlatformRuntime;
 
 import org.teavm.jso.gamepad.Gamepad;
 
@@ -29,6 +30,7 @@ public class Controller {
 	private static double threshold = 0.3;
 	//Fixes 'slight' issues of stick drift people have been complaining about
 	private static double cameraThreshold = 4.0;
+	private static double cursorThreshold = 0.4;
 	
 	private static int activeController = -1;
 	private static ButtonState[] states = new ButtonState[30];
@@ -142,35 +144,16 @@ public class Controller {
 		dy = -axes[3] * multiplier;
 		
 		if(cursor != null) {
-			double dx1;
-			double dy1 = dy;
+			int dx1 = getDX();
+			int dy1 = getDY();
 			
-			if(dx1 < 0.0) {
-				if(dx1 < -cameraThreshold) {
-					dx1 = dx;
-				}
-			} else if(dx > 0.0) {
-				if(dx > cameraThreshold) {
-					dx1 = dx;
-				}
-			} else {
-				dx1 = 0;
+			if(dx1 > 0 || dx1 < 0) {
+				updateCursorX(dx1);
 			}
 			
-			if(dy1 < 0.0) {
-				if(dy1 < -cameraThreshold) {
-					dy1 = dy;
-				}
-			} else if(dy1 > 0.0) {
-				if(dy1 > cameraThreshold) {
-					dy1 = dy;
-				}
-			} else {
-				dy1 = 0;
+			if(dy1 > 0 || dy1 < 0) {
+				updateCursorY(-dy1);
 			}
-			
-			
-			updateCursor((int)dx1, (int)dy1);
 		}
 		
 		forward = axes[1] < -threshold;
@@ -213,10 +196,11 @@ public class Controller {
 		cursor.setAttribute("id", "cursor");
 		cursor.setSrc(cursorSrc);
 		cursor.setAttribute("draggable", "false");
-		cursor.getStyle().setProperty("left", "0px");
-		cursor.getStyle().setProperty("top", "0px");
-		cursor.getStyle().setProperty("width", "auto");
-		cursor.getStyle().setProperty("height", "auto");
+		cursor.getStyle().setProperty("position", "fixed");
+        cursor.getStyle().setProperty("top", "0");
+        cursor.getStyle().setProperty("left", "0");
+        cursor.getStyle().setProperty("width", "auto");
+        cursor.getStyle().setProperty("height", "auto");
         
         HTMLBodyElement body = (HTMLBodyElement) Window.current().getDocument().getBody();
         body.appendChild(cursor);
@@ -229,15 +213,18 @@ public class Controller {
 		cursor = null;
 	}
 	
-	private static void updateCursor(int dx, int dy) {
-		int dx1 = cursor.getAbsoluteLeft() + dx;
-		int dy1 = cursor.getAbsoluteTop() + dy;
+	private static void updateCursorX(int x) {
+		int newX = cursor.getOffsetLeft() + x;
 		
-		int x = Math.min(Math.max(dx1, 0), Display.getWidth() - cursor.getWidth());
-		int y = Math.min(Math.max(dy1, 0), Display.getHeight() - cursor.getHeight());
+		newX = Math.max(0, Math.min(newX, PlatformRuntime.canvas.getClientWidth() - cursor.getWidth()));
+		cursor.getStyle().setProperty("left", Integer.toString(newX) + "px");
+	}
+	
+	private static void updateCursorY(int y) {
+		int newY = cursor.getOffsetTop() + y;
 		
-		cursor.getStyle().setProperty("left", dx1 + "px");
-		cursor.getStyle().setProperty("top", dy1 + "px");
+		newY = Math.max(0, Math.min(newY, PlatformRuntime.canvas.getClientHeight() - cursor.getHeight()));
+		cursor.getStyle().setProperty("top", Integer.toString(newY) + "px");
 	}
 	
 	private static Gamepad getGamepad(int index) {

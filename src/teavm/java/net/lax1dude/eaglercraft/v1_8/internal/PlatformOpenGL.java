@@ -33,7 +33,7 @@ public class PlatformOpenGL {
 	
 	private static final Logger logger = LogManager.getLogger("PlatformOpenGL");
 	
-	static WebGL2RenderingContext ctx = null;
+	public static WebGL2RenderingContext ctx = null;
 
 	static boolean hasDebugRenderInfoExt = false;
 	static boolean hasFramebufferHDR16FSupport = false;
