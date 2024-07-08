@@ -256,6 +256,7 @@ public class Controller {
 				int index = arg0.getGamepad().getIndex();
 				if(connectedControllers.contains(index)) {
 					connectedControllers.remove(index);
+					resetButtonStates();
 					System.out.println("Controller disconnected!");
 				}
 			}
