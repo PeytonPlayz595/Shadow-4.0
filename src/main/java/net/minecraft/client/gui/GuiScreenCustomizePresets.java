@@ -75,6 +75,7 @@ public class GuiScreenCustomizePresets extends GuiScreen {
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		this.field_175311_g.handleMouseInput();
+		this.field_175311_g.handleControllerInput();
 	}
 
 	/**+

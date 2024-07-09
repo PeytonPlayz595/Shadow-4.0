@@ -101,6 +101,8 @@ public class GuiScreenResourcePacks extends GuiScreen {
 		super.handleMouseInput();
 		this.selectedResourcePacksList.handleMouseInput();
 		this.availableResourcePacksList.handleMouseInput();
+		this.selectedResourcePacksList.handleControllerInput();
+		this.availableResourcePacksList.handleControllerInput();
 	}
 
 	public boolean hasResourcePackEntry(ResourcePackListEntry parResourcePackListEntry) {

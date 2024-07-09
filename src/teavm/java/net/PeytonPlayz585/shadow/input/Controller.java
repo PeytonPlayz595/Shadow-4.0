@@ -199,8 +199,15 @@ public class Controller {
 			updateButtons(gamePad, index);
 		}
 		
-		if(cursor != null && isButtonPressed(0) || isButtonDown(0)) {
-			Minecraft.getMinecraft().currentScreen.controllerClicked(Mouse.getX(), Mouse.getY());
+		if(cursor != null) {
+			try {
+				Minecraft.getMinecraft().currentScreen.handleMouseInput();
+			} catch(Exception e) {
+				/*
+				 * Ignore it, controller support is experimental
+				 * If it breaks it breaks ¯\_(ツ)_/¯
+				 */
+			}
 		}
 	}
 	

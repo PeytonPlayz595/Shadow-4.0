@@ -320,6 +320,76 @@ public abstract class GuiSlot {
 			GlStateManager.disableBlend();
 		}
 	}
+	
+	public void handleControllerInput() {
+		if (this.isMouseYWithinSlotBounds(this.mouseY)) {
+			if (this.mouseY >= this.top && this.mouseY <= this.bottom) {
+				int i = (this.width - this.getListWidth()) / 2;
+				int j = (this.width + this.getListWidth()) / 2;
+				int k = this.mouseY - this.top - this.headerPadding + (int) this.amountScrolled - 4;
+				int l = k / this.slotHeight;
+				if (l < this.getSize() && this.mouseX >= i && this.mouseX <= j && l >= 0 && k >= 0) {
+					this.elementClicked(l, false, this.mouseX, this.mouseY);
+					this.selectedElement = l;
+				} else if (this.mouseX >= i && this.mouseX <= j && k < 0) {
+					this.func_148132_a(this.mouseX - i, this.mouseY - this.top + (int) this.amountScrolled - 4);
+				}
+			}
+		}
+		
+		if (this.getEnabled()) {
+			if (this.initialClickY == -1) {
+				boolean flag1 = true;
+				if (this.mouseY >= this.top && this.mouseY <= this.bottom) {
+					int j2 = (this.width - this.getListWidth()) / 2;
+					int k2 = (this.width + this.getListWidth()) / 2;
+					int l2 = this.mouseY - this.top - this.headerPadding + (int) this.amountScrolled - 4;
+					int i1 = l2 / this.slotHeight;
+					if (i1 < this.getSize() && this.mouseX >= j2 && this.mouseX <= k2 && i1 >= 0 && l2 >= 0) {
+						boolean flag = i1 == this.selectedElement
+								&& Minecraft.getSystemTime() - this.lastClicked < 250L;
+						this.elementClicked(i1, flag, this.mouseX, this.mouseY);
+						this.selectedElement = i1;
+						this.lastClicked = Minecraft.getSystemTime();
+					} else if (this.mouseX >= j2 && this.mouseX <= k2 && l2 < 0) {
+						this.func_148132_a(this.mouseX - j2,
+								this.mouseY - this.top + (int) this.amountScrolled - 4);
+						flag1 = false;
+					}
+
+					int i3 = this.getScrollBarX();
+					int j1 = i3 + 6;
+					if (this.mouseX >= i3 && this.mouseX <= j1) {
+						this.scrollMultiplier = -1.0F;
+						int k1 = this.func_148135_f();
+						if (k1 < 1) {
+							k1 = 1;
+						}
+
+						int l1 = (int) ((float) ((this.bottom - this.top) * (this.bottom - this.top))
+								/ (float) this.getContentHeight());
+						l1 = MathHelper.clamp_int(l1, 32, this.bottom - this.top - 8);
+						this.scrollMultiplier /= (float) (this.bottom - this.top - l1) / (float) k1;
+					} else {
+						this.scrollMultiplier = 1.0F;
+					}
+
+					if (flag1) {
+						this.initialClickY = this.mouseY;
+					} else {
+						this.initialClickY = -2;
+					}
+				} else {
+					this.initialClickY = -2;
+				}
+			} else if (this.initialClickY >= 0) {
+				this.amountScrolled -= (float) (this.mouseY - this.initialClickY) * this.scrollMultiplier;
+				this.initialClickY = this.mouseY;
+			}
+		} else {
+			this.initialClickY = -1;
+		}
+	}
 
 	public void handleMouseInput() {
 		if (this.isMouseYWithinSlotBounds(this.mouseY)) {

@@ -28,8 +28,10 @@ public class MainButton extends GuiButton {
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		boolean hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 		if (hovered) {
+			this.hovered = true;
 			if (hoverFade < 40) hoverFade += 10;
 		} else {
+			this.hovered = false;
 			if (hoverFade > 0) hoverFade -= 10;
 		}
 		

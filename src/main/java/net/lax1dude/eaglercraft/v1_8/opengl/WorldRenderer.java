@@ -65,10 +65,6 @@ public class WorldRenderer {
 			EagRuntime.freeByteBuffer(byteBuffer);
 		}
 	}
-	
-	public void finalize() {
-		free();
-	}
 
 	private void grow(int parInt1) {
 		int pos = (this.vertexCount * this.vertexFormat.attribStride) >> 2;

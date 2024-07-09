@@ -87,5 +87,6 @@ public class GuiUpdateVersionList extends GuiScreen {
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		slots.handleMouseInput();
+		slots.handleControllerInput();
 	}
 }

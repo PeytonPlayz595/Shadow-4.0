@@ -42,6 +42,7 @@ public class GuiShaders extends GuiScreen {
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		this.list.handleMouseInput();
+		this.list.handleControllerInput();
 	}
 
 	protected void actionPerformed(GuiButton parGuiButton) {

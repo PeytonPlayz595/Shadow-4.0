@@ -4,6 +4,7 @@ import net.lax1dude.eaglercraft.v1_8.opengl.GlStateManager;
 import net.minecraft.client.Minecraft;
 
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 
@@ -24,10 +25,12 @@ public class ImageButton extends MainButton {
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         boolean hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 		if (hovered) {
+			this.hovered = true;
 			if (hoverFade < 40) hoverFade += 10;
 
 			drawHoverEffect();
 		} else {
+			this.hovered = false;
 			if (hoverFade > 0) hoverFade -= 10;
 		}
 		

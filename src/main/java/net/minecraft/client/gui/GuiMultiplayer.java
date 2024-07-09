@@ -114,6 +114,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		this.serverListSelector.handleMouseInput();
+		this.serverListSelector.handleControllerInput();
 	}
 
 	public void createButtons() {

@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import net.PeytonPlayz585.shadow.input.Controller;
 import net.eaglerforge.gui.ModGUI;
 import org.apache.commons.lang3.StringUtils;
 
@@ -526,6 +527,13 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	 * Handles mouse input.
 	 */
 	public void handleMouseInput() throws IOException {
+		if(Controller.cursor != null) {
+			if(Controller.isButtonPressed(0) || Controller.isButtonDown(0)) {
+				this.controllerClicked(Mouse.getX(), Mouse.getY());
+			}
+			return;
+		}
+		
 		int i = Mouse.getEventX() * this.width / this.mc.displayWidth;
 		int j = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
 		int k = Mouse.getEventButton();

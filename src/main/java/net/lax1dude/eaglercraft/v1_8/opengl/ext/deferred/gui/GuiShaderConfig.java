@@ -99,6 +99,7 @@ public class GuiShaderConfig extends GuiScreen {
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		listView.handleMouseInput();
+		listView.handleControllerInput();
 	}
 
 	protected void mouseClicked(int parInt1, int parInt2, int parInt3) {
