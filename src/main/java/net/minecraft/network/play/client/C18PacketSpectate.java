@@ -29,7 +29,7 @@ import net.minecraft.world.WorldServer;
  * 
  */
 public class C18PacketSpectate implements Packet<INetHandlerPlayServer> {
-	public EaglercraftUUID id;
+	private EaglercraftUUID id;
 
 	public C18PacketSpectate() {
 	}

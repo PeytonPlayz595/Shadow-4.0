@@ -854,7 +854,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 			return this.slot.isHere(inv, slotIn);
 		}
 	}
-	
+
 	public boolean blockPTTKey() {
 		return searchField.isFocused();
 	}

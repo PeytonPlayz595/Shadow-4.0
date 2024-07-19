@@ -59,28 +59,29 @@ public class EaglerIntegratedServerWorker {
 	public static final EaglerSaveFormat saveFormat = new EaglerSaveFormat(EaglerSaveFormat.worldsFolder);
 
 	private static final Map<String, IntegratedServerPlayerNetworkManager> openChannels = new HashMap();
-	
+
 	private static final IPCPacketManager packetManagerInstance = new IPCPacketManager();
 
 	private static void processAsyncMessageQueue() {
 		List<IPCPacketData> pktList = ServerPlatformSingleplayer.recieveAllPacket();
 		if(pktList != null) {
 			IPCPacketData packetData;
-			for(IPCPacketData pkt : pktList) {
-				if(pkt.channel.equals(SingleplayerServerController.IPC_CHANNEL)) {
+			for(int i = 0, l = pktList.size(); i < l; ++i) {
+				packetData = pktList.get(i);
+				if(packetData.channel.equals(SingleplayerServerController.IPC_CHANNEL)) {
 					IPCPacketBase ipc;
 					try {
-						ipc = packetManagerInstance.IPCDeserialize(pkt.contents);
+						ipc = packetManagerInstance.IPCDeserialize(packetData.contents);
 					}catch(IOException ex) {
 						throw new RuntimeException("Failed to deserialize IPC packet", ex);
 					}
 					handleIPCPacket(ipc);
 				}else {
-					IntegratedServerPlayerNetworkManager netHandler = openChannels.get(pkt.channel);
+					IntegratedServerPlayerNetworkManager netHandler = openChannels.get(packetData.channel);
 					if(netHandler != null) {
-						netHandler.addRecievedPacket(pkt.contents);
+						netHandler.addRecievedPacket(packetData.contents);
 					}else {
-						logger.error("Recieved packet on channel that does not exist: \"{}\"", pkt.channel);
+						logger.error("Recieved packet on channel that does not exist: \"{}\"", packetData.channel);
 					}
 				}
 			}
@@ -89,8 +90,8 @@ public class EaglerIntegratedServerWorker {
 
 	public static void tick() {
 		List<IntegratedServerPlayerNetworkManager> ocs = new ArrayList<>(openChannels.values());
-		for(IntegratedServerPlayerNetworkManager netHandler : ocs) {
-			netHandler.tick();
+		for(int i = 0, l = ocs.size(); i < l; ++i) {
+			ocs.get(i).tick();
 		}
 	}
 

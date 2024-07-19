@@ -229,7 +229,7 @@ public class RenderManager {
 		this.skinMap.put("eagler",
 				Minecraft.getMinecraft().gameSettings.enableFNAWSkins ? this.eaglerRenderer : this.playerRenderer);
 	}
-	
+
 	public void setEnableFNAWSkins(boolean en) {
 		this.skinMap.put("eagler", en ? this.eaglerRenderer : this.playerRenderer);
 	}

@@ -7,8 +7,6 @@ import static net.lax1dude.eaglercraft.v1_8.internal.PlatformOpenGL.*;
 
 import java.util.List;
 
-import net.PeytonPlayz585.shadow.Config;
-import net.PeytonPlayz585.shadow.CustomColors;
 import net.lax1dude.eaglercraft.v1_8.opengl.EaglercraftGPU;
 import net.lax1dude.eaglercraft.v1_8.opengl.GlStateManager;
 import net.lax1dude.eaglercraft.v1_8.opengl.ext.deferred.DeferredStateManager;
@@ -101,10 +99,7 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntity
 		GlStateManager.scale(f3, -f3, f3);
 		EaglercraftGPU.glNormal3f(0.0F, 0.0F, -1.0F * f3);
 		GlStateManager.depthMask(false);
-		int i1 = 0;
-		if (Config.isCustomColors()) {
-            i1 = CustomColors.getSignTextColor(i);
-        }
+		byte b0 = 0;
 		if (i < 0) {
 			if (DeferredStateManager.isInDeferredPass()) {
 				_wglDrawBuffers(_GL_COLOR_ATTACHMENT0);
@@ -119,10 +114,10 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntity
 					if (j == tileentitysign.lineBeingEdited) {
 						s = "> " + s + " <";
 						fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2,
-								j * 10 - tileentitysign.signText.length * 5, i1);
+								j * 10 - tileentitysign.signText.length * 5, b0);
 					} else {
 						fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2,
-								j * 10 - tileentitysign.signText.length * 5, i1);
+								j * 10 - tileentitysign.signText.length * 5, b0);
 					}
 				}
 			}

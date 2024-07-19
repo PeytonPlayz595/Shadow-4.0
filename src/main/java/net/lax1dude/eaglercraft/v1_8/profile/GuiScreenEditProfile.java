@@ -111,7 +111,7 @@ public class GuiScreenEditProfile extends GuiScreen {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(skinX + 2, skinY - 9, 0.0f);
 		GlStateManager.scale(0.75f, 0.75f, 0.75f);
-		
+
 		if(selectedSlot > dropDownOptions.length - 1) {
 			selectedSlot = 0;
 		}
@@ -288,6 +288,7 @@ public class GuiScreenEditProfile extends GuiScreen {
 					newSkinWaitSteveOrAlex ? height / 2 : my, false, selectedSkinModel, texture,
 					EaglerProfile.getActiveCapeResourceLocation());
 		}
+		
 	}
 
 	public void handleMouseInput() throws IOException {
@@ -310,6 +311,7 @@ public class GuiScreenEditProfile extends GuiScreen {
 		if(!dropDownOpen) {
 			if(par1GuiButton.id == 0) {
 				safeProfile();
+				EaglerProfile.save();
 				this.mc.displayGuiScreen((GuiScreen) parent);
 			}else if(par1GuiButton.id == 1) {
 				EagRuntime.displayFileChooser("image/png", "png");
@@ -528,7 +530,6 @@ public class GuiScreenEditProfile extends GuiScreen {
 			name = name.substring(0, 16);
 		}
 		EaglerProfile.setName(name);
-		EaglerProfile.save();
 	}
 
 }

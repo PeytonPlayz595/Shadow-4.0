@@ -28,7 +28,7 @@ import net.minecraft.network.play.INetHandlerPlayServer;
  * 
  */
 public class C17PacketCustomPayload implements Packet<INetHandlerPlayServer> {
-	public String channel;
+	private String channel;
 	private PacketBuffer data;
 
 	public C17PacketCustomPayload() {

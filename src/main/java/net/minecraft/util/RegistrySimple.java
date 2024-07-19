@@ -34,7 +34,7 @@ import net.lax1dude.eaglercraft.v1_8.log4j.Logger;
  */
 public class RegistrySimple<K, V> implements IRegistry<K, V> {
 	private static final Logger logger = LogManager.getLogger();
-	public final Map<K, V> registryObjects = this.createUnderlyingMap();
+	protected final Map<K, V> registryObjects = this.createUnderlyingMap();
 
 	protected Map<K, V> createUnderlyingMap() {
 		return Maps.newHashMap();

@@ -25,7 +25,6 @@ public class EaglercraftRandom {
 
 	private static final double DOUBLE_UNIT = 0x1.0p-53;
 	private long seed = 69;
-
 	private final boolean enableScramble;
 
 	public EaglercraftRandom() {
@@ -50,7 +49,7 @@ public class EaglercraftRandom {
 		enableScramble = scramble;
 		setSeed(seed);
 	}
-	
+
 	private static long initialScramble(long seed) {
 		return (seed ^ multiplier) & mask;
 	}

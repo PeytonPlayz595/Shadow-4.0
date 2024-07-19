@@ -44,11 +44,11 @@ public class Display {
 	public static boolean isCloseRequested() {
 		return PlatformInput.isCloseRequested();
 	}
-	
+
 	public static void setVSync(boolean enable) {
 		PlatformInput.setVSync(enable);
 	}
-	
+
 	public static boolean isVSyncSupported() {
 		return PlatformInput.isVSyncSupported();
 	}

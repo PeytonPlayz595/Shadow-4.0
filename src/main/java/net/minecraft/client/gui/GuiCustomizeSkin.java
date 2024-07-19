@@ -26,7 +26,7 @@ import net.minecraft.entity.player.EnumPlayerModelParts;
 public class GuiCustomizeSkin extends GuiScreen {
 	private final GuiScreen parentScreen;
 	private String title;
-	
+
 	private GuiButton enableFNAWSkinsButton;
 
 	public GuiCustomizeSkin(GuiScreen parentScreenIn) {

@@ -119,7 +119,6 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		this.field_146638_t.handleMouseInput();
-		this.field_146638_t.handleControllerInput();
 	}
 
 	private void func_146627_h() {

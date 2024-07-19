@@ -27,8 +27,8 @@ import net.minecraft.network.play.INetHandlerPlayServer;
  * 
  */
 public class C11PacketEnchantItem implements Packet<INetHandlerPlayServer> {
-	public int windowId;
-	public int button;
+	private int windowId;
+	private int button;
 
 	public C11PacketEnchantItem() {
 	}

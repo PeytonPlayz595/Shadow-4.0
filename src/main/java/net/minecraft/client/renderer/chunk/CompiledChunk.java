@@ -4,9 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.PeytonPlayz585.shadow.experimental.SetVisibilityExperimental;
 import net.lax1dude.eaglercraft.v1_8.opengl.WorldRenderer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumWorldBlockLayer;
@@ -50,7 +48,6 @@ public class CompiledChunk {
 	private boolean empty = true;
 	private final List<TileEntity> tileEntities = Lists.newArrayList();
 	private SetVisibility setVisibility = new SetVisibility();
-	private SetVisibilityExperimental setVisibilityExperimental = new SetVisibilityExperimental();
 	private WorldRenderer.State state;
 	private WorldRenderer.State stateWater;
 
@@ -84,11 +81,11 @@ public class CompiledChunk {
 	}
 
 	public boolean isVisible(EnumFacing enumfacing, EnumFacing enumfacing1) {
-		if(!Minecraft.getMinecraft().gameSettings.experimentalVisGraph) {
-			return this.setVisibility.isVisible(enumfacing, enumfacing1);
-		} else {
-			return this.setVisibilityExperimental.isVisible(enumfacing, enumfacing1);
-		}
+		return this.setVisibility.isVisible(enumfacing, enumfacing1);
+	}
+
+	public void setVisibility(SetVisibility visibility) {
+		this.setVisibility = visibility;
 	}
 
 	public WorldRenderer.State getState() {
@@ -105,13 +102,5 @@ public class CompiledChunk {
 
 	public void setStateRealisticWater(WorldRenderer.State stateIn) {
 		this.stateWater = stateIn;
-	}
-	
-	public void setVisibility(SetVisibility computeVisibility) {
-		this.setVisibility = computeVisibility;
-	}
-	
-	public void setVisibilityExperimental(SetVisibilityExperimental computeVisibility) {
-		this.setVisibilityExperimental = computeVisibility;
 	}
 }

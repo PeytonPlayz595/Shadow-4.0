@@ -348,7 +348,7 @@ public abstract class ServerConfigurationManager {
 			this.uuidToPlayerMap.remove(uuid);
 			this.playerStatFiles.remove(entityplayermp.getName());
 		}
-		
+
 		((EaglerMinecraftServer) mcServer).getSkinService().unregisterPlayer(uuid);
 		((EaglerMinecraftServer) mcServer).getCapeService().unregisterPlayer(uuid);
 		IntegratedVoiceService vcs = ((EaglerMinecraftServer) mcServer).getVoiceService();

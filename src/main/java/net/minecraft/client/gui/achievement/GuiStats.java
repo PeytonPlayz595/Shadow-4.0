@@ -88,7 +88,6 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 		super.handleMouseInput();
 		if (this.displaySlot != null) {
 			this.displaySlot.handleMouseInput();
-			this.displaySlot.handleControllerInput();
 		}
 
 	}

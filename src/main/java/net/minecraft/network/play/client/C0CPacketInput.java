@@ -27,10 +27,10 @@ import net.minecraft.network.play.INetHandlerPlayServer;
  * 
  */
 public class C0CPacketInput implements Packet<INetHandlerPlayServer> {
-	public float strafeSpeed;
-	public float forwardSpeed;
-	public boolean jumping;
-	public boolean sneaking;
+	private float strafeSpeed;
+	private float forwardSpeed;
+	private boolean jumping;
+	private boolean sneaking;
 
 	public C0CPacketInput() {
 	}

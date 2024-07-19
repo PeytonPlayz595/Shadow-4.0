@@ -28,8 +28,8 @@ import net.minecraft.util.IChatComponent;
  * 
  */
 public class S02PacketChat implements Packet<INetHandlerPlayClient> {
-	public IChatComponent chatComponent;
-	public byte type;
+	private IChatComponent chatComponent;
+	private byte type;
 
 	public S02PacketChat() {
 	}

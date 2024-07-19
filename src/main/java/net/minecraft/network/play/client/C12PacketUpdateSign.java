@@ -29,8 +29,8 @@ import net.minecraft.util.IChatComponent;
  * 
  */
 public class C12PacketUpdateSign implements Packet<INetHandlerPlayServer> {
-	public BlockPos pos;
-	public IChatComponent[] lines;
+	private BlockPos pos;
+	private IChatComponent[] lines;
 
 	public C12PacketUpdateSign() {
 	}

@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import com.google.common.collect.Maps;
 
-import net.PeytonPlayz585.shadow.json.JSONUtils;
 import net.lax1dude.eaglercraft.v1_8.IOUtils;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
@@ -68,7 +67,6 @@ public class SimpleResource implements IResource {
 		return this.mcmetaInputStream != null;
 	}
 
-	@SuppressWarnings("unchecked")
 	public <T extends IMetadataSection> T getMetadata(String s) {
 		if (!this.hasMetadata()) {
 			return (T) null;
@@ -88,36 +86,7 @@ public class SimpleResource implements IResource {
 
 			IMetadataSection imetadatasection = (IMetadataSection) this.mapMetadataSections.get(s);
 			if (imetadatasection == null) {
-				try {
-					imetadatasection = this.srMetadataSerializer.parseMetadataSection(s, this.mcmetaJson);
-				} catch(Exception e) {
-					if(this.srResourceLocation.toString().contains("mcpatcher") || this.srResourceLocation.toString().contains("optifine")) {
-						try {
-							if(s.contains("animation")) {
-								imetadatasection = JSONUtils.parseCustomItemAnimation(mcmetaJson.toString());
-								mapMetadataSections.put(s, imetadatasection);
-							} else {
-								/*
-								 * Only made json utils for custom item animations
-								 * So far I have had no issues with any other custom item feature
-								 * If this exception is printed it is most likely a user error...
-								 */
-								e.printStackTrace();
-								
-								//Return it anyways lol
-								return (T) imetadatasection;
-							}
-						} catch(Exception e1) {
-							e1.printStackTrace();
-							//Return it anyways lol
-							return (T) imetadatasection;
-						}
-					} else {
-						e.printStackTrace();
-						//Return it anyways lol
-						return (T) imetadatasection;
-					}
-				}
+				imetadatasection = this.srMetadataSerializer.parseMetadataSection(s, this.mcmetaJson);
 			}
 
 			return (T) imetadatasection;

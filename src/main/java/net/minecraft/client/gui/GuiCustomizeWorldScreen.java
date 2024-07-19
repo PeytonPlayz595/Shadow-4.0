@@ -127,7 +127,6 @@ public class GuiCustomizeWorldScreen extends GuiScreen
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		this.field_175349_r.handleMouseInput();
-		this.field_175349_r.handleControllerInput();
 	}
 
 	private void func_175325_f() {

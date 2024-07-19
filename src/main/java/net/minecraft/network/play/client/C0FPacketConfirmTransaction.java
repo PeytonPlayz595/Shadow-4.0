@@ -27,9 +27,9 @@ import net.minecraft.network.play.INetHandlerPlayServer;
  * 
  */
 public class C0FPacketConfirmTransaction implements Packet<INetHandlerPlayServer> {
-	public int windowId;
-	public short uid;
-	public boolean accepted;
+	private int windowId;
+	private short uid;
+	private boolean accepted;
 
 	public C0FPacketConfirmTransaction() {
 	}

@@ -150,7 +150,7 @@ public class UpdateService {
 									latestUpdateFound = cert;
 									if (saveLatest) {
 										PlatformApplication.setLocalStorage(EaglercraftVersion.updateLatestLocalStorageKey,
-												certificateData);
+												certificateData, false);
 									}
 								}
 							}else if(EagRuntime.getConfiguration().isLogInvalidCerts()) {

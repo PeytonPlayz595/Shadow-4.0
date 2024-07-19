@@ -7,7 +7,6 @@ import net.lax1dude.eaglercraft.v1_8.internal.buffer.IntBuffer;
 
 import static org.lwjgl.opengles.GLES30.*;
 
-import org.lwjgl.opengles.GLES31;
 import org.lwjgl.opengles.GLESCapabilities;
 
 /**
@@ -26,7 +25,7 @@ import org.lwjgl.opengles.GLESCapabilities;
  * 
  */
 public class PlatformOpenGL {
-	
+
 	private static boolean hasLinearHDR32FSupport = false;
 
 	static void setCurrentContext(GLESCapabilities caps) {
@@ -277,7 +276,7 @@ public class PlatformOpenGL {
 		nglTexImage2D(target, level, internalFormat, width, height, border, format, type,
 				data == null ? 0l : EaglerLWJGLAllocator.getAddress(data));
 	}
-	
+
 	public static final void _wglTexImage2Df32(int target, int level, int internalFormat, int width, int height,
 			int border, int format, int type, ByteBuffer data) {
 		nglTexImage2D(target, level, internalFormat, width, height, border, format, type,
@@ -533,21 +532,12 @@ public class PlatformOpenGL {
 	public static final int _wglGetError() {
 		return glGetError();
 	}
-	
-	public static void _wglFinish() {
-		glFinish();
-	}
 
 	public static final boolean checkHDRFramebufferSupport(int bits) {
 		return true;
 	}
-	
-	public static int _wglGetTexLevelParameteri(int glTexture2d, int i, int glTextureWidth) {
-		return GLES31.glGetTexLevelParameteri(glTexture2d, i, glTextureWidth);
-	}
-	
+
 	public static final boolean checkLinearHDR32FSupport() {
 		return hasLinearHDR32FSupport;
 	}
-
 }

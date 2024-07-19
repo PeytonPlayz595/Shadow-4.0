@@ -73,7 +73,7 @@ public class C00PacketLoginStart implements Packet<INetHandlerLoginServer> {
 	public byte[] getSkin() {
 		return this.skin;
 	}
-	
+
 	public byte[] getCape() {
 		return this.cape;
 	}

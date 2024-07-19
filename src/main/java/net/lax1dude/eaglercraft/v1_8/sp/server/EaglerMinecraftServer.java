@@ -81,7 +81,7 @@ public class EaglerMinecraftServer extends MinecraftServer {
 	public IntegratedSkinService getSkinService() {
 		return skinService;
 	}
-	
+
 	public IntegratedCapeService getCapeService() {
 		return capeService;
 	}

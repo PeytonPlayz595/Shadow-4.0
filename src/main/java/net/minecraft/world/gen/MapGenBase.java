@@ -32,7 +32,7 @@ public class MapGenBase {
 	protected int range = 8;
 	protected EaglercraftRandom rand;
 	protected World worldObj;
-	
+
 	public MapGenBase() {
 		this(true);
 	}

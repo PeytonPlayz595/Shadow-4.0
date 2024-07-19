@@ -167,7 +167,7 @@ public class ItemBlock extends Item {
 	public Block getBlock() {
 		return this.block;
 	}
-	
+
 	public float getHeldItemBrightnessEagler() {
 		return this.block.getLightValue() * 0.06667f;
 	}

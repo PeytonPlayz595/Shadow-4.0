@@ -30,7 +30,7 @@ import net.minecraft.world.chunk.ChunkPrimer;
  */
 public class MapGenRavine extends MapGenBase {
 	private float[] field_75046_d = new float[1024];
-	
+
 	public MapGenRavine(boolean scramble) {
 		super(scramble);
 	}

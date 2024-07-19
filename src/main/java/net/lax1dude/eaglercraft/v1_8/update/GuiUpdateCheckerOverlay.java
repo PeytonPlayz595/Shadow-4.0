@@ -42,7 +42,7 @@ public class GuiUpdateCheckerOverlay extends Gui {
 	private int height;
 
 	private int totalHeightOffset = 0;
-	
+
 	private boolean isIngame;
 	private GuiScreen backScreen;
 
@@ -222,6 +222,7 @@ public class GuiUpdateCheckerOverlay extends Gui {
 			totalHeightOffset += (int)(wrappedURL.size() * 5.5f);
 		}
 		GlStateManager.popMatrix();
+
 	}
 
 	public void mouseClicked(int mx, int my, int btn) {
@@ -253,7 +254,7 @@ public class GuiUpdateCheckerOverlay extends Gui {
 			}
 		}
 	}
-	
+
 	public int getSharedWorldInfoYOffset() {
 		return totalHeightOffset;
 	}

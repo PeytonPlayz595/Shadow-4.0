@@ -104,6 +104,10 @@ public class EntityBlaze extends EntityMob {
 		return 1.0F;
 	}
 
+	protected float getEaglerDynamicLightsValueSimple(float partialTicks) {
+		return 1.0f;
+	}
+
 	/**+
 	 * Called frequently so the entity can update its state every
 	 * tick as required. For example, zombies and skeletons use this
@@ -289,9 +293,5 @@ public class EntityBlaze extends EntityMob {
 		float mag = 5.0f;
 		DynamicLightManager.renderDynamicLight("entity_" + getEntityId() + "_blaze", entityX, entityY + 0.75, entityZ,
 				mag, 0.487f * mag, 0.1411f * mag, false);
-	}
-	
-	protected float getEaglerDynamicLightsValueSimple(float partialTicks) {
-		return 1.0f;
 	}
 }

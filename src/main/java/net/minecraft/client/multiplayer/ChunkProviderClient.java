@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.PeytonPlayz585.shadow.Config;
 import net.lax1dude.eaglercraft.v1_8.log4j.LogManager;
 import net.lax1dude.eaglercraft.v1_8.log4j.Logger;
 import net.minecraft.entity.EnumCreatureType;
@@ -90,7 +89,6 @@ public class ChunkProviderClient implements IChunkProvider {
 		this.chunkMapping.add(ChunkCoordIntPair.chunkXZ2Int(parInt1, parInt2), chunk);
 		this.chunkListing.add(chunk);
 		chunk.setChunkLoaded(true);
-		Config.fixChunkLoading();
 		return chunk;
 	}
 

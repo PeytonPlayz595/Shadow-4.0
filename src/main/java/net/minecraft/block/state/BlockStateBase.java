@@ -77,23 +77,4 @@ public abstract class BlockStateBase implements IBlockState {
 
 		return stringbuilder.toString();
 	}
-	
-	public int getBlockId() {
-		 if (this.blockId < 0) {
-			 this.blockId = Block.getIdFromBlock(this.getBlock());
-		 }
-
-		 return this.blockId;
-	 }
-	 
-	 public int getMetadata() {
-		 if (this.metadata < 0) {
-			 this.metadata = this.getBlock().getMetaFromState(this);
-		 }
-
-		 return this.metadata;
-	 }
-	 
-	 private int blockId = -1;
-	 private int metadata = -1;
 }

@@ -9,7 +9,6 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.PeytonPlayz585.shadow.experimental.VisGraphExperimental;
 import net.lax1dude.eaglercraft.v1_8.opengl.GlStateManager;
 import net.lax1dude.eaglercraft.v1_8.opengl.VertexFormat;
 import net.lax1dude.eaglercraft.v1_8.opengl.WorldRenderer;
@@ -74,7 +73,7 @@ public class RenderChunk {
 	public ShadowFrustumState shadowLOD0InFrustum = ShadowFrustumState.OUTSIDE;
 	public ShadowFrustumState shadowLOD1InFrustum = ShadowFrustumState.OUTSIDE;
 	public ShadowFrustumState shadowLOD2InFrustum = ShadowFrustumState.OUTSIDE;
-	private BlockPos[] positionOffsets16 = new BlockPos[EnumFacing.VALUES.length];
+	private EnumMap<EnumFacing, BlockPos> field_181702_p = Maps.newEnumMap(EnumFacing.class);
 
 	public RenderChunk(World worldIn, RenderGlobal renderGlobalIn, BlockPos blockPosIn, int indexIn) {
 		this.world = worldIn;
@@ -100,11 +99,12 @@ public class RenderChunk {
 		this.position = pos;
 		this.boundingBox = new AxisAlignedBB(pos, pos.add(16, 16, 16));
 
+		EnumFacing[] facings = EnumFacing._VALUES;
+		for (int i = 0; i < facings.length; ++i) {
+			this.field_181702_p.put(facings[i], pos.offset(facings[i], 16));
+		}
+
 		this.initModelviewMatrix();
-		
-		for (int i = 0; i < this.positionOffsets16.length; ++i) {
-            this.positionOffsets16[i] = null;
-        }
 	}
 
 	public void resortTransparency(float x, float y, float z, ChunkCompileTaskGenerator generator) {
@@ -145,8 +145,6 @@ public class RenderChunk {
 		generator.setCompiledChunk(compiledchunk);
 
 		VisGraph visgraph = new VisGraph();
-		VisGraphExperimental visgraphExperimental = new VisGraphExperimental();
-		boolean b = Minecraft.getMinecraft().gameSettings.experimentalVisGraph;
 		HashSet hashset = Sets.newHashSet();
 		if (!regionrendercache.extendedLevelsInChunkCache()) {
 			++renderChunksUpdated;
@@ -157,11 +155,7 @@ public class RenderChunk {
 				IBlockState iblockstate = regionrendercache.getBlockStateFaster(blockpos$mutableblockpos);
 				Block block = iblockstate.getBlock();
 				if (block.isOpaqueCube()) {
-					if(!b) {
-						visgraph.func_178606_a(blockpos$mutableblockpos);
-					} else {
-						visgraphExperimental.func_178606_a(blockpos$mutableblockpos);
-					}
+					visgraph.func_178606_a(blockpos$mutableblockpos);
 				}
 
 				if (block.hasTileEntity()) {
@@ -218,11 +212,7 @@ public class RenderChunk {
 			}
 		}
 
-		if(!b) {
-			compiledchunk.setVisibility(visgraph.computeVisibility());
-		} else {
-			compiledchunk.setVisibilityExperimental(visgraphExperimental.computeVisibility());
-		}
+		compiledchunk.setVisibility(visgraph.computeVisibility());
 
 		HashSet hashset1 = Sets.newHashSet(hashset);
 		HashSet hashset2 = Sets.newHashSet(this.field_181056_j);
@@ -258,8 +248,8 @@ public class RenderChunk {
 	private void preRenderBlocks(WorldRenderer worldRendererIn, BlockPos pos) {
 		worldRendererIn.begin(7,
 				(DeferredStateManager.isDeferredRenderer() || DynamicLightsStateManager.isDynamicLightsRender())
-				? VertexFormat.BLOCK_SHADERS
-				: DefaultVertexFormats.BLOCK);
+						? VertexFormat.BLOCK_SHADERS
+						: DefaultVertexFormats.BLOCK);
 		worldRendererIn.setTranslation((double) (-pos.getX()), (double) (-pos.getY()), (double) (-pos.getZ()));
 	}
 
@@ -322,16 +312,8 @@ public class RenderChunk {
 	public boolean isNeedsUpdate() {
 		return this.needsUpdate;
 	}
-	
-	public BlockPos func_181701_a(EnumFacing p_getPositionOffset16_1_) {
-        int i = p_getPositionOffset16_1_.getIndex();
-        BlockPos blockpos = this.positionOffsets16[i];
 
-        if (blockpos == null) {
-            blockpos = this.getPosition().offset(p_getPositionOffset16_1_, 16);
-            this.positionOffsets16[i] = blockpos;
-        }
-
-        return blockpos;
-    }
+	public BlockPos func_181701_a(EnumFacing parEnumFacing) {
+		return (BlockPos) this.field_181702_p.get(parEnumFacing);
+	}
 }

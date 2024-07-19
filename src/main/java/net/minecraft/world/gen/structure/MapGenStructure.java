@@ -45,7 +45,7 @@ public abstract class MapGenStructure extends MapGenBase {
 	protected Map<Long, StructureStart> structureMap = Maps.newHashMap();
 
 	public abstract String getStructureName();
-	
+
 	public MapGenStructure() {
 		super();
 	}

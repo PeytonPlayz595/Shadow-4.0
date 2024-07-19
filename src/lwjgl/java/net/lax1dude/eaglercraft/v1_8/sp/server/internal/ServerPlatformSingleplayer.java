@@ -8,7 +8,6 @@ import net.lax1dude.eaglercraft.v1_8.internal.IPCPacketData;
 import net.lax1dude.eaglercraft.v1_8.internal.PlatformFilesystem;
 import net.lax1dude.eaglercraft.v1_8.internal.lwjgl.DesktopClientConfigAdapter;
 import net.lax1dude.eaglercraft.v1_8.sp.server.internal.lwjgl.MemoryConnection;
-import net.minecraft.server.MinecraftServer;
 
 /**
  * Copyright (c) 2023-2024 lax1dude, ayunami2000. All Rights Reserved.
@@ -32,55 +31,6 @@ public class ServerPlatformSingleplayer {
 	}
 
 	public static void sendPacket(IPCPacketData packet) {
-		String s = null;
-		byte[] data = packet.contents;
-		try {
-			s = new String(data);
-		} catch(Exception e) {
-			s = null;
-		}
-		
-		if(s != null) {
-			if(s.contains("weather:true")) {
-				MinecraftServer.weather = true;
-				return;
-			} else if(s.contains("weather:false")) {
-				MinecraftServer.weather = false;
-				return;
-			} else if(s.equals("smoothWorld:true")) {
-				MinecraftServer.smoothWorld = true;
-				return;
-			} else if(s.equals("smoothWorld:false")) {
-				MinecraftServer.smoothWorld = false;
-				return;
-			} else if(s.contains("fullbright:true")) {
-				MinecraftServer.isFullBright = true;
-				return;
-			} else if(s.contains("fullbright:false")) {
-				MinecraftServer.isFullBright = false;
-				return;
-			} else if(s.contains("ofTrees")) {
-				String[] value = s.split(":");
-				int i = Integer.parseInt(value[1]);
-				MinecraftServer.trees = i;
-				return;
-			} else if(s.contains("graphics")) {
-				String[] value = s.split(":");
-				String s1 = value[1];
-				if(s1.contains("true")) {
-					MinecraftServer.fancyGraphics = true;
-				} else {
-					MinecraftServer.fancyGraphics = false;
-				}
-				return;
-			} else if(s.contains("updateBlocks")) {
-				MinecraftServer.getServer().worldServers[0].updateBlocks();
-				return;
-			} else {
-				s = null;
-			}
-		}
-		
 		synchronized(MemoryConnection.serverToClientQueue) {
 			MemoryConnection.serverToClientQueue.add(packet);
 		}

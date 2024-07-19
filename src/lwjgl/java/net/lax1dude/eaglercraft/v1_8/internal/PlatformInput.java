@@ -57,10 +57,10 @@ public class PlatformInput {
 	public static boolean lockKeys = false;
 
 	private static final List<Character> keyboardCharList = new LinkedList();
-	
+
 	private static boolean vsync = true;
 	private static boolean glfwVSyncState = false;
-	
+
 	private static class KeyboardEvent {
 		
 		protected final int key;
@@ -216,13 +216,9 @@ public class PlatformInput {
 	public static boolean isCloseRequested() {
 		return glfwWindowShouldClose(win);
 	}
-	
+
 	public static void setVSync(boolean enable) {
 		vsync = enable;
-	}
-	
-	public static boolean isVSyncSupported() {
-		return true;
 	}
 
 	public static void update() {
@@ -232,6 +228,10 @@ public class PlatformInput {
 			glfwVSyncState = vsync;
 		}
 		glfwSwapBuffers(win);
+	}
+
+	public static boolean isVSyncSupported() {
+		return true;
 	}
 
 	public static boolean wasResized() {

@@ -5,7 +5,7 @@ import static net.lax1dude.eaglercraft.v1_8.opengl.RealOpenGLEnums.*;
 import java.io.IOException;
 import java.io.InputStream;
 import net.lax1dude.eaglercraft.v1_8.internal.buffer.IntBuffer;
-import net.PeytonPlayz585.shadow.Config;
+
 import net.lax1dude.eaglercraft.v1_8.IOUtils;
 import net.lax1dude.eaglercraft.v1_8.log4j.LogManager;
 import net.lax1dude.eaglercraft.v1_8.log4j.Logger;
@@ -163,12 +163,7 @@ public class TextureUtil {
 
 	private static void uploadTextureSub(int parInt1, int[] parArrayOfInt, int parInt2, int parInt3, int parInt4,
 			int parInt5, boolean parFlag, boolean parFlag2, boolean parFlag3) {
-		int i;
-		if(parInt2 == 0) {
-			i = 0;
-		} else {
-			i = 4194304 / parInt2;
-		}
+		int i = 4194304 / parInt2;
 		setTextureBlurMipmap(parFlag, parFlag3);
 		setTextureClamped(parFlag2);
 
@@ -254,9 +249,8 @@ public class TextureUtil {
 			EaglercraftGPU.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, parFlag2 ? 9987 : 9729);
 			EaglercraftGPU.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		} else {
-			int i = Config.getMipmapType();
-			EaglercraftGPU.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, parFlag2 ? i : GL_NEAREST);
-            EaglercraftGPU.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			EaglercraftGPU.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, parFlag2 ? 9986 : 9728);
+			EaglercraftGPU.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		}
 
 	}

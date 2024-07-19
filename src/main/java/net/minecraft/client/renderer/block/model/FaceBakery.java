@@ -66,7 +66,7 @@ public class FaceBakery {
 		}
 		stride = 7;
 
-		return new BakedQuad(aint, aint2, face.tintIndex, enumfacing, sprite);
+		return new BakedQuad(aint, aint2, face.tintIndex, enumfacing);
 	}
 
 	private int[] makeQuadVertexData(BlockPartFace partFace, EaglerTextureAtlasSprite sprite, EnumFacing facing,

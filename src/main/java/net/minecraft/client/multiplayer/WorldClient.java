@@ -1,7 +1,5 @@
 package net.minecraft.client.multiplayer;
 
-import net.PeytonPlayz585.shadow.Config;
-import net.PeytonPlayz585.shadow.DynamicLights;
 import net.lax1dude.eaglercraft.v1_8.EaglercraftRandom;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -136,7 +134,7 @@ public class WorldClient extends World {
 		return this.clientChunkProvider;
 	}
 
-	public void updateBlocks() {
+	protected void updateBlocks() {
 		super.updateBlocks();
 		this.previousActiveChunkSet.retainAll(this.activeChunkSet);
 		if (this.previousActiveChunkSet.size() == this.activeChunkSet.size()) {
@@ -432,14 +430,4 @@ public class WorldClient extends World {
 
 		super.setWorldTime(i);
 	}
-	
-	public int getCombinedLight(BlockPos pos, int lightValue) {
-        int i = super.getCombinedLight(pos, lightValue);
-
-        if (Config.isDynamicLights()) {
-            i = DynamicLights.getCombinedLight(pos, i);
-        }
-
-        return i;
-    }
 }

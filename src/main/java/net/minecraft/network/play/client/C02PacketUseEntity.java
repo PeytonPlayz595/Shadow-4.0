@@ -30,9 +30,9 @@ import net.minecraft.world.World;
  * 
  */
 public class C02PacketUseEntity implements Packet<INetHandlerPlayServer> {
-	public int entityId;
-	public C02PacketUseEntity.Action action;
-	public Vec3 hitVec;
+	private int entityId;
+	private C02PacketUseEntity.Action action;
+	private Vec3 hitVec;
 
 	public C02PacketUseEntity() {
 	}
@@ -47,17 +47,7 @@ public class C02PacketUseEntity implements Packet<INetHandlerPlayServer> {
 		this.hitVec = hitVec;
 	}
 
-	public C02PacketUseEntity(int entityIdentifier, C02PacketUseEntity.Action action) {
-		this.entityId = entityIdentifier;
-		this.action = action;
-	}
-
-	public C02PacketUseEntity(int entityIdentifier, Vec3 hitVec) {
-		this(entityIdentifier, C02PacketUseEntity.Action.INTERACT_AT);
-		this.hitVec = hitVec;
-	}
-
-    /**+
+	/**+
 	 * Reads the raw packet data from the data stream.
 	 */
 	public void readPacketData(PacketBuffer parPacketBuffer) throws IOException {

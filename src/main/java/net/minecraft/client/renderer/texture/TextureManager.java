@@ -3,7 +3,6 @@ package net.minecraft.client.renderer.texture;
 import static net.lax1dude.eaglercraft.v1_8.opengl.RealOpenGLEnums.*;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -116,6 +115,7 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
 			throw new ReportedException(crashreport);
 		}
 
+		textureLocation.cachedPointerType = ResourceLocation.CACHED_POINTER_TEXTURE;
 		textureLocation.cachedPointer = textureObj;
 		this.mapTextureObjects.put(textureLocation, textureObj);
 		return flag;
@@ -165,16 +165,4 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
 		}
 
 	}
-	
-	public void reloadBannerTextures() {
-        for (Object entry0 : new HashSet(this.mapTextureObjects.entrySet())) {
-            Entry<ResourceLocation, ITextureObject> entry = (Entry<ResourceLocation, ITextureObject>) entry0;
-            ResourceLocation resourcelocation = (ResourceLocation)entry.getKey();
-            ITextureObject itextureobject = (ITextureObject)entry.getValue();
-
-            if (itextureobject instanceof LayeredColorMaskTexture) {
-                this.loadTexture(resourcelocation, itextureobject);
-            }
-        }
-    }
 }

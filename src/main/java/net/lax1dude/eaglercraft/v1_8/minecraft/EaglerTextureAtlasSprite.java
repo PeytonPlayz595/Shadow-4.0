@@ -8,8 +8,6 @@ import java.util.concurrent.Callable;
 
 import com.google.common.collect.Lists;
 
-import net.PeytonPlayz585.shadow.Config;
-import net.PeytonPlayz585.shadow.TextureUtils;
 import net.lax1dude.eaglercraft.v1_8.HString;
 import net.lax1dude.eaglercraft.v1_8.internal.IFramebufferGL;
 import net.lax1dude.eaglercraft.v1_8.log4j.LogManager;
@@ -44,7 +42,7 @@ public class EaglerTextureAtlasSprite {
 
 	private static final Logger logger = LogManager.getLogger("EaglerTextureAtlasSprite");
 
-	public final String iconName;
+	protected final String iconName;
 	protected List<int[][]> framesTextureData = Lists.newArrayList();
 	protected int[][] interpolatedFrameData;
 	protected AnimationMetadataSection animationMetadata;
@@ -57,32 +55,15 @@ public class EaglerTextureAtlasSprite {
 	protected float maxU;
 	protected float minV;
 	protected float maxV;
-	public int frameCounter;
+	protected int frameCounter;
 	protected int tickCounter;
 	protected static String locationNameClock = "builtin/clock";
 	protected static String locationNameCompass = "builtin/compass";
-	public int glSpriteTextureId = -1;
-	public int mipmapLevels = 0;
-	public int sheetWidth;
-    public int sheetHeight;
-    public float baseU;
-    public float baseV;
-    public EaglerTextureAtlasSprite spriteSingle = null;
-    public boolean isSpriteSingle = false;
 
 	protected TextureAnimationCache animationCache = null;
-	
-	private EaglerTextureAtlasSprite(EaglerTextureAtlasSprite p_i12_1_) {
-        this.iconName = p_i12_1_.iconName;
-        this.isSpriteSingle = true;
-    }
 
 	public EaglerTextureAtlasSprite(String spriteName) {
 		this.iconName = spriteName;
-		
-		if (Config.isMultiTexture()) {
-            this.spriteSingle = new EaglerTextureAtlasSprite(this);
-        }
 	}
 
 	public static EaglerTextureAtlasSprite makeAtlasSprite(ResourceLocation spriteResourceLocation) {
@@ -109,12 +90,6 @@ public class EaglerTextureAtlasSprite {
 		this.maxU = (float) (originInX + this.width) / (float) ((double) inX) - f;
 		this.minV = (float) originInY / (float) inY + f1;
 		this.maxV = (float) (originInY + this.height) / (float) inY - f1;
-		this.baseU = Math.min(this.minU, this.maxU);
-        this.baseV = Math.min(this.minV, this.maxV);
-        
-        if (this.spriteSingle != null) {
-            this.spriteSingle.initSprite(this.width, this.height, 0, 0, false);
-        }
 	}
 
 	public void copyFrom(EaglerTextureAtlasSprite atlasSpirit) {
@@ -212,18 +187,10 @@ public class EaglerTextureAtlasSprite {
 
 	public void setIconWidth(int newWidth) {
 		this.width = newWidth;
-		
-		if (this.spriteSingle != null) {
-            this.spriteSingle.setIconWidth(this.width);
-        }
 	}
 
 	public void setIconHeight(int newHeight) {
 		this.height = newHeight;
-		
-		if (this.spriteSingle != null) {
-            this.spriteSingle.setIconHeight(this.height);
-        }
 	}
 
 	public void loadSprite(ImageData[] images, AnimationMetadataSection meta) throws IOException {
@@ -286,16 +253,11 @@ public class EaglerTextureAtlasSprite {
 				this.animationMetadata = new AnimationMetadataSection(arraylist, this.width, this.height,
 						meta.getFrameTime(), meta.isInterpolate());
 			}
-			
-			if (this.spriteSingle != null) {
-                this.spriteSingle.loadSprite(images, meta);
-            }
 		}
 
 	}
 
 	public void generateMipmaps(int level) {
-		this.mipmapLevels = level;
 		ArrayList arraylist = Lists.newArrayList();
 
 		for (int i = 0; i < this.framesTextureData.size(); ++i) {
@@ -330,10 +292,6 @@ public class EaglerTextureAtlasSprite {
 
 		this.setFramesTextureData(arraylist);
 		this.bakeAnimationCache();
-		
-		if (this.spriteSingle != null) {
-            this.spriteSingle.generateMipmaps(level);
-        }
 	}
 
 	public void bakeAnimationCache() {
@@ -352,10 +310,6 @@ public class EaglerTextureAtlasSprite {
 				this.framesTextureData.add((int[][]) null);
 			}
 		}
-		
-		if (this.spriteSingle != null) {
-            this.spriteSingle.allocateFrameTextureData(index);
-        }
 	}
 
 	protected static int[][] getFrameTextureData(int[][] data, int rows, int columns, int parInt3) {
@@ -378,10 +332,6 @@ public class EaglerTextureAtlasSprite {
 			this.animationCache.free();
 			this.animationCache = null;
 		}
-		
-		if (this.spriteSingle != null) {
-            this.spriteSingle.clearFramesTextureData();
-        }
 	}
 
 	public boolean hasAnimationMetadata() {
@@ -390,10 +340,6 @@ public class EaglerTextureAtlasSprite {
 
 	public void setFramesTextureData(List<int[][]> newFramesTextureData) {
 		this.framesTextureData = newFramesTextureData;
-		
-		if (this.spriteSingle != null) {
-            this.spriteSingle.setFramesTextureData(newFramesTextureData);
-        }
 	}
 
 	protected void resetSprite() {
@@ -405,42 +351,7 @@ public class EaglerTextureAtlasSprite {
 			this.animationCache.free();
 			this.animationCache = null;
 		}
-		
-		if (this.spriteSingle != null) {
-            this.spriteSingle.resetSprite();
-        }
 	}
-	
-	public void bindSpriteTexture() {
-        if (this.glSpriteTextureId < 0) {
-            this.glSpriteTextureId = TextureUtil.glGenTextures();
-            TextureUtil.allocateTextureImpl(this.glSpriteTextureId, this.mipmapLevels, this.width, this.height);
-            TextureUtils.applyAnisotropicLevel();
-        }
-
-        TextureUtils.bindTexture(this.glSpriteTextureId);
-    }
-	
-	public void deleteSpriteTexture() {
-        if (this.glSpriteTextureId >= 0) {
-            TextureUtil.deleteTexture(this.glSpriteTextureId);
-            this.glSpriteTextureId = -1;
-        }
-    }
-	
-	public float toSingleU(float p_toSingleU_1_) {
-        p_toSingleU_1_ = p_toSingleU_1_ - this.baseU;
-        float f = (float)this.sheetWidth / (float)this.width;
-        p_toSingleU_1_ = p_toSingleU_1_ * f;
-        return p_toSingleU_1_;
-    }
-
-    public float toSingleV(float p_toSingleV_1_) {
-        p_toSingleV_1_ = p_toSingleV_1_ - this.baseV;
-        float f = (float)this.sheetHeight / (float)this.height;
-        p_toSingleV_1_ = p_toSingleV_1_ * f;
-        return p_toSingleV_1_;
-    }
 
 	public String toString() {
 		return "TextureAtlasSprite{name=\'" + this.iconName + '\'' + ", frameCount=" + this.framesTextureData.size()

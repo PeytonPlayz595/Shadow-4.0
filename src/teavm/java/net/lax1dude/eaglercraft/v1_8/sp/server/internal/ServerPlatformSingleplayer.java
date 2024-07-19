@@ -8,7 +8,6 @@ import org.teavm.jso.JSBody;
 import org.teavm.jso.JSFunctor;
 import org.teavm.jso.JSObject;
 import org.teavm.jso.typedarrays.ArrayBuffer;
-import org.teavm.jso.typedarrays.Uint8Array;
 
 import net.lax1dude.eaglercraft.v1_8.internal.IClientConfigAdapter;
 import net.lax1dude.eaglercraft.v1_8.internal.IPCPacketData;
@@ -17,7 +16,6 @@ import net.lax1dude.eaglercraft.v1_8.internal.teavm.TeaVMClientConfigAdapter;
 import net.lax1dude.eaglercraft.v1_8.internal.teavm.TeaVMUtils;
 import net.lax1dude.eaglercraft.v1_8.log4j.LogManager;
 import net.lax1dude.eaglercraft.v1_8.log4j.Logger;
-import net.minecraft.server.MinecraftServer;
 
 /**
  * Copyright (c) 2022-2024 lax1dude. All Rights Reserved.
@@ -58,57 +56,8 @@ public class ServerPlatformSingleplayer {
 				return;
 			}
 			
-			String s = null;
-			
-			try {
-				s = new String(TeaVMUtils.wrapUnsignedByteArray(Uint8Array.create(buf)));
-			} catch(Exception e) {
-				s = null;
-			}
-			
-			if(s != null) {
-				if(s.contains("weather:true")) {
-					MinecraftServer.weather = true;
-					return;
-				} else if(s.contains("weather:false")) {
-					MinecraftServer.weather = false;
-					return;
-				} else if(s.equals("smoothWorld:true")) {
-					MinecraftServer.smoothWorld = true;
-					return;
-				} else if(s.equals("smoothWorld:false")) {
-					MinecraftServer.smoothWorld = false;
-					return;
-				} else if(s.contains("fullbright:true")) {
-					MinecraftServer.isFullBright = true;
-					return;
-				} else if(s.contains("fullbright:false")) {
-					MinecraftServer.isFullBright = false;
-					return;
-				} else if(s.contains("ofTrees")) {
-					String[] value = s.split(":");
-					int i = Integer.parseInt(value[1]);
-					MinecraftServer.trees = i;
-					return;
-				} else if(s.contains("graphics")) {
-					String[] value = s.split(":");
-					String s1 = value[1];
-					if(s1.contains("true")) {
-						MinecraftServer.fancyGraphics = true;
-					} else {
-						MinecraftServer.fancyGraphics = false;
-					}
-					return;
-				} else if(s.contains("updateBlocks")) {
-					MinecraftServer.getServer().worldServers[0].updateBlocks();
-					return;
-				} else {
-					s = null;
-				}
-			}
-			
 			synchronized(messageQueue) {
-				messageQueue.add(new IPCPacketData(channel, TeaVMUtils.wrapUnsignedByteArray(Uint8Array.create(buf))));
+				messageQueue.add(new IPCPacketData(channel, TeaVMUtils.wrapByteArrayBuffer(buf)));
 			}
 		}
 		
@@ -129,10 +78,7 @@ public class ServerPlatformSingleplayer {
 	public static native void sendPacketTeaVM(String channel, ArrayBuffer arr);
 
 	public static void sendPacket(IPCPacketData packet) {
-		ArrayBuffer arb = ArrayBuffer.create(packet.contents.length);
-		Uint8Array ar = Uint8Array.create(arb);
-		ar.set(packet.contents);
-		sendPacketTeaVM(packet.channel, arb);
+		sendPacketTeaVM(packet.channel, TeaVMUtils.unwrapArrayBuffer(packet.contents));
 	}
 
 	public static List<IPCPacketData> recieveAllPacket() {

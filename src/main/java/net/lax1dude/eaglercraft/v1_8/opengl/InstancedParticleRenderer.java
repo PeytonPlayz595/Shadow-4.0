@@ -318,7 +318,7 @@ public class InstancedParticleRenderer {
 
 		_wglDrawArraysInstanced(GL_TRIANGLES, 0, 6, particleCount);
 	}
-	
+
 	public static void stupidColorSetHack(IUniformGL color4f) {
 		_wglUniform4f(color4f, GlStateManager.stateColorR, GlStateManager.stateColorG, GlStateManager.stateColorB, GlStateManager.stateColorA);
 	}

@@ -905,7 +905,6 @@ public class FixedFunctionPipeline {
 					_wglUniform3f(stateLightingAmbientUniform3f, r, g, b);
 				}
 			}
-			
 		}
 		
 		if(stateEnableMCLighting || DynamicLightsStateManager.isInDynamicLightsPass()) {

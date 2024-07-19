@@ -2,7 +2,6 @@ package net.minecraft.entity;
 
 import java.util.List;
 
-import net.PeytonPlayz585.shadow.Config;
 import net.lax1dude.eaglercraft.v1_8.EaglercraftUUID;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.ai.EntityAITasks;
@@ -13,7 +12,6 @@ import net.minecraft.entity.ai.EntitySenses;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +29,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S1BPacketEntityAttach;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateGround;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
@@ -265,30 +262,11 @@ public abstract class EntityLiving extends EntityLivingBase {
 	 * Called to update the entity's position/logic.
 	 */
 	public void onUpdate() {
-		try {
-			if(MinecraftServer.getServer() != null) {
-				if (MinecraftServer.getServer().worldServers[0].isSmoothWorld() && this.canSkipUpdate()) {
-            		this.onUpdateMinimal();
-        		} else {
-        			super.onUpdate();
-					if (!this.worldObj.isRemote) {
-						this.updateLeashedState();
-					}
-        		}
-			} else {
-				if (Config.isSmoothWorld() && this.canSkipUpdate()) {
-            		this.onUpdateMinimal();
-        		} else {
-        			super.onUpdate();
-					if (!this.worldObj.isRemote) {
-						this.updateLeashedState();
-					}
-        		}
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-			return;
+		super.onUpdate();
+		if (!this.worldObj.isRemote) {
+			this.updateLeashedState();
 		}
+
 	}
 
 	protected float func_110146_f(float var1, float f) {
@@ -1105,44 +1083,6 @@ public abstract class EntityLiving extends EntityLivingBase {
 	public boolean isAIDisabled() {
 		return this.dataWatcher.getWatchableObjectByte(15) != 0;
 	}
-	
-	private boolean canSkipUpdate() {
-        if (this.isChild()) {
-            return false;
-        } else if (this.hurtTime > 0) {
-            return false;
-        } else if (this.ticksExisted < 20) {
-            return false;
-        } else {
-            World world = this.getEntityWorld();
-
-            if (world == null) {
-                return false;
-            } else if (world.playerEntities.size() != 1) {
-                return false;
-            } else {
-                Entity entity = (Entity)world.playerEntities.get(0);
-                double d0 = Math.max(Math.abs(this.posX - entity.posX) - 16.0D, 0.0D);
-                double d1 = Math.max(Math.abs(this.posZ - entity.posZ) - 16.0D, 0.0D);
-                double d2 = d0 * d0 + d1 * d1;
-                return !this.isInRangeToRenderDist(d2);
-            }
-        }
-    }
-	
-	private void onUpdateMinimal() {
-        ++this.entityAge;
-
-        if (this instanceof EntityMob) {
-            float f = this.getBrightness(1.0F);
-
-            if (f > 0.5F) {
-                this.entityAge += 2;
-            }
-        }
-
-        this.despawnEntity();
-    }
 
 	public static enum SpawnPlacementType {
 		ON_GROUND, IN_AIR, IN_WATER;

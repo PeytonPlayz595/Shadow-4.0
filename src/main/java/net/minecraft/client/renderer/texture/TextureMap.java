@@ -14,9 +14,6 @@ import java.util.concurrent.Callable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.PeytonPlayz585.shadow.Config;
-import net.PeytonPlayz585.shadow.CustomItems;
-import net.PeytonPlayz585.shadow.TextureUtils;
 import net.lax1dude.eaglercraft.v1_8.HString;
 import net.lax1dude.eaglercraft.v1_8.internal.IFramebufferGL;
 import net.lax1dude.eaglercraft.v1_8.log4j.LogManager;
@@ -84,13 +81,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
 	private IFramebufferGL[] copyColorFramebuffer = null;
 	private IFramebufferGL[] copyMaterialFramebuffer = null;
-	
-	private EaglerTextureAtlasSprite[] iconGrid;
-    private int iconGridSize;
-    private int iconGridCountX;
-    private int iconGridCountY;
-    private double iconGridSizeU;
-    private double iconGridSizeV;
 
 	public TextureMap(String parString1) {
 		this(parString1, (IIconCreator) null);
@@ -98,12 +88,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
 	public TextureMap(String parString1, IIconCreator iconCreatorIn) {
 		this.listAnimatedSprites = Lists.newArrayList();
-		this.iconGrid = null;
-        this.iconGridSize = -1;
-        this.iconGridCountX = -1;
-        this.iconGridCountY = -1;
-        this.iconGridSizeU = -1.0D;
-        this.iconGridSizeV = -1.0D;
 		this.mapRegisteredSprites = Maps.newHashMap();
 		this.mapUploadedSprites = Maps.newHashMap();
 		this.missingImage = new EaglerTextureAtlasSprite("missingno");
@@ -173,17 +157,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 	}
 
 	public void loadTextureAtlas(IResourceManager resourceManager) {
-		
-		Config.dbg("Multitexture: " + Config.isMultiTexture());
-
-        if (Config.isMultiTexture()) {
-            for (Object textureatlassprite : this.mapUploadedSprites.values()) {
-                ((EaglerTextureAtlasSprite) textureatlassprite).deleteSpriteTexture();
-            }
-        }
-		
-        CustomItems.updateIcons(this);
-		
 		int i = Minecraft.getGLMaximumTextureSize();
 		Stitcher stitcher = new Stitcher(i, i, true, 0, this.mipmapLevels);
 		this.mapUploadedSprites.clear();
@@ -518,48 +491,17 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 		for (EaglerTextureAtlasSprite textureatlassprite3 : (Collection<EaglerTextureAtlasSprite>) hashmap.values()) {
 			textureatlassprite3.copyFrom(this.missingImage);
 		}
-		
-		if (Config.isMultiTexture()) {
-            int l2 = stitcher.getCurrentWidth();
-            int i3 = stitcher.getCurrentHeight();
-
-            for (Object textureatlassprite50 : stitcher.getStichSlots()) {
-                EaglerTextureAtlasSprite textureatlassprite5 = (EaglerTextureAtlasSprite) textureatlassprite50;
-                textureatlassprite5.sheetWidth = l2;
-                textureatlassprite5.sheetHeight = i3;
-                textureatlassprite5.mipmapLevels = this.mipmapLevels;
-                EaglerTextureAtlasSprite textureatlassprite6 = textureatlassprite5.spriteSingle;
-
-                if (textureatlassprite6 != null) {
-                    textureatlassprite6.sheetWidth = l2;
-                    textureatlassprite6.sheetHeight = i3;
-                    textureatlassprite6.mipmapLevels = this.mipmapLevels;
-                    textureatlassprite5.bindSpriteTexture();
-                    boolean flag = false;
-                    boolean flag1 = true;
-                    TextureUtil.uploadTextureMipmap(textureatlassprite6.getFrameTextureData(0), textureatlassprite6.getIconWidth(), textureatlassprite6.getIconHeight(), textureatlassprite6.getOriginX(), textureatlassprite6.getOriginY(), flag, flag1);
-                }
-            }
-
-            Minecraft.getMinecraft().getTextureManager().bindTexture(locationBlocksTexture);
-        }
 
 		_wglBindFramebuffer(_GL_FRAMEBUFFER, null);
 	}
 
-	public ResourceLocation completeResourceLocation(ResourceLocation location, int p_147634_2_) {
-        return this.isAbsoluteLocation(location) ? new ResourceLocation(location.getResourceDomain(), location.getResourcePath() + ".png") : (p_147634_2_ == 0 ? new ResourceLocation(location.getResourceDomain(), String.format("%s/%s%s", new Object[] {this.basePath, location.getResourcePath(), ".png"})): new ResourceLocation(location.getResourceDomain(), String.format("%s/mipmaps/%s.%d%s", new Object[] {this.basePath, location.getResourcePath(), Integer.valueOf(p_147634_2_), ".png"})));
-    }
-    
-    private boolean isAbsoluteLocation(ResourceLocation p_isAbsoluteLocation_1_) {
-        String s = p_isAbsoluteLocation_1_.getResourcePath();
-        return this.isAbsoluteLocationPath(s);
-    }
-    
-    private boolean isAbsoluteLocationPath(String p_isAbsoluteLocationPath_1_) {
-        String s = p_isAbsoluteLocationPath_1_.toLowerCase();
-        return s.startsWith("mcpatcher/") || s.startsWith("optifine/");
-    }
+	private ResourceLocation completeResourceLocation(ResourceLocation location, int parInt1) {
+		return parInt1 == 0
+				? new ResourceLocation(location.getResourceDomain(),
+						HString.format("%s/%s%s", new Object[] { this.basePath, location.getResourcePath(), ".png" }))
+				: new ResourceLocation(location.getResourceDomain(), HString.format("%s/mipmaps/%s.%d%s",
+						new Object[] { this.basePath, location.getResourcePath(), Integer.valueOf(parInt1), ".png" }));
+	}
 
 	public EaglerTextureAtlasSprite getAtlasSprite(String iconName) {
 		EaglerTextureAtlasSprite textureatlassprite = (EaglerTextureAtlasSprite) this.mapUploadedSprites.get(iconName);
@@ -573,42 +515,16 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 	public void updateAnimations() {
 		if (isEaglerPBRMode) {
 			for (int i = 0, l = this.listAnimatedSprites.size(); i < l; ++i) {
-				EaglerTextureAtlasSprite sprite = this.listAnimatedSprites.get(i);
-				if(isTerrainAnimationActive(sprite)) {
-					sprite.updateAnimationPBR(copyColorFramebuffer, copyMaterialFramebuffer, height);
-				}
+				this.listAnimatedSprites.get(i).updateAnimationPBR(copyColorFramebuffer, copyMaterialFramebuffer,
+						height);
 			}
 			_wglBindFramebuffer(_GL_FRAMEBUFFER, null);
 			return;
 		}
 
 		for (int i = 0, l = this.listAnimatedSprites.size(); i < l; ++i) {
-			EaglerTextureAtlasSprite sprite = this.listAnimatedSprites.get(i);
-			if(isTerrainAnimationActive(sprite)) {
-				sprite.updateAnimation(copyColorFramebuffer);
-			}
+			this.listAnimatedSprites.get(i).updateAnimation(copyColorFramebuffer);
 		}
-		
-		if (Config.isMultiTexture()) {
-            for (Object textureatlassprite10 : this.listAnimatedSprites) {
-            	EaglerTextureAtlasSprite textureatlassprite1 = (EaglerTextureAtlasSprite) textureatlassprite10;
-
-                if (this.isTerrainAnimationActive(textureatlassprite1)) {
-                	EaglerTextureAtlasSprite textureatlassprite2 = textureatlassprite1.spriteSingle;
-
-                    if (textureatlassprite2 != null) {
-                        if (textureatlassprite1 == TextureUtils.iconClock || textureatlassprite1 == TextureUtils.iconCompass) {
-                            textureatlassprite2.frameCounter = textureatlassprite1.frameCounter;
-                        }
-
-                        textureatlassprite1.bindSpriteTexture();
-                        textureatlassprite2.updateAnimation(new IFramebufferGL[this.mipmapLevels + 1]);
-                    }
-                }
-            }
-
-            TextureUtil.bindTexture(this.getGlTextureId());
-        }
 
 		_wglBindFramebuffer(_GL_FRAMEBUFFER, null);
 	}
@@ -671,67 +587,4 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 			GlStateManager.setActiveTexture(GL_TEXTURE0);
 		}
 	}
-	
-	public EaglerTextureAtlasSprite getSpriteSafe(String p_getSpriteSafe_1_) {
-        ResourceLocation resourcelocation = new ResourceLocation(p_getSpriteSafe_1_);
-        return (EaglerTextureAtlasSprite)this.mapRegisteredSprites.get(resourcelocation.toString());
-    }
-	
-	private boolean isTerrainAnimationActive(EaglerTextureAtlasSprite p_isTerrainAnimationActive_1_) {
-        return p_isTerrainAnimationActive_1_ != TextureUtils.iconWaterStill && p_isTerrainAnimationActive_1_ != TextureUtils.iconWaterFlow ? (p_isTerrainAnimationActive_1_ != TextureUtils.iconLavaStill && p_isTerrainAnimationActive_1_ != TextureUtils.iconLavaFlow ? (p_isTerrainAnimationActive_1_ != TextureUtils.iconFireLayer0 && p_isTerrainAnimationActive_1_ != TextureUtils.iconFireLayer1 ? (p_isTerrainAnimationActive_1_ == TextureUtils.iconPortal ? Config.isAnimatedPortal() : (p_isTerrainAnimationActive_1_ != TextureUtils.iconClock && p_isTerrainAnimationActive_1_ != TextureUtils.iconCompass ? Config.isAnimatedTerrain() : true)) : Config.isAnimatedFire()) : Config.isAnimatedLava()) : Config.isAnimatedWater();
-    }
-	
-	private void updateIconGrid(int p_updateIconGrid_1_, int p_updateIconGrid_2_) {
-        this.iconGridCountX = -1;
-        this.iconGridCountY = -1;
-        this.iconGrid = null;
-
-        if (this.iconGridSize > 0) {
-            this.iconGridCountX = p_updateIconGrid_1_ / this.iconGridSize;
-            this.iconGridCountY = p_updateIconGrid_2_ / this.iconGridSize;
-            this.iconGrid = new EaglerTextureAtlasSprite[this.iconGridCountX * this.iconGridCountY];
-            this.iconGridSizeU = 1.0D / (double)this.iconGridCountX;
-            this.iconGridSizeV = 1.0D / (double)this.iconGridCountY;
-
-            for (Object textureatlassprite0 : this.mapUploadedSprites.values()) {
-                EaglerTextureAtlasSprite textureatlassprite = (EaglerTextureAtlasSprite) textureatlassprite0;
-                double d0 = 0.5D / (double)p_updateIconGrid_1_;
-                double d1 = 0.5D / (double)p_updateIconGrid_2_;
-                double d2 = (double)Math.min(textureatlassprite.getMinU(), textureatlassprite.getMaxU()) + d0;
-                double d3 = (double)Math.min(textureatlassprite.getMinV(), textureatlassprite.getMaxV()) + d1;
-                double d4 = (double)Math.max(textureatlassprite.getMinU(), textureatlassprite.getMaxU()) - d0;
-                double d5 = (double)Math.max(textureatlassprite.getMinV(), textureatlassprite.getMaxV()) - d1;
-                int i = (int)(d2 / this.iconGridSizeU);
-                int j = (int)(d3 / this.iconGridSizeV);
-                int k = (int)(d4 / this.iconGridSizeU);
-                int l = (int)(d5 / this.iconGridSizeV);
-
-                for (int i1 = i; i1 <= k; ++i1) {
-                    if (i1 >= 0 && i1 < this.iconGridCountX) {
-                        for (int j1 = j; j1 <= l; ++j1) {
-                            if (j1 >= 0 && j1 < this.iconGridCountX) {
-                                int k1 = j1 * this.iconGridCountX + i1;
-                                this.iconGrid[k1] = textureatlassprite;
-                            } else {
-                                Config.warn("Invalid grid V: " + j1 + ", icon: " + textureatlassprite.getIconName());
-                            }
-                        }
-                    } else {
-                        Config.warn("Invalid grid U: " + i1 + ", icon: " + textureatlassprite.getIconName());
-                    }
-                }
-            }
-        }
-    }
-	
-	public EaglerTextureAtlasSprite getIconByUV(double p_getIconByUV_1_, double p_getIconByUV_3_) {
-        if (this.iconGrid == null) {
-            return null;
-        } else {
-            int i = (int)(p_getIconByUV_1_ / this.iconGridSizeU);
-            int j = (int)(p_getIconByUV_3_ / this.iconGridSizeV);
-            int k = j * this.iconGridCountX + i;
-            return k >= 0 && k <= this.iconGrid.length ? this.iconGrid[k] : null;
-        }
-    }
 }

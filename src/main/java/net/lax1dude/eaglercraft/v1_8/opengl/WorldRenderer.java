@@ -7,15 +7,11 @@ import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Comparator;
 
-import net.PeytonPlayz585.shadow.RenderEnv;
 import net.lax1dude.eaglercraft.v1_8.EagRuntime;
 import net.lax1dude.eaglercraft.v1_8.internal.PlatformBufferFunctions;
 import net.lax1dude.eaglercraft.v1_8.log4j.LogManager;
 import net.lax1dude.eaglercraft.v1_8.vector.Vector3f;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 
 /**
@@ -50,8 +46,6 @@ public class WorldRenderer {
 	private FloatBuffer floatBuffer;
 	
 	private boolean hasBeenFreed = false;
-	
-	public RenderEnv renderEnv = null;
 
 	public WorldRenderer(int bufferSizeIn) {
 		this.byteBuffer = GLAllocation.createDirectByteBuffer(bufferSizeIn << 2);
@@ -64,6 +58,10 @@ public class WorldRenderer {
 			hasBeenFreed = true;
 			EagRuntime.freeByteBuffer(byteBuffer);
 		}
+	}
+	
+	public void finalize() {
+		free();
 	}
 
 	private void grow(int parInt1) {
@@ -145,32 +143,13 @@ public class WorldRenderer {
 	/**
 	 * SLOW AND STUPID UPLOAD QUEUE SYSTEM, MUST BE REPLACED
 	 */
-	public WorldRenderer.State func_181672_a_old() {
+	public WorldRenderer.State func_181672_a() {
 		this.intBuffer.position(0);
 		VertexFormat fmt = this.vertexFormat;
 		int i = (fmt.attribStride >> 2) * vertexCount;
 		this.intBuffer.limit(i);
 		int[] aint = new int[i];
 		this.intBuffer.get(aint);
-		return new WorldRenderer.State(aint, fmt);
-	}
-	
-	public WorldRenderer.State func_181672_a() {
-		if(Minecraft.getMinecraft().gameSettings.experimentalBufferQueue) {
-			return func_181672_a_new();
-		} else {
-			return func_181672_a_old();
-		}
-	}
-	
-	/**
-	 * OPTIMIZED UPLOAD QUEUE SYSTEM
-	 */
-	public WorldRenderer.State func_181672_a_new() {
-		VertexFormat fmt = this.vertexFormat;
-		int i = (fmt.attribStride >> 2) * vertexCount;
-		int[] aint = new int[i];
-		this.intBuffer.position(0).limit(i).get(aint);
 		return new WorldRenderer.State(aint, fmt);
 	}
 
@@ -198,9 +177,8 @@ public class WorldRenderer {
 	 * SLOW AND STUPID COMPANION FUNCTION TO 'func_181672_a'
 	 */
 	public void setVertexState(WorldRenderer.State state) {
-		int[] rawBuffer = state.getRawBuffer();
-		this.grow(rawBuffer.length);
-		PlatformBufferFunctions.put(this.intBuffer, 0, rawBuffer);
+		this.grow(state.getRawBuffer().length);
+		PlatformBufferFunctions.put(this.intBuffer, 0, state.getRawBuffer());
 		this.vertexCount = state.getVertexCount();
 		this.vertexFormat = state.getVertexFormat();
 	}
@@ -558,14 +536,4 @@ public class WorldRenderer {
 			return this.stateVertexFormat;
 		}
 	}
-	
-	public RenderEnv getRenderEnv(IBlockState p_getRenderEnv_1_, BlockPos p_getRenderEnv_2_) {
-        if (this.renderEnv == null) {
-            this.renderEnv = new RenderEnv(p_getRenderEnv_1_, p_getRenderEnv_2_);
-            return this.renderEnv;
-        } else {
-            this.renderEnv.reset(p_getRenderEnv_1_, p_getRenderEnv_2_);
-            return this.renderEnv;
-        }
-    }
 }

@@ -84,6 +84,10 @@ public class EntityXPOrb extends Entity {
 		return j | k << 16;
 	}
 
+	protected float getEaglerDynamicLightsValueSimple(float partialTicks) {
+		return 0.25f;
+	}
+
 	/**+
 	 * Called to update the entity's position/logic.
 	 */
@@ -285,9 +289,5 @@ public class EntityXPOrb extends Entity {
 			DynamicLightManager.renderDynamicLight("entity_" + getEntityId() + "_xp", entityX, entityY + 0.2, entityZ,
 					mag * 0.3f, mag, mag * 0.2f, false);
 		}
-	}
-	
-	protected float getEaglerDynamicLightsValueSimple(float partialTicks) {
-		return 0.25f;
 	}
 }

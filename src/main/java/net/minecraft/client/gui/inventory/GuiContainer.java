@@ -5,7 +5,6 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import net.PeytonPlayz585.shadow.input.Controller;
 import net.lax1dude.eaglercraft.v1_8.Keyboard;
 import net.lax1dude.eaglercraft.v1_8.minecraft.EaglerTextureAtlasSprite;
 import net.lax1dude.eaglercraft.v1_8.opengl.GlStateManager;
@@ -189,13 +188,6 @@ public abstract class GuiContainer extends GuiScreen {
 		GlStateManager.enableLighting();
 		GlStateManager.enableDepth();
 		RenderHelper.enableStandardItemLighting();
-		
-		if(Controller.inventory()) {
-			this.mc.thePlayer.closeScreen();
-			if (this.mc.currentScreen == null) {
-				this.mc.setIngameFocus();
-			}
-		}
 	}
 
 	/**+

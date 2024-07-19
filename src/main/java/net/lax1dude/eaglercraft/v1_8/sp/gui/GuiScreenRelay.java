@@ -213,7 +213,6 @@ public class GuiScreenRelay extends GuiScreen implements GuiYesNoCallback {
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		this.slots.handleMouseInput();
-		this.slots.handleControllerInput();
 	}
 
 }

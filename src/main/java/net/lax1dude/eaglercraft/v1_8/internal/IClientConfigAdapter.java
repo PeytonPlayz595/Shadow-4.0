@@ -69,11 +69,13 @@ public interface IClientConfigAdapter {
 	boolean isEnableSignatureBadge();
 
 	boolean isAllowVoiceClient();
-	
+
 	boolean isAllowFNAWSkins();
 
 	String getLocalStorageNamespace();
 
+	boolean isEnableMinceraft();
+
 	IClientConfigAdapterHooks getHooks();
-	
+
 }

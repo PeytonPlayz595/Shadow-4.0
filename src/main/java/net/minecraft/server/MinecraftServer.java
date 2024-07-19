@@ -23,7 +23,6 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
-import net.minecraft.network.play.server.S2BPacketChangeGameState;
 import net.minecraft.network.play.server.S41PacketServerDifficulty;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.server.management.ServerConfigurationManager;
@@ -169,7 +168,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 			worldinfo.setWorldName(s1);
 			worldsettings = new WorldSettings(worldinfo);
 		}
-		
+
 		if (worldinfo.isOldEaglercraftRandom()) {
 			LogManager.getLogger("EaglerMinecraftServer")
 					.info("Detected a pre-u34 world, using old EaglercraftRandom implementation for world generation");
@@ -494,25 +493,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 		this.theProfiler.endSection();
 		this.theProfiler.endSection();
-		
-		if(!weather) {
-			this.fixWorldWeather();
-		}
 	}
-	
-	private void fixWorldWeather() {
-		World worldserver = getEntityWorld();
-		WorldInfo worldinfo = worldserver.getWorldInfo();
-		if(worldinfo.isRaining() || worldinfo.isThundering()) {
-			worldinfo.setRainTime(0);
-			worldinfo.setThunderTime(0);
-			worldinfo.setRaining(false);
-			worldinfo.setThundering(false);
-			getConfigurationManager().sendPacketToAllPlayers(new S2BPacketChangeGameState(2, 0.0F));
-			getConfigurationManager().sendPacketToAllPlayers(new S2BPacketChangeGameState(7, 0.0F));
-			getConfigurationManager().sendPacketToAllPlayers(new S2BPacketChangeGameState(8, 0.0F));
-		}
-    }
 
 	public void updateTimeLightAndEntities() {
 		this.theProfiler.startSection("jobs");
@@ -1067,10 +1048,4 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	public boolean getPaused() {
 		return paused;
 	}
-	
-	public static boolean weather = true;
-	public static boolean smoothWorld = false;
-	public static boolean fancyGraphics = false;
-	public static boolean isFullBright = false;
-	public static int trees = 0;
 }

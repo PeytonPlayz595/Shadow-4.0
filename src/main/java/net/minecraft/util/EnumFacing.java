@@ -48,7 +48,7 @@ public enum EnumFacing implements IStringSerializable {
 	/**+
 	 * All facings in D-U-N-S-W-E order
 	 */
-	public static final EnumFacing[] VALUES = new EnumFacing[6];
+	private static final EnumFacing[] VALUES = new EnumFacing[6];
 	/**+
 	 * All Facings with horizontal axis in order S-W-N-E
 	 */

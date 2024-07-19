@@ -70,7 +70,7 @@ public class WorldInfo {
 	private int borderWarningDistance = 5;
 	private int borderWarningTime = 15;
 	private GameRules theGameRules = new GameRules();
-	
+
 	public static final int eaglerVersionCurrent = 1;
 	private int eaglerVersion = eaglerVersionCurrent;
 
@@ -189,9 +189,8 @@ public class WorldInfo {
 		if (nbt.hasKey("BorderWarningTime", 99)) {
 			this.borderWarningTime = nbt.getInteger("BorderWarningTime");
 		}
-		
-		this.eaglerVersion = nbt.getInteger("eaglerVersionSerial");
 
+		this.eaglerVersion = nbt.getInteger("eaglerVersionSerial");
 	}
 
 	public WorldInfo(WorldSettings settings, String name) {
@@ -716,7 +715,9 @@ public class WorldInfo {
 
 	public void setDifficultyLocked(boolean flag) {
 		this.difficultyLocked = flag;
-	}public int getEaglerVersion() {
+	}
+
+	public int getEaglerVersion() {
 		return this.eaglerVersion;
 	}
 

@@ -60,15 +60,15 @@ public class GLObjectMap<T> {
 		return (T) values[obj];
 	}
 	
+	public void set(int obj, T val) {
+		values[obj] = val;
+	}
+	
 	private void resize() {
 		int oldSize = size;
 		size += size / 2;
 		Object[] oldValues = values;
 		values = new Object[size];
 		System.arraycopy(oldValues, 0, values, 0, oldSize);
-	}
-	
-	public void set(int obj, T val) {
-		values[obj] = val;
 	}
 }

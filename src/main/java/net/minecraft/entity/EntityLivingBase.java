@@ -1910,7 +1910,7 @@ public abstract class EntityLivingBase extends Entity {
 			Minecraft.getMinecraft().entityRenderer.renderHeldItemLight(this, 1.0f);
 		}
 	}
-	
+
 	protected float getEaglerDynamicLightsValueSimple(float partialTicks) {
 		float f = super.getEaglerDynamicLightsValueSimple(partialTicks);
 		ItemStack itm = this.getHeldItem();
@@ -1923,5 +1923,4 @@ public abstract class EntityLivingBase extends Entity {
 		}
 		return f;
 	}
-
 }

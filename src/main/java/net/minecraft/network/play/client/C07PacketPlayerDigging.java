@@ -29,9 +29,9 @@ import net.minecraft.util.EnumFacing;
  * 
  */
 public class C07PacketPlayerDigging implements Packet<INetHandlerPlayServer> {
-	public BlockPos position;
-	public EnumFacing facing;
-	public C07PacketPlayerDigging.Action status;
+	private BlockPos position;
+	private EnumFacing facing;
+	private C07PacketPlayerDigging.Action status;
 
 	public C07PacketPlayerDigging() {
 	}

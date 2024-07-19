@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import net.PeytonPlayz585.shadow.GuiShadow;
 import net.lax1dude.eaglercraft.v1_8.EagRuntime;
 import net.lax1dude.eaglercraft.v1_8.Mouse;
 import net.lax1dude.eaglercraft.v1_8.internal.EnumCursorType;
@@ -102,7 +101,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 		this.buttonList.add(new GuiButton(110, this.width / 2 - 155, this.height / 6 + 48 - 6, 150, 20,
 				I18n.format("options.skinCustomisation", new Object[0])));
-		this.buttonList.add(new GuiButton(8675309, this.width / 2 + 5, this.height / 6 + 48 - 6, 150, 20, I18n.format("Shadow Client")));
+		this.buttonList.add(new GuiButton(8675309, this.width / 2 + 5, this.height / 6 + 48 - 6, 150, 20,
+				I18n.format("shaders.gui.optionsButton")));
 		this.buttonList.add(new GuiButton(106, this.width / 2 - 155, this.height / 6 + 72 - 6, 150, 20,
 				I18n.format("options.sounds", new Object[0])));
 		this.buttonList.add(broadcastSettings = new GuiButton(107, this.width / 2 + 5, this.height / 6 + 72 - 6, 150,
@@ -187,7 +187,12 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 			}
 
 			if (parGuiButton.id == 8675309) {
-				this.mc.displayGuiScreen(new GuiShadow(this));
+				if (EaglerDeferredPipeline.isSupported()) {
+					this.mc.displayGuiScreen(new GuiShaderConfig(this));
+				} else {
+					this.mc.displayGuiScreen(new GuiShadersNotSupported(this,
+							I18n.format(EaglerDeferredPipeline.getReasonUnsupported())));
+				}
 			}
 
 			if (parGuiButton.id == 101) {

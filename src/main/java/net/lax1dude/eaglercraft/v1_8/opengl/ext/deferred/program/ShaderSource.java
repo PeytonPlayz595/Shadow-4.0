@@ -91,7 +91,7 @@ public class ShaderSource {
 	public static final ResourceLocation reproject_ssr_fsh = new ResourceLocation("eagler:glsl/deferred/reproject_ssr.fsh");
 	public static final ResourceLocation post_fxaa_fsh = new ResourceLocation("eagler:glsl/deferred/post_fxaa.fsh");
 	public static final ResourceLocation hand_depth_mask_fsh = new ResourceLocation("eagler:glsl/deferred/hand_depth_mask.fsh");
-	
+
 	public static final ResourceLocation core_dynamiclights_vsh = new ResourceLocation("eagler:glsl/dynamiclights/core_dynamiclights.vsh");
 	public static final ResourceLocation core_dynamiclights_fsh = new ResourceLocation("eagler:glsl/dynamiclights/core_dynamiclights.fsh");
 	public static final ResourceLocation accel_particle_dynamiclights_vsh = new ResourceLocation("eagler:glsl/dynamiclights/accel_particle_dynamiclights.vsh");

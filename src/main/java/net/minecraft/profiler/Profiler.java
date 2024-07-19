@@ -8,8 +8,6 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.PeytonPlayz585.shadow.Config;
-import net.PeytonPlayz585.shadow.Lagometer;
 import net.lax1dude.eaglercraft.v1_8.log4j.LogManager;
 import net.lax1dude.eaglercraft.v1_8.log4j.Logger;
 
@@ -58,29 +56,11 @@ public class Profiler {
 		this.profilingSection = "";
 		this.sectionList.clear();
 	}
-	
-	private static final int HASH_SCHEDULED_EXECUTABLES = "scheduledExecutables".hashCode();
-    private static final int HASH_TICK = "tick".hashCode();
-    private static final int HASH_PRE_RENDER_ERRORS = "preRenderErrors".hashCode();
 
 	/**+
 	 * Start section
 	 */
 	public void startSection(String name) {
-		
-		if (Lagometer.isActive()) {
-            int i = name.hashCode();
-
-            if (i == HASH_SCHEDULED_EXECUTABLES && name.equals("scheduledExecutables")) {
-                Lagometer.timerScheduledExecutables.start();
-            } else if (i == HASH_TICK && name.equals("tick") && Config.isMinecraftThread()) {
-                Lagometer.timerScheduledExecutables.end();
-                Lagometer.timerTick.start();
-            } else if (i == HASH_PRE_RENDER_ERRORS && name.equals("preRenderErrors")) {
-                Lagometer.timerTick.end();
-            }
-        }
-		
 		if (this.profilingEnabled) {
 			if (this.profilingSection.length() > 0) {
 				this.profilingSection = this.profilingSection + ".";

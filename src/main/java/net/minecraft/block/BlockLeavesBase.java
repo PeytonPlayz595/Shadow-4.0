@@ -1,11 +1,6 @@
 package net.minecraft.block;
 
-import java.util.IdentityHashMap;
-import java.util.Map;
-
-import net.PeytonPlayz585.shadow.Config;
 import net.minecraft.block.material.Material;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
@@ -32,7 +27,6 @@ import net.minecraft.world.IBlockAccess;
  */
 public class BlockLeavesBase extends Block {
 	protected boolean fancyGraphics;
-	private static Map mapOriginalOpacity = new IdentityHashMap();
 
 	protected BlockLeavesBase(Material materialIn, boolean fancyGraphics) {
 		super(materialIn);
@@ -48,25 +42,7 @@ public class BlockLeavesBase extends Block {
 	}
 
 	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, BlockPos blockpos, EnumFacing enumfacing) {
-		if(MinecraftServer.getServer() != null) {
-			return MinecraftServer.getServer().worldServers[0].isCullFacesLeaves() && iblockaccess.getBlockState(blockpos).getBlock() == this ? false : super.shouldSideBeRendered(iblockaccess, blockpos, enumfacing);
-		} else {
-			return Config.isCullFacesLeaves() && iblockaccess.getBlockState(blockpos).getBlock() == this ? false : super.shouldSideBeRendered(iblockaccess, blockpos, enumfacing);
-		}
+		return !this.fancyGraphics && iblockaccess.getBlockState(blockpos).getBlock() == this ? false
+				: super.shouldSideBeRendered(iblockaccess, blockpos, enumfacing);
 	}
-	
-	public static void setLightOpacity(Block p_setLightOpacity_0_, int p_setLightOpacity_1_) {
-        if (!mapOriginalOpacity.containsKey(p_setLightOpacity_0_)) {
-            mapOriginalOpacity.put(p_setLightOpacity_0_, Integer.valueOf(p_setLightOpacity_0_.getLightOpacity()));
-        }
-
-        p_setLightOpacity_0_.setLightOpacity(p_setLightOpacity_1_);
-    }
-
-    public static void restoreLightOpacity(Block p_restoreLightOpacity_0_) {
-        if (mapOriginalOpacity.containsKey(p_restoreLightOpacity_0_)) {
-            int i = ((Integer)mapOriginalOpacity.get(p_restoreLightOpacity_0_)).intValue();
-            setLightOpacity(p_restoreLightOpacity_0_, i);
-        }
-    }
 }

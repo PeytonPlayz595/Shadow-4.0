@@ -28,11 +28,11 @@ import net.minecraft.world.chunk.ChunkPrimer;
  * 
  */
 public class MapGenCavesHell extends MapGenBase {
-	
+
 	public MapGenCavesHell(boolean scramble) {
 		super(scramble);
 	}
-	
+
 	protected void func_180705_a(long parLong1, int parInt1, int parInt2, ChunkPrimer parChunkPrimer, double parDouble1,
 			double parDouble2, double parDouble3) {
 		this.func_180704_a(parLong1, parInt1, parInt2, parChunkPrimer, parDouble1, parDouble2, parDouble3,

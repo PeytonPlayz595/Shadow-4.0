@@ -1,7 +1,5 @@
 package net.minecraft.client;
 
-import static net.lax1dude.eaglercraft.v1_8.EaglercraftVersion.projectForkName;
-
 /**+
  * This portion of EaglercraftX contains deobfuscated Minecraft 1.8 source code.
  * 
@@ -24,6 +22,6 @@ import static net.lax1dude.eaglercraft.v1_8.EaglercraftVersion.projectForkName;
  */
 public class ClientBrandRetriever {
 	public static String getClientModName() {
-		return projectForkName;
+		return "eagler";
 	}
 }

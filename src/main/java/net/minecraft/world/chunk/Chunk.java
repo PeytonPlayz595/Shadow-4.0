@@ -15,12 +15,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -680,16 +678,6 @@ public class Chunk {
 	}
 
 	public int getLightSubtracted(BlockPos blockpos, int i) {
-		if(MinecraftServer.getServer() != null) {
-			if(MinecraftServer.isFullBright) {
-				return 15;
-			}
-		} else {
-			if(Minecraft.getMinecraft().gameSettings.fullBright) {
-				return 15;
-			}
-		}
-		
 		int j = blockpos.getX() & 15;
 		int k = blockpos.getY();
 		int l = blockpos.getZ() & 15;

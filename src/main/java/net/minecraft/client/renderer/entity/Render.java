@@ -393,13 +393,13 @@ public abstract class Render<T extends Entity> {
 			GlStateManager.enableLighting();
 			GlStateManager.disableBlend();
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			
+
 			if (entityIn instanceof EntityOtherPlayerMP) {
 				if (VoiceClientController.getVoiceStatus() == EnumVoiceChannelStatus.CONNECTED) {
 					VoiceTagRenderer.renderVoiceNameTag(Minecraft.getMinecraft(), (EntityOtherPlayerMP) entityIn, b0);
 				}
 			}
-			
+
 			GlStateManager.popMatrix();
 		}
 	}

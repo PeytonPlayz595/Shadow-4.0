@@ -16,9 +16,9 @@ package net.lax1dude.eaglercraft.v1_8.internal;
  * 
  */
 public interface IClientConfigAdapterHooks {
-	
+
 	void callLocalStorageSavedHook(String key, String base64);
-	
+
 	String callLocalStorageLoadHook(String key);
 
 }

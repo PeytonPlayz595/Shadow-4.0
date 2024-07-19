@@ -189,7 +189,7 @@ public class GuiCommandBlock extends GuiScreen {
 		}
 
 	}
-	
+
 	public boolean blockPTTKey() {
 		return commandTextField.isFocused();
 	}

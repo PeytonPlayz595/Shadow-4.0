@@ -34,7 +34,7 @@ public class SkinConverter {
 		copyRawPixels(skinIn.pixels, skinOut.pixels, 44, 52, 40, 64, 40, 20, 44, 32, 64, 64);
 		copyRawPixels(skinIn.pixels, skinOut.pixels, 48, 52, 44, 64, 52, 20, 56, 32, 64, 64);
 	}
-	
+
 	public static void convertCape32x32RGBAto23x17RGB(ImageData skinIn, byte[] skinOut) {
 		int i, j;
 		for(int y = 0; y < 17; ++y) {

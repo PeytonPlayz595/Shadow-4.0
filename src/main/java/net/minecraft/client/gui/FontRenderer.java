@@ -4,11 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
-
-import net.PeytonPlayz585.shadow.Config;
-import net.PeytonPlayz585.shadow.CustomColors;
-import net.PeytonPlayz585.shadow.FontUtils;
 import net.lax1dude.eaglercraft.v1_8.EaglercraftRandom;
 
 import net.lax1dude.eaglercraft.v1_8.HString;
@@ -51,7 +46,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	/**+
 	 * Array of width of all the characters in default.png
 	 */
-	protected float[] charWidth = new float[256];
+	protected int[] charWidth = new int[256];
 	/**+
 	 * the height in pixels of default text
 	 */
@@ -68,7 +63,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	 * shadows.
 	 */
 	protected int[] colorCode = new int[32];
-	protected ResourceLocation locationFontTexture;
+	protected final ResourceLocation locationFontTexture;
 	protected final TextureManager renderEngine;
 	protected float posX;
 	protected float posY;
@@ -84,16 +79,12 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	protected boolean italicStyle;
 	protected boolean underlineStyle;
 	protected boolean strikethroughStyle;
-	public ResourceLocation locationFontTextureBase;
-	public float offsetBold = 1.0F;
 
 	public FontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn,
 			boolean unicode) {
-		this.locationFontTextureBase = location;
 		this.locationFontTexture = location;
 		this.renderEngine = textureManagerIn;
 		this.unicodeFlag = unicode;
-		this.locationFontTexture = FontUtils.getHdFontLocation(this.locationFontTextureBase);
 		textureManagerIn.bindTexture(this.locationFontTexture);
 
 		for (int i = 0; i < 32; ++i) {
@@ -127,75 +118,54 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	}
 
 	public void onResourceManagerReload(IResourceManager resourceManager) {
-		this.locationFontTexture = FontUtils.getHdFontLocation(this.locationFontTextureBase);
 		this.readFontTexture();
 	}
 
 	private void readFontTexture() {
 		ImageData bufferedimage;
 		try {
-        	bufferedimage = TextureUtil.readBufferedImage(Minecraft.getMinecraft().getResourceManager().getResource(this.locationFontTexture).getInputStream());
-        } catch (IOException ioexception) {
-            throw new RuntimeException(ioexception);
-        }
+			bufferedimage = TextureUtil.readBufferedImage(Minecraft.getMinecraft().getResourceManager()
+					.getResource(this.locationFontTexture).getInputStream());
+		} catch (IOException ioexception) {
+			throw new RuntimeException(ioexception);
+		}
 
-        Properties properties = FontUtils.readFontProperties(this.locationFontTexture);
-        int i = bufferedimage.width;
-        int j = bufferedimage.height;
-        int k = i / 16;
-        int l = j / 16;
-        float f = (float)i / 128.0F;
-        float f1 = Config.limit(f, 1.0F, 2.0F);
-        this.offsetBold = 1.0F / f1;
-        float f2 = FontUtils.readFloat(properties, "offsetBold", -1.0F);
+		int i = bufferedimage.width;
+		int j = bufferedimage.height;
+		int[] aint = bufferedimage.pixels;
+		int k = j / 16;
+		int l = i / 16;
+		byte b0 = 1;
+		float f = 8.0F / (float) l;
 
-        if (f2 >= 0.0F) {
-            this.offsetBold = f2;
-        }
+		for (int i1 = 0; i1 < 256; ++i1) {
+			int j1 = i1 % 16;
+			int k1 = i1 / 16;
+			if (i1 == 32) {
+				this.charWidth[i1] = 3 + b0;
+			}
 
-        int[] aint = new int[i * j];
-        bufferedimage.getRGB(0, 0, i, j, aint, 0, i);
+			int l1;
+			for (l1 = l - 1; l1 >= 0; --l1) {
+				int i2 = j1 * l + l1;
+				boolean flag = true;
 
-        for (int i1 = 0; i1 < 256; ++i1) {
-            int j1 = i1 % 16;
-            int k1 = i1 / 16;
-            int l1 = 0;
+				for (int j2 = 0; j2 < k && flag; ++j2) {
+					int k2 = (k1 * l + j2) * i;
+					if ((aint[i2 + k2] >> 24 & 255) != 0) {
+						flag = false;
+					}
+				}
 
-            for (l1 = k - 1; l1 >= 0; --l1) {
-                int i2 = j1 * k + l1;
-                boolean flag = true;
+				if (!flag) {
+					break;
+				}
+			}
 
-                for (int j2 = 0; j2 < l && flag; ++j2) {
-                    int k2 = (k1 * l + j2) * i;
-                    int l2 = aint[i2 + k2];
-                    int i3 = l2 >> 24 & 255;
+			++l1;
+			this.charWidth[i1] = (int) (0.5D + (double) ((float) l1 * f)) + b0;
+		}
 
-                    if (i3 > 16) {
-                        flag = false;
-                    }
-                }
-
-                if (!flag) {
-                    break;
-                }
-            }
-
-            if (i1 == 65) {
-                i1 = i1;
-            }
-
-            if (i1 == 32) {
-                if (k <= 8) {
-                    l1 = (int)(2.0F * f);
-                } else {
-                    l1 = (int)(1.5F * f);
-                }
-            }
-
-            this.charWidth[i1] = (float)(l1 + 1) / f + 1.0F;
-        }
-
-        FontUtils.readCustomCharWidths(properties, this.charWidth);
 	}
 
 	private void readGlyphSizes() {
@@ -233,7 +203,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		int j = parInt1 / 16 * 8;
 		int k = parFlag ? 1 : 0;
 		this.renderEngine.bindTexture(this.locationFontTexture);
-		float l = this.charWidth[parInt1];
+		int l = this.charWidth[parInt1];
 		float f = (float) l - 0.01F;
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -257,14 +227,14 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		return (float) l;
 	}
 
-	private ResourceLocation getUnicodePageLocation(int p_111271_1_) {
-        if (unicodePageLocations[p_111271_1_] == null) {
-            unicodePageLocations[p_111271_1_] = new ResourceLocation(String.format("textures/font/unicode_page_%02x.png", new Object[] {Integer.valueOf(p_111271_1_)}));
-            unicodePageLocations[p_111271_1_] = FontUtils.getHdFontLocation(unicodePageLocations[p_111271_1_]);
-        }
-        
-        return unicodePageLocations[p_111271_1_];
-    }
+	private ResourceLocation getUnicodePageLocation(int parInt1) {
+		if (unicodePageLocations[parInt1] == null) {
+			unicodePageLocations[parInt1] = new ResourceLocation(
+					HString.format("textures/font/unicode_page_%02x.png", new Object[] { Integer.valueOf(parInt1) }));
+		}
+
+		return unicodePageLocations[parInt1];
+	}
 
 	/**+
 	 * Load one of the /font/glyph_XX.png into a new GL texture and
@@ -396,11 +366,6 @@ public class FontRenderer implements IResourceManagerReloadListener {
 					}
 
 					int j1 = this.colorCode[i1];
-					
-					if (Config.isCustomColors()) {
-						j1 = CustomColors.getTextColor(i1, j1);
-                    }
-					
 					this.textColor = j1;
 					GlStateManager.color((float) (j1 >> 16) / 255.0F, (float) (j1 >> 8 & 255) / 255.0F,
 							(float) (j1 & 255) / 255.0F, this.alpha);
@@ -445,7 +410,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 					c0 = c1;
 				}
 
-				float f1 = j != -1 && !this.unicodeFlag ? this.offsetBold : 0.5F;
+				float f1 = this.unicodeFlag ? 0.5F : 1.0F;
 				boolean flag = (c0 == 0 || j == -1 || this.unicodeFlag) && parFlag;
 				if (flag) {
 					this.posX -= f1;
@@ -570,70 +535,67 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	 * FontMetrics.stringWidth(String s).
 	 */
 	public int getStringWidth(String text) {
-        if (text == null) {
-            return 0;
-        } else {
-            float f = 0.0F;
-            boolean flag = false;
+		if (text == null) {
+			return 0;
+		} else {
+			int i = 0;
+			boolean flag = false;
 
-            for (int i = 0; i < text.length(); ++i) {
-                char c0 = text.charAt(i);
-                float f1 = this.getCharWidthFloat(c0);
+			for (int j = 0; j < text.length(); ++j) {
+				char c0 = text.charAt(j);
+				int k = this.getCharWidth(c0);
+				if (k < 0 && j < text.length() - 1) {
+					++j;
+					c0 = text.charAt(j);
+					if (c0 != 108 && c0 != 76) {
+						if (c0 == 114 || c0 == 82) {
+							flag = false;
+						}
+					} else {
+						flag = true;
+					}
 
-                if (f1 < 0.0F && i < text.length() - 1) {
-                    ++i;
-                    c0 = text.charAt(i);
+					k = 0;
+				}
 
-                    if (c0 != 108 && c0 != 76) {
-                        if (c0 == 114 || c0 == 82) {
-                            flag = false;
-                        }
-                    } else {
-                        flag = true;
-                    }
+				i += k;
+				if (flag && k > 0) {
+					++i;
+				}
+			}
 
-                    f1 = 0.0F;
-                }
-
-                f += f1;
-
-                if (flag && f1 > 0.0F) {
-                    f += this.unicodeFlag ? 1.0F : this.offsetBold;
-                }
-            }
-
-            return (int)f;
-        }
-    }
+			return i;
+		}
+	}
 
 	/**+
 	 * Returns the width of this character as rendered.
 	 */
 	public int getCharWidth(char character) {
-		return Math.round(this.getCharWidthFloat(character));
-	}
-	
-	private float getCharWidthFloat(char p_getCharWidthFloat_1_) {
-        if (p_getCharWidthFloat_1_ == 167) {
-            return -1.0F;
-        } else if (p_getCharWidthFloat_1_ == 32) {
-            return this.charWidth[32];
-        } else {
-            int i = "\u00c0\u00c1\u00c2\u00c8\u00ca\u00cb\u00cd\u00d3\u00d4\u00d5\u00da\u00df\u00e3\u00f5\u011f\u0130\u0131\u0152\u0153\u015e\u015f\u0174\u0175\u017e\u0207\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000\u00c7\u00fc\u00e9\u00e2\u00e4\u00e0\u00e5\u00e7\u00ea\u00eb\u00e8\u00ef\u00ee\u00ec\u00c4\u00c5\u00c9\u00e6\u00c6\u00f4\u00f6\u00f2\u00fb\u00f9\u00ff\u00d6\u00dc\u00f8\u00a3\u00d8\u00d7\u0192\u00e1\u00ed\u00f3\u00fa\u00f1\u00d1\u00aa\u00ba\u00bf\u00ae\u00ac\u00bd\u00bc\u00a1\u00ab\u00bb\u2591\u2592\u2593\u2502\u2524\u2561\u2562\u2556\u2555\u2563\u2551\u2557\u255d\u255c\u255b\u2510\u2514\u2534\u252c\u251c\u2500\u253c\u255e\u255f\u255a\u2554\u2569\u2566\u2560\u2550\u256c\u2567\u2568\u2564\u2565\u2559\u2558\u2552\u2553\u256b\u256a\u2518\u250c\u2588\u2584\u258c\u2590\u2580\u03b1\u03b2\u0393\u03c0\u03a3\u03c3\u03bc\u03c4\u03a6\u0398\u03a9\u03b4\u221e\u2205\u2208\u2229\u2261\u00b1\u2265\u2264\u2320\u2321\u00f7\u2248\u00b0\u2219\u00b7\u221a\u207f\u00b2\u25a0\u0000".indexOf(p_getCharWidthFloat_1_);
+		if (character == 167) {
+			return -1;
+		} else if (character == 32) {
+			return 4;
+		} else {
+			int i = "\u00c0\u00c1\u00c2\u00c8\u00ca\u00cb\u00cd\u00d3\u00d4\u00d5\u00da\u00df\u00e3\u00f5\u011f\u0130\u0131\u0152\u0153\u015e\u015f\u0174\u0175\u017e\u0207\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000\u00c7\u00fc\u00e9\u00e2\u00e4\u00e0\u00e5\u00e7\u00ea\u00eb\u00e8\u00ef\u00ee\u00ec\u00c4\u00c5\u00c9\u00e6\u00c6\u00f4\u00f6\u00f2\u00fb\u00f9\u00ff\u00d6\u00dc\u00f8\u00a3\u00d8\u00d7\u0192\u00e1\u00ed\u00f3\u00fa\u00f1\u00d1\u00aa\u00ba\u00bf\u00ae\u00ac\u00bd\u00bc\u00a1\u00ab\u00bb\u2591\u2592\u2593\u2502\u2524\u2561\u2562\u2556\u2555\u2563\u2551\u2557\u255d\u255c\u255b\u2510\u2514\u2534\u252c\u251c\u2500\u253c\u255e\u255f\u255a\u2554\u2569\u2566\u2560\u2550\u256c\u2567\u2568\u2564\u2565\u2559\u2558\u2552\u2553\u256b\u256a\u2518\u250c\u2588\u2584\u258c\u2590\u2580\u03b1\u03b2\u0393\u03c0\u03a3\u03c3\u03bc\u03c4\u03a6\u0398\u03a9\u03b4\u221e\u2205\u2208\u2229\u2261\u00b1\u2265\u2264\u2320\u2321\u00f7\u2248\u00b0\u2219\u00b7\u221a\u207f\u00b2\u25a0\u0000"
+					.indexOf(character);
+			if (character > 0 && i != -1 && !this.unicodeFlag) {
+				return this.charWidth[i];
+			} else if (this.glyphWidth[character] != 0) {
+				int j = this.glyphWidth[character] >>> 4;
+				int k = this.glyphWidth[character] & 15;
+				if (k > 7) {
+					k = 15;
+					j = 0;
+				}
 
-            if (p_getCharWidthFloat_1_ > 0 && i != -1 && !this.unicodeFlag) {
-                return this.charWidth[i];
-            } else if (this.glyphWidth[p_getCharWidthFloat_1_] != 0) {
-                int j = this.glyphWidth[p_getCharWidthFloat_1_] >>> 4;
-                int k = this.glyphWidth[p_getCharWidthFloat_1_] & 15;
-                j = j & 15;
-                ++k;
-                return (float)((k - j) / 2 + 1);
-            } else {
-                return 0.0F;
-            }
-        }
-    }
+				++k;
+				return (k - j) / 2 + 1;
+			} else {
+				return 0;
+			}
+		}
+	}
 
 	/**+
 	 * Trims a string to fit a specified Width.
@@ -888,18 +850,6 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	}
 
 	public int getColorCode(char character) {
-		int i = "0123456789abcdef".indexOf(character);
-
-        if (i >= 0 && i < this.colorCode.length) {
-            int j = this.colorCode[i];
-
-            if (Config.isCustomColors()) {
-                j = CustomColors.getTextColor(i, j);
-            }
-
-            return j;
-        } else {
-            return 16777215;
-        }
-    }
+		return this.colorCode["0123456789abcdef".indexOf(character)];
+	}
 }

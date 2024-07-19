@@ -303,10 +303,6 @@ public class EaglercraftGPU {
 		}
 	}
 	
-	public static final void glFinish() {
-		_wglFinish();
-	}
-	
 	private static IBufferArrayGL currentBufferArray = null;
 	
 	public static final void bindGLBufferArray(IBufferArrayGL buffer) {
@@ -491,7 +487,7 @@ public class EaglercraftGPU {
 	public static final ITextureGL getNativeTexture(int tex) {
 		return mapTexturesGL.get(tex);
 	}
-	
+
 	public static final void regenerateTexture(int tex) {
 		ITextureGL webglTex = mapTexturesGL.get(tex);
 		if(webglTex != null) {
@@ -502,7 +498,7 @@ public class EaglercraftGPU {
 			logger.error("Tried to regenerate a missing texture!");
 		}
 	}
-	
+
 	public static final void drawHighPoly(HighPolyMesh mesh) {
 		if(mesh.vertexCount == 0 || mesh.indexCount == 0 || mesh.vertexArray == null) {
 			return;
@@ -520,7 +516,7 @@ public class EaglercraftGPU {
 		createFramebufferHDR16FTexture(target, level, w, h, format, allow32bitFallback, null);
 	}
 
-	public static void createFramebufferHDR16FTexture(int target, int level, int w, int h, int format, ByteBuffer pixelData) {
+	public static final void createFramebufferHDR16FTexture(int target, int level, int w, int h, int format, ByteBuffer pixelData) {
 		createFramebufferHDR16FTexture(target, level, w, h, format, false, pixelData);
 	}
 
@@ -643,11 +639,7 @@ public class EaglercraftGPU {
 	public static final boolean checkHasHDRFramebufferSupport() {
 		return hasFramebufferHDR16FSupport || hasFramebufferHDR32FSupport;
 	}
-	
-	public static int glGetTexLevelParameteri(int glTexture2d, int i, int glTextureWidth) {
-		return PlatformOpenGL._wglGetTexLevelParameteri(glTexture2d, i, glTextureWidth);
-	}
-	
+
 	public static final boolean checkHasHDRFramebufferSupportWithFilter() {
 		return hasFramebufferHDR16FSupport || (hasFramebufferHDR32FSupport && hasLinearHDR32FSupport);
 	}

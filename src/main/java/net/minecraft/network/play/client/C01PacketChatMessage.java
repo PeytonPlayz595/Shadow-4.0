@@ -27,7 +27,7 @@ import net.minecraft.network.play.INetHandlerPlayServer;
  * 
  */
 public class C01PacketChatMessage implements Packet<INetHandlerPlayServer> {
-	public String message;
+	private String message;
 
 	public C01PacketChatMessage() {
 	}

@@ -468,7 +468,7 @@ public class RenderHighPoly extends RenderPlayer {
 			GlStateManager.popMatrix();
 		}
 	}
-	
+
 	public void renderLivingAt(AbstractClientPlayer abstractclientplayer, double d0, double d1, double d2) {
 		if (abstractclientplayer.isEntityAlive() && abstractclientplayer.isPlayerSleeping()) {
 			super.renderLivingAt(abstractclientplayer, d0 - (double) abstractclientplayer.renderOffsetX,

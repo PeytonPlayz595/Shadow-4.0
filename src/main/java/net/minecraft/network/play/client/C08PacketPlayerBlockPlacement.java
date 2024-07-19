@@ -30,12 +30,12 @@ import net.minecraft.util.BlockPos;
  */
 public class C08PacketPlayerBlockPlacement implements Packet<INetHandlerPlayServer> {
 	private static final BlockPos field_179726_a = new BlockPos(-1, -1, -1);
-	public BlockPos position;
-	public int placedBlockDirection;
-	public ItemStack stack;
-	public float facingX;
-	public float facingY;
-	public float facingZ;
+	private BlockPos position;
+	private int placedBlockDirection;
+	private ItemStack stack;
+	private float facingX;
+	private float facingY;
+	private float facingZ;
 
 	public C08PacketPlayerBlockPlacement() {
 	}

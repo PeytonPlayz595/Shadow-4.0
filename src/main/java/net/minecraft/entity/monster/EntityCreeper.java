@@ -306,7 +306,7 @@ public class EntityCreeper extends EntityMob {
 			DeferredStateManager.setEmissionConstant(1.0f);
 		}
 	}
-	
+
 	protected float getEaglerDynamicLightsValueSimple(float partialTicks) {
 		float f = super.getEaglerDynamicLightsValueSimple(partialTicks);
 		float ff = getCreeperFlashIntensity(partialTicks);

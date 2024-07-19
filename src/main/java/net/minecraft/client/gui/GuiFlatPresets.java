@@ -84,7 +84,6 @@ public class GuiFlatPresets extends GuiScreen {
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		this.field_146435_s.handleMouseInput();
-		this.field_146435_s.handleControllerInput();
 	}
 
 	/**+

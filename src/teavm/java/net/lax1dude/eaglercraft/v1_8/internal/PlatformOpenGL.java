@@ -1,7 +1,5 @@
 package net.lax1dude.eaglercraft.v1_8.internal;
 
-import org.teavm.jso.JSObject;
-import org.teavm.jso.core.JSNumber;
 import org.teavm.jso.webgl.WebGLUniformLocation;
 
 import net.lax1dude.eaglercraft.v1_8.internal.buffer.ByteBuffer;
@@ -33,7 +31,7 @@ public class PlatformOpenGL {
 	
 	private static final Logger logger = LogManager.getLogger("PlatformOpenGL");
 	
-	public static WebGL2RenderingContext ctx = null;
+	static WebGL2RenderingContext ctx = null;
 
 	static boolean hasDebugRenderInfoExt = false;
 	static boolean hasFramebufferHDR16FSupport = false;
@@ -581,10 +579,6 @@ public class PlatformOpenGL {
 		}
 	}
 	
-	public static final void _wglFinish() {
-		ctx.finish();
-	}
-	
 	public static final boolean checkLinearHDR32FSupport() {
 		return hasLinearHDR32FSupport;
 	}
@@ -605,11 +599,4 @@ public class PlatformOpenGL {
 			logger.error("##############################");
 		}
 	}
-	
-	public static int _wglGetTexLevelParameteri(int glTexture2d, int i, int glTextureWidth) {
-		JSObject object = ctx.getTexParameter(glTexture2d, glTextureWidth);
-		int parameterValue = ((JSNumber) object).intValue();
-		return parameterValue;
-	}
 }
-

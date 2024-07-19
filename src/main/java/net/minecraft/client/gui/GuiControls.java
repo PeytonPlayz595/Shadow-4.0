@@ -81,7 +81,6 @@ public class GuiControls extends GuiScreen {
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		this.keyBindingList.handleMouseInput();
-		this.keyBindingList.handleControllerInput();
 	}
 
 	/**+

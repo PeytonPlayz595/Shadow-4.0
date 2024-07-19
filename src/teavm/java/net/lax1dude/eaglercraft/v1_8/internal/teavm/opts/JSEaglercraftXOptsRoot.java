@@ -80,10 +80,10 @@ public abstract class JSEaglercraftXOptsRoot implements JSObject {
 
 	@JSBody(params = { "def" }, script = "return (typeof this.checkRelaysForUpdates === \"boolean\") ? this.checkRelaysForUpdates : def;")
 	public native boolean getCheckRelaysForUpdates(boolean defaultValue);
-	
+
 	@JSBody(params = { "def" }, script = "return (typeof this.allowVoiceClient === \"boolean\") ? this.allowVoiceClient : def;")
 	public native boolean getAllowVoiceClient(boolean defaultValue);
-	
+
 	@JSBody(params = { "def" }, script = "return (typeof this.allowFNAWSkins === \"boolean\") ? this.allowFNAWSkins : def;")
 	public native boolean getAllowFNAWSkins(boolean defaultValue);
 
@@ -92,5 +92,8 @@ public abstract class JSEaglercraftXOptsRoot implements JSObject {
 
 	@JSBody(params = { "def" }, script = "return (typeof this.localStorageNamespace === \"string\") ? this.localStorageNamespace : def;")
 	public native String getLocalStorageNamespace(String defaultValue);
+
+	@JSBody(params = { "def" }, script = "return (typeof this.enableMinceraft === \"boolean\") ? this.enableMinceraft : def;")
+	public native boolean getEnableMinceraft(boolean defaultValue);
 
 }

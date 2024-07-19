@@ -66,7 +66,6 @@ import static net.lax1dude.eaglercraft.v1_8.opengl.ext.deferred.ExtGLEnums.*;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -2048,7 +2047,7 @@ public class EaglerDeferredPipeline {
 					}
 				}
 			}
-			
+
 			truncateOverflowingLightBuffers();
 
 			DeferredStateManager.checkGLError("combineGBuffersAndIlluminate(): RENDER DYNAMIC LIGHTS");
@@ -2306,7 +2305,7 @@ public class EaglerDeferredPipeline {
 		}
 		return radius2 >= 0.0f;
 	}
-	
+
 	private void truncateOverflowingLightBuffers() {
 		for(int i = 0; i < this.lightSourceBuckets.length; ++i) {
 			List<DynamicLightInstance> lst = this.lightSourceBuckets[i];

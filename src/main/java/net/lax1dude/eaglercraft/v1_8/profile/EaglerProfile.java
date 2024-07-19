@@ -39,7 +39,7 @@ public class EaglerProfile {
 	
 	public static int presetCapeId;
 	public static int customCapeId;
-	
+
 	public static final List<CustomSkin> customSkins = new ArrayList();
 	public static final List<CustomCape> customCapes = new ArrayList();
 	
@@ -136,7 +136,7 @@ public class EaglerProfile {
 			}
 		}
 	}
-	
+
 	public static byte[] getCapePacket() {
 		if(presetCapeId == -1) {
 			if(customCapeId >= 0 && customCapeId < customCapes.size()) {
@@ -164,7 +164,7 @@ public class EaglerProfile {
 		}
 		return false;
 	}
-	
+
 	private static boolean doesCapeExist(String name) {
 		for(int i = 0, l = customCapes.size(); i < l; ++i) {
 			if(customCapes.get(i).name.equalsIgnoreCase(name)) {
@@ -189,7 +189,7 @@ public class EaglerProfile {
 		customSkins.add(newSkin);
 		return r;
 	}
-	
+
 	public static int addCustomCape(String fileName, byte[] rawCape23x17RGB) {
 		if(doesCapeExist(fileName)) {
 			String newName;
@@ -212,7 +212,7 @@ public class EaglerProfile {
 		}
 		customSkins.clear();
 	}
-	
+
 	public static void clearCustomCapes() {
 		for(int i = 0, l = customCapes.size(); i < l; ++i) {
 			customCapes.get(i).delete();
@@ -242,7 +242,7 @@ public class EaglerProfile {
 
 		presetSkinId = profile.getInteger("presetSkin");
 		customSkinId = profile.getInteger("customSkin");
-		
+
 		if(profile.hasKey("presetCape", 99)) presetCapeId = profile.getInteger("presetCape");
 		if(profile.hasKey("customCape", 99)) customCapeId = profile.getInteger("customCape");
 
@@ -270,7 +270,7 @@ public class EaglerProfile {
 			newSkin.load();
 			customSkins.add(newSkin);
 		}
-		
+
 		if(profile.hasKey("capes", 9)) {
 			clearCustomCapes();
 			NBTTagList capesList = profile.getTagList("capes", 10);
@@ -284,7 +284,7 @@ public class EaglerProfile {
 				customCapes.add(newCape);
 			}
 		}
-		
+
 		if(presetSkinId == -1) {
 			if(customSkinId < 0 || customSkinId >= customSkins.size()) {
 				presetSkinId = 0;
@@ -296,7 +296,7 @@ public class EaglerProfile {
 				presetSkinId = 0;
 			}
 		}
-		
+
 		if(presetCapeId == -1) {
 			if(customCapeId < 0 || customCapeId >= customCapes.size()) {
 				presetCapeId = 0;

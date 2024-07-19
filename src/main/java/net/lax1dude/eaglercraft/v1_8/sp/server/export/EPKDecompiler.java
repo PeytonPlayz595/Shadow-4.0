@@ -178,7 +178,7 @@ public class EPKDecompiler implements Closeable {
 		}
 		return new String(charIn);
 	}
-	
+
 	@Override
 	public void close() throws IOException {
 		zis.close();

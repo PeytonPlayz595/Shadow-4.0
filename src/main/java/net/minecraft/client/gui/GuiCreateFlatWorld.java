@@ -95,7 +95,6 @@ public class GuiCreateFlatWorld extends GuiScreen {
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		this.createFlatWorldListSlotGui.handleMouseInput();
-		this.createFlatWorldListSlotGui.handleControllerInput();
 	}
 
 	/**+

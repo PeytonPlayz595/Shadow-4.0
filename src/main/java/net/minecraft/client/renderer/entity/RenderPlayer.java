@@ -60,7 +60,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
 		this.addLayer(new LayerCape(this));
 		this.addLayer(new LayerCustomHead(this.getMainModel().bipedHead));
 	}
-	
+
 	protected RenderPlayer(RenderManager renderManager, ModelBase modelBase, float size) {
 		super(renderManager, modelBase, size);
 	}

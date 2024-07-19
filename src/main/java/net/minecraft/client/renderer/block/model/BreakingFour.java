@@ -30,7 +30,7 @@ public class BreakingFour extends BakedQuad {
 	public BreakingFour(BakedQuad parBakedQuad, EaglerTextureAtlasSprite textureIn) {
 		super(Arrays.copyOf(parBakedQuad.getVertexData(), parBakedQuad.getVertexData().length),
 				Arrays.copyOf(parBakedQuad.getVertexDataWithNormals(), parBakedQuad.getVertexDataWithNormals().length),
-				parBakedQuad.tintIndex, parBakedQuad.face, textureIn);
+				parBakedQuad.tintIndex, parBakedQuad.face);
 		this.texture = textureIn;
 		this.func_178217_e();
 	}

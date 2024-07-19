@@ -81,7 +81,7 @@ public abstract class AbstractTexture implements ITextureObject {
 		}
 
 	}
-	
+
 	/**
 	 * This function is needed due to EaglercraftX's use of glTexStorage2D to
 	 * allocate memory for textures, some OpenGL implementations don't like it when

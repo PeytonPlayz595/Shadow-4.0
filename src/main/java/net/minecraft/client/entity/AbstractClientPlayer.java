@@ -35,7 +35,7 @@ import net.minecraft.world.WorldSettings;
  */
 public abstract class AbstractClientPlayer extends EntityPlayer {
 	private NetworkPlayerInfo playerInfo;
-	
+
 	public long eaglerHighPolyAnimationTick = System.currentTimeMillis();
 	public float eaglerHighPolyAnimationFloat1 = 0.0f;
 	public float eaglerHighPolyAnimationFloat2 = 0.0f;
@@ -100,7 +100,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
 		return networkplayerinfo == null ? DefaultPlayerSkin.getSkinType(this.getUniqueID())
 				: networkplayerinfo.getSkinType();
 	}
-	
+
 	public SkinModel getEaglerSkinModel() {
 		NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
 		return networkplayerinfo == null ? SkinModel.STEVE : networkplayerinfo.getEaglerSkinModel();

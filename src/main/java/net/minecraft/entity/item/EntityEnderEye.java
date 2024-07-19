@@ -212,18 +212,6 @@ public class EntityEnderEye extends Entity {
 		return 1.0F;
 	}
 
-	public int getBrightnessForRender(float var1) {
-		return 15728880;
-	}
-
-	/**+
-	 * If returns false, the item will not inflict any damage
-	 * against entities.
-	 */
-	public boolean canAttackWithItem() {
-		return false;
-	}
-	
 	protected float getEaglerDynamicLightsValueSimple(float partialTicks) {
 		return 0.5f;
 	}
@@ -237,5 +225,17 @@ public class EntityEnderEye extends Entity {
 			DynamicLightManager.renderDynamicLight("entity_" + getEntityId() + "_endereye", entityX, entityY + 0.2,
 					entityZ, mag * 0.1990f, mag * 0.7750f, mag * 0.4130f, false);
 		}
+	}
+
+	public int getBrightnessForRender(float var1) {
+		return 15728880;
+	}
+
+	/**+
+	 * If returns false, the item will not inflict any damage
+	 * against entities.
+	 */
+	public boolean canAttackWithItem() {
+		return false;
 	}
 }

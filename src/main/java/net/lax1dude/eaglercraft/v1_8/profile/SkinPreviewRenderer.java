@@ -172,7 +172,7 @@ public class SkinPreviewRenderer {
 				}
 			}
 		}
-		
+
 		GlStateManager.popMatrix();
 		GlStateManager.disableLighting();
 	}

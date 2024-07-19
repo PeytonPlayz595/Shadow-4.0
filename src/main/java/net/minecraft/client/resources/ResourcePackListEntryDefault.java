@@ -100,7 +100,7 @@ public class ResourcePackListEntryDefault extends ResourcePackListEntry {
 	protected boolean func_148310_d() {
 		return false;
 	}
-	
+
 	@Override
 	protected String getEaglerFolderName() {
 		return null;

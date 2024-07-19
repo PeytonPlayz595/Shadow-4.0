@@ -135,7 +135,7 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
 	protected abstract String func_148312_b();
 
 	protected abstract void func_148313_c();
-	
+
 	protected abstract String getEaglerFolderName();
 
 	protected boolean func_148310_d() {

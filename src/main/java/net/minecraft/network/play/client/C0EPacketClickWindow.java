@@ -28,12 +28,12 @@ import net.minecraft.network.play.INetHandlerPlayServer;
  * 
  */
 public class C0EPacketClickWindow implements Packet<INetHandlerPlayServer> {
-	public int windowId;
-	public int slotId;
-	public int usedButton;
-	public short actionNumber;
-	public ItemStack clickedItem;
-	public int mode;
+	private int windowId;
+	private int slotId;
+	private int usedButton;
+	private short actionNumber;
+	private ItemStack clickedItem;
+	private int mode;
 
 	public C0EPacketClickWindow() {
 	}

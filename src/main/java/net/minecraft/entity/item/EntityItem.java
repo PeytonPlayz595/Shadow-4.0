@@ -475,7 +475,7 @@ public class EntityItem extends Entity {
 				isInFrustum);
 		eaglerEmissiveFlag = Minecraft.getMinecraft().entityRenderer.renderItemEntityLight(this, 0.1f);
 	}
-	
+
 	protected float getEaglerDynamicLightsValueSimple(float partialTicks) {
 		float f = super.getEaglerDynamicLightsValueSimple(partialTicks);
 		ItemStack itm = this.getEntityItem();

@@ -30,8 +30,8 @@ import net.minecraft.util.BlockPos;
  * 
  */
 public class C14PacketTabComplete implements Packet<INetHandlerPlayServer> {
-	public String message;
-	public BlockPos targetBlock;
+	private String message;
+	private BlockPos targetBlock;
 
 	public C14PacketTabComplete() {
 	}

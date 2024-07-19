@@ -50,7 +50,7 @@ public class ResourcePackListEntryFound extends ResourcePackListEntry {
 	public ResourcePackRepository.Entry func_148318_i() {
 		return this.field_148319_c;
 	}
-	
+
 	@Override
 	protected String getEaglerFolderName() {
 		return field_148319_c.getResourcePackName();

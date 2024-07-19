@@ -30,12 +30,12 @@ import net.minecraft.util.MathHelper;
  * 
  */
 public class S29PacketSoundEffect implements Packet<INetHandlerPlayClient> {
-	public String soundName;
-	public int posX;
-	public int posY = Integer.MAX_VALUE;
-	public int posZ;
-	public float soundVolume;
-	public int soundPitch;
+	private String soundName;
+	private int posX;
+	private int posY = Integer.MAX_VALUE;
+	private int posZ;
+	private float soundVolume;
+	private int soundPitch;
 
 	public S29PacketSoundEffect() {
 	}

@@ -326,7 +326,7 @@ public class WorldServer extends World implements IThreadListener {
 		this.worldInfo.setSpawnZ(j);
 	}
 
-	public void updateBlocks() {
+	protected void updateBlocks() {
 		super.updateBlocks();
 		if (this.worldInfo.getTerrainType() == WorldType.DEBUG_WORLD) {
 			for (ChunkCoordIntPair chunkcoordintpair1 : this.activeChunkSet) {
@@ -1057,14 +1057,6 @@ public class WorldServer extends World implements IThreadListener {
 	public void addScheduledTask(Runnable runnable) {
 		this.mcServer.addScheduledTask(runnable);
 	}
-	
-	public boolean isSmoothWorld() {
-		return this.mcServer.smoothWorld;
-	}
-	
-	public boolean isCullFacesLeaves() {
-        return this.mcServer.trees == 0 ? !this.mcServer.fancyGraphics : this.mcServer.trees == 4;
-    }
 
 	static class ServerBlockEventList extends ArrayList<BlockEventData> {
 		private ServerBlockEventList() {

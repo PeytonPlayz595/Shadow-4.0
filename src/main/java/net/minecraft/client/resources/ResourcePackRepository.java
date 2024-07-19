@@ -51,7 +51,7 @@ public class ResourcePackRepository {
 	private IResourcePack resourcePackInstance;
 	private ListenableFuture<Object> field_177322_i;
 	private List<ResourcePackRepository.Entry> repositoryEntriesAll = Lists.newArrayList();
-	public List<ResourcePackRepository.Entry> repositoryEntries = Lists.newArrayList();
+	private List<ResourcePackRepository.Entry> repositoryEntries = Lists.newArrayList();
 
 	public ResourcePackRepository(IResourcePack rprDefaultResourcePackIn, IMetadataSerializer rprMetadataSerializerIn,
 			GameSettings settings) {

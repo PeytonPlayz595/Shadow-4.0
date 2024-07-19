@@ -67,7 +67,6 @@ public class GuiLanguage extends GuiScreen {
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		this.list.handleMouseInput();
-		this.list.handleControllerInput();
 	}
 
 	/**+

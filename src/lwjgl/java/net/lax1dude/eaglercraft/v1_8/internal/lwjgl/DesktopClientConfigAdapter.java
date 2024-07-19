@@ -31,7 +31,7 @@ public class DesktopClientConfigAdapter implements IClientConfigAdapter {
 	public static final IClientConfigAdapter instance = new DesktopClientConfigAdapter();
 
 	public final List<DefaultServer> defaultServers = new ArrayList();
-	
+
 	private final DesktopClientConfigAdapterHooks hooks = new DesktopClientConfigAdapterHooks();
 
 	@Override
@@ -126,12 +126,12 @@ public class DesktopClientConfigAdapter implements IClientConfigAdapter {
 	public boolean isEnableSignatureBadge() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isAllowVoiceClient() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isAllowFNAWSkins() {
 		return true;
@@ -140,6 +140,11 @@ public class DesktopClientConfigAdapter implements IClientConfigAdapter {
 	@Override
 	public String getLocalStorageNamespace() {
 		return EaglercraftVersion.localStorageNamespace;
+	}
+
+	@Override
+	public boolean isEnableMinceraft() {
+		return true;
 	}
 
 	@Override
@@ -160,5 +165,4 @@ public class DesktopClientConfigAdapter implements IClientConfigAdapter {
 		}
 		
 	}
-
 }

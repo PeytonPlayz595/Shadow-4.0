@@ -83,12 +83,11 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 				;
 			}
 		}
-		
+
 		if (this.sndRegistry.getObject(new ResourceLocation("minecraft:sounds/music/game/calm1.ogg")) == null) {
 			tipLogger.info(
 					"Download this resource pack if you want music: https://bafybeiayojww5jfyzvlmtuk7l5ufkt7nlfto7mhwmzf2vs4bvsjd5ouiuq.ipfs.nftstorage.link/?filename=Music_For_Eaglercraft.zip");
 		}
-
 	}
 
 	public static class SoundMap {

@@ -21,7 +21,6 @@ import org.teavm.jso.dom.html.HTMLElement;
 import org.teavm.jso.webgl.WebGLFramebuffer;
 import org.teavm.jso.webgl.WebGLRenderbuffer;
 
-import net.PeytonPlayz585.shadow.input.Controller;
 import net.lax1dude.eaglercraft.v1_8.EagUtils;
 import net.lax1dude.eaglercraft.v1_8.internal.teavm.EarlyLoadScreen;
 import net.lax1dude.eaglercraft.v1_8.internal.teavm.WebGL2RenderingContext;
@@ -103,7 +102,7 @@ public class PlatformInput {
 
 	public static boolean keyboardLockSupported = false;
 	public static boolean lockKeys = false;
-	
+
 	private static boolean vsync = true;
 	private static boolean vsyncSupport = false;
 	
@@ -129,7 +128,6 @@ public class PlatformInput {
 				int b = evt.getButton();
 				buttonStates[b == 1 ? 2 : (b == 2 ? 1 : b)] = true;
 				mouseEvents.add(evt);
-				Controller.isActive = false;
 			}
 		});
 		canvas.addEventListener("mouseup", mouseup = new EventListener<MouseEvent>() {
@@ -140,7 +138,6 @@ public class PlatformInput {
 				int b = evt.getButton();
 				buttonStates[b == 1 ? 2 : (b == 2 ? 1 : b)] = false;
 				mouseEvents.add(evt);
-				Controller.isActive = false;
 			}
 		});
 		canvas.addEventListener("mousemove", mousemove = new EventListener<MouseEvent>() {
@@ -155,21 +152,18 @@ public class PlatformInput {
 				if(hasBeenActive()) {
 					mouseEvents.add(evt);
 				}
-				Controller.isActive = false;
 			}
 		});
 		canvas.addEventListener("mouseenter", mouseenter = new EventListener<MouseEvent>() {
 			@Override
 			public void handleEvent(MouseEvent evt) {
 				isMouseOverWindow = true;
-				Controller.isActive = false;
 			}
 		});
 		canvas.addEventListener("mouseleave", mouseleave = new EventListener<MouseEvent>() {
 			@Override
 			public void handleEvent(MouseEvent evt) {
 				isMouseOverWindow = false;
-				Controller.isActive = false;
 			}
 		});
 		win.addEventListener("keydown", keydown = new EventListener<KeyboardEvent>() {
@@ -185,7 +179,6 @@ public class PlatformInput {
 				int ww = processFunctionKeys(w);
 				keyStates[KeyboardConstants.getEaglerKeyFromBrowser(ww, ww == w ? evt.getLocation() : 0)] = true;
 				keyEvents.add(evt);
-				Controller.isActive = false;
 			}
 		});
 		win.addEventListener("keyup", keyup = new EventListener<KeyboardEvent>() {
@@ -204,7 +197,6 @@ public class PlatformInput {
 					}
 				}
 				keyEvents.add(evt);
-				Controller.isActive = false;
 			}
 		});
 		win.addEventListener("keypress", keypress = new EventListener<KeyboardEvent>() {
@@ -212,7 +204,6 @@ public class PlatformInput {
 			public void handleEvent(KeyboardEvent evt) {
 				evt.preventDefault();
 				evt.stopPropagation();
-				Controller.isActive = false;
 				if(enableRepeatEvents && evt.isRepeat()) keyEvents.add(evt);
 			}
 		});
@@ -223,7 +214,6 @@ public class PlatformInput {
 				evt.stopPropagation();
 				mouseEvents.add(evt);
 				mouseDWheel += evt.getDeltaY();
-				Controller.isActive = false;
 			}
 		});
 		win.addEventListener("blur", new EventListener<WheelEvent>() {
@@ -236,14 +226,12 @@ public class PlatformInput {
 				for(int i = 0; i < keyStates.length; ++i) {
 					keyStates[i] = false;
 				}
-				Controller.isActive = false;
 			}
 		});
 		win.addEventListener("focus", new EventListener<WheelEvent>() {
 			@Override
 			public void handleEvent(WheelEvent evt) {
 				isWindowFocused = true;
-				Controller.isActive = false;
 			}
 		});
 		win.getDocument().addEventListener("pointerlockchange", pointerlock = new EventListener<WheelEvent>() {
@@ -263,10 +251,9 @@ public class PlatformInput {
 				}, 60);
 				mouseDX = 0.0D;
 				mouseDY = 0.0D;
-				Controller.isActive = false;
 			}
 		});
-		
+
 		try {
 			onBeforeCloseRegister();
 		}catch(Throwable t) {
@@ -320,11 +307,11 @@ public class PlatformInput {
 	public static boolean isCloseRequested() {
 		return false;
 	}
-	
+
 	public static void setVSync(boolean enable) {
 		vsync = enable;
 	}
-	
+
 	@JSBody(params = { "doc" }, script = "return (doc.visibilityState === \"visible\");")
 	private static native boolean getVisibilityState(JSObject doc);
 
@@ -358,7 +345,7 @@ public class PlatformInput {
 			EagUtils.sleep(50l);
 		}
 	}
-	
+
 	@Async
 	private static native void asyncRequestAnimationFrame();
 
@@ -379,11 +366,11 @@ public class PlatformInput {
 			}
 		}, 50);
 	}
-	
+
 	public static boolean isVSyncSupported() {
 		return vsyncSupport;
 	}
-	
+
 	static void initFramebuffer(WebGL2RenderingContext ctx, WebGLFramebuffer fbo, int sw, int sh) {
 		context = ctx;
 		mainFramebuffer = fbo;
@@ -516,16 +503,10 @@ public class PlatformInput {
 	}
 
 	public static int mouseGetX() {
-		if(Controller.cursor != null) {
-			return Controller.cursor.getOffsetLeft();
-		}
 		return mouseX;
 	}
 
 	public static int mouseGetY() {
-		if(Controller.cursor != null) {
-			return canvas.getClientHeight() - Controller.cursor.getOffsetTop();
-		}
 		return mouseY;
 	}
 
@@ -647,9 +628,6 @@ public class PlatformInput {
 	@JSBody(params = { "mediaQuery" }, script = "return mediaQuery.matches;")
 	private static native boolean mediaQueryMatches(JSObject mediaQuery);
 
-	@JSBody(params = {}, script = "return document.getElementById('game_frame');")
-	private static native HTMLElement game_frame();
-
 	public static void toggleFullscreen() {
 		if (isFullscreen()) {
 			if (keyboardLockSupported) {
@@ -662,7 +640,7 @@ public class PlatformInput {
 				lockKeys();
 				lockKeys = true;
 			}
-			requestFullscreen(game_frame());
+			requestFullscreen(canvas);
 		}
 	}
 

@@ -5,7 +5,6 @@ import static net.lax1dude.eaglercraft.v1_8.opengl.RealOpenGLEnums.*;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
-import net.PeytonPlayz585.shadow.Config;
 import net.lax1dude.eaglercraft.v1_8.opengl.GlStateManager;
 import net.lax1dude.eaglercraft.v1_8.opengl.WorldRenderer;
 import net.minecraft.client.renderer.Tessellator;
@@ -69,8 +68,6 @@ public class GuiTextField extends Gui {
 	private boolean visible = true;
 	private GuiPageButtonList.GuiResponder field_175210_x;
 	private Predicate<String> field_175209_y = Predicates.alwaysTrue();
-	
-	public boolean isTypingPassword = false;
 
 	public GuiTextField(int componentId, FontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height) {
 		this.id = componentId;
@@ -465,45 +462,9 @@ public class GuiTextField extends Gui {
 			}
 
 			if (s.length() > 0) {
-            	String s1 = flag ? s.substring(0, j) : s;
-                String s2 = s1;
-
-				if(Config.isPasswordHidden()) {
-                
-                	if (s1.startsWith("/l ") || s1.startsWith("/login ") || s1.startsWith("/log ")) {
-                		s2 = "";
-                		String password = "";
-                		// password isnt sent anywhere, its just used for counting how many "*" you need for hiding the password.
-                	
-                		if (s1.startsWith("/l ")) {
-                			s2 = s1.substring(0, 3);
-                			password = s1.substring(3);
-                		}
-                		
-                		if (s1.startsWith("/login ")) {
-                			s2 = s1.substring(0, 7);
-                			password = s1.substring(7);
-                		}
-                		
-                		if (s1.startsWith("/log ")) {
-                			s2 = s1.substring(0, 5);
-                			password = s1.substring(7);
-                		}
-                		
-            			if (password.length() > 0) {
-            				isTypingPassword = true;
-						
-            				for (int n = 0; n < password.length(); n++) {
-                    			s2 += "*";
-                    		}
-            			}
-                    }
-			    } else {
-                	isTypingPassword = false;
-                }
-                
-                j1 = this.fontRendererInstance.drawStringWithShadow(s2, (float) l, (float) i1, i);
-            }
+				String s1 = flag ? s.substring(0, j) : s;
+				j1 = this.fontRendererInstance.drawStringWithShadow(s1, (float) l, (float) i1, i);
+			}
 
 			boolean flag2 = this.cursorPosition < this.text.length() || this.text.length() >= this.getMaxStringLength();
 			int k1 = j1;

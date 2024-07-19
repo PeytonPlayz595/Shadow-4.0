@@ -227,7 +227,7 @@ public class EntityMinecartTNT extends EntityMinecart {
 					entityZ, dynamicLightMag, dynamicLightMag * 0.7792f, dynamicLightMag * 0.618f, false);
 		}
 	}
-	
+
 	protected float getEaglerDynamicLightsValueSimple(float partialTicks) {
 		float f = super.getEaglerDynamicLightsValueSimple(partialTicks);
 		if (minecartTNTFuse > -1 && minecartTNTFuse / 5 % 2 == 0) {

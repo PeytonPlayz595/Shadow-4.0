@@ -149,7 +149,7 @@ public class ProfileImporter implements Closeable {
 		}
 		logger.info("Import complete!");
 	}
-	
+
 	@Override
 	public void close() throws IOException {
 		epkDecompiler.close();
